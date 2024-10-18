@@ -25,8 +25,8 @@ export default function Home() {
         <section className="mb-12" aria-labelledby="about-heading">
           <h2 id="about-heading" className="text-2xl font-semibold mb-4">About Me</h2>
           <p className="text-lg">
-            I'm a passionate C# Software Developer specializing in building
-            robust and efficient APIs. Currently, I'm working at 9292, where I
+            I&apos;m a passionate C# Software Developer specializing in building
+            robust and efficient APIs. Currently, I&apos;m working at 9292, where I
             contribute to developing high-performance software solutions that
             enhance user experiences in the transportation sector.
           </p>
