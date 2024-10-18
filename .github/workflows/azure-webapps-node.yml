@@ -35,6 +35,7 @@ jobs:
       - name: Copy static files
         run: |
           mkdir -p ./.next/standalone/public  # Ensure the directory exists
+          mkdir -p ./.next/standalone/static  # Ensure the directory exists
           cp -R ./public ./.next/standalone/public
           cp -R ./.next/static ./.next/standalone/.next/static
 
