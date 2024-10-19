@@ -1,7 +1,10 @@
+// app/components/ThemeSwitcher.tsx
+
 'use client'
 
 import { useState, useEffect } from 'react'
 import { useTheme } from 'next-themes'
+import appInsights from '../../lib/AppInsights'; // Adjust the path based on your project structure
 
 export default function ThemeSwitcher() {
   const [mounted, setMounted] = useState(false)
@@ -15,9 +18,28 @@ export default function ThemeSwitcher() {
     return null
   }
 
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark'
+    setTheme(newTheme)
+
+    // Track the theme change event
+    if (appInsights) {
+      appInsights.trackEvent({
+        name: 'ThemeToggled',
+        properties: {
+          newTheme: newTheme,
+          timestamp: new Date().toISOString(),
+        },
+      })
+      console.log(`Theme toggled to ${newTheme}`)
+    } else {
+      console.warn("Application Insights is not initialized")
+    }
+  }
+
   return (
     <button
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      onClick={toggleTheme}
       className="fixed top-4 right-4 w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500"
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
     >
