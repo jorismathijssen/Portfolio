@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ProjectCard from "./components/ProjectCard";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 export default function Home() {
   return (
@@ -20,15 +21,20 @@ export default function Home() {
           <p className="text-2xl text-gray-600 dark:text-gray-400">
             C# Software Developer
           </p>
+          <div className="flex justify-center mt-4 space-x-4">
+            <a href="https://github.com/jorismathijssen" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+              <FaGithub className="text-2xl text-gray-600 dark:text-gray-400 hover:text-blue-600" />
+            </a>
+            <a href="https://www.linkedin.com/in/jorismathijssen/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <FaLinkedin className="text-2xl text-gray-600 dark:text-gray-400 hover:text-blue-600" />
+            </a>
+          </div>
         </header>
 
         <section className="mb-12" aria-labelledby="about-heading">
           <h2 id="about-heading" className="text-2xl font-semibold mb-4">About Me</h2>
           <p className="text-lg">
-            I&apos;m a passionate C# Software Developer specializing in building
-            robust and efficient APIs. Currently, I&apos;m working at 9292, where I
-            contribute to developing high-performance software solutions that
-            enhance user experiences in the transportation sector.
+            I am a dedicated and innovative C# Software Developer with a strong focus on creating scalable and efficient APIs. Currently, I am contributing to the development of high-performance software solutions at 9292, enhancing user experiences in the transportation sector.
           </p>
         </section>
 
@@ -45,18 +51,18 @@ export default function Home() {
         </section>
 
         <section className="mb-12" aria-labelledby="projects-heading">
-          <h2 id="projects-heading" className="text-2xl font-semibold mb-4">Projects</h2>
+          <h2 id="projects-heading" className="text-2xl font-semibold mb-4">Projects (Template)</h2>
           <ProjectCard
-            title="Real-time Transit API"
-            description="Developed a high-performance API for real-time transit data, serving millions of requests daily."
-            technologies={["C#", "ASP.NET Core", "SQL Server", "Azure"]}
-            link="https://github.com/yourusername/real-time-transit-api"
+            title="Lorem Ipsum Project 1"
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam."
+            technologies={["Lorem", "Ipsum", "Dolor"]}
+            link="#"
           />
           <ProjectCard
-            title="Route Optimization Algorithm"
-            description="Implemented an efficient algorithm to optimize bus routes, reducing travel times by 15%."
-            technologies={["C#", ".NET", "Algorithms"]}
-            link="https://github.com/yourusername/route-optimization"
+            title="Lorem Ipsum Project 2"
+            description="Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris."
+            technologies={["Lorem", "Ipsum", "Dolor"]}
+            link="#"
           />
         </section>
 
@@ -78,20 +84,6 @@ export default function Home() {
               </li>
             </ul>
           </div>
-        </section>
-
-        <section aria-labelledby="contact-heading">
-          <h2 id="contact-heading" className="text-2xl font-semibold mb-4">Contact</h2>
-          <p className="text-lg">
-            Feel free to reach out to me at{" "}
-            <a
-              href="mailto:me@jorismathijssen.nl"
-              className="text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500"
-              aria-label="Send an email to Joris Mathijssen"
-            >
-              me@jorismathijssen.nl
-            </a>
-          </p>
         </section>
       </main>
     </div>
