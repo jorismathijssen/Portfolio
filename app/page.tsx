@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ProjectCard from "./components/ProjectCard";
+// import ProjectCard from "./components/ProjectCard";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 export default function Home() {
