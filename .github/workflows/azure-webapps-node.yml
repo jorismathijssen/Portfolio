@@ -49,12 +49,9 @@ jobs:
       - name: Prepare Build Artifacts
         run: |
           mkdir -p ./build/standalone/
-          # Adjust the copy command based on your build output
-          cp -r build/.next ./build/standalone/          # If .next is inside build
-          # OR
-          # cp -r build ./build/standalone/             # If build is the output directory
-          cp -r public ./build/standalone/
-          cp package.json package-lock.json ./build/standalone/
+          cp -r build/standalone/* ./build/standalone/          # Copy contents of build/standalone
+          cp -r public ./build/standalone/                     # Copy the public folder
+          cp package.json package-lock.json ./build/standalone/ # Copy package files
 
       - name: List Build Directory Contents After Preparation
         run: ls -la ./build/standalone
