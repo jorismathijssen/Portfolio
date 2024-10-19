@@ -37,7 +37,7 @@ jobs:
           mkdir -p ./.next/standalone/public  # Ensure the directory exists
           mkdir -p ./.next/standalone/static  # Ensure the directory exists
           cp -R ./public ./.next/standalone/public
-          cp -R ./.next/static ./.next/standalone/static
+          cp -R ./.next/static ./.next/standalone/.next/static
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
