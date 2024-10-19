@@ -77,3 +77,6 @@ jobs:
           slot-name: "Production"
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: ./deploy_artifacts/
+
+      - name: Cleanup Build Artifacts
+        run: rm -rf ./deploy_artifacts/build-artifacts.zip
