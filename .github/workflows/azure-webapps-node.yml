@@ -12,8 +12,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # environment:
-    #   name: build
 
     steps:
       - name: Checkout Repository
@@ -39,12 +37,15 @@ jobs:
       - name: Build the Project
         run: npm run build
 
+      - name: List Directory After Build
+        run: ls -la
+
       - name: Prepare Build Artifacts
         run: |
           mkdir -p ./build/standalone/
-          cp -r .next ./build/standalone/          # Copy the .next folder
-          cp -r public ./build/standalone/         # Copy the public folder
-          cp package.json package-lock.json ./build/standalone/  # Copy package files
+          cp -r .next ./build/standalone/          # Ensure .next exists or adjust accordingly
+          cp -r public ./build/standalone/
+          cp package.json package-lock.json ./build/standalone/
 
       - name: List Build Directory Contents
         run: ls -R ./build/standalone
@@ -61,7 +62,7 @@ jobs:
 
     steps:
       - name: Download Build Artifacts
-        uses: actions/download-artifact@v3  # Updated from v4.1.8 to v3
+        uses: actions/download-artifact@v3
         with:
           name: build-artifacts
           path: ./build/standalone/
