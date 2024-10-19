@@ -40,15 +40,24 @@ jobs:
       - name: List Directory After Build
         run: ls -la
 
+      - name: List Build Directory Contents
+        run: ls -la ./build
+
+      - name: List Build Directory Recursively
+        run: ls -laR ./build
+
       - name: Prepare Build Artifacts
         run: |
           mkdir -p ./build/standalone/
-          cp -r .next ./build/standalone/          # Ensure .next exists or adjust accordingly
+          # Adjust the copy command based on your build output
+          cp -r build/.next ./build/standalone/          # If .next is inside build
+          # OR
+          # cp -r build ./build/standalone/             # If build is the output directory
           cp -r public ./build/standalone/
           cp package.json package-lock.json ./build/standalone/
 
-      - name: List Build Directory Contents
-        run: ls -R ./build/standalone
+      - name: List Build Directory Contents After Preparation
+        run: ls -la ./build/standalone
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4.4.3
