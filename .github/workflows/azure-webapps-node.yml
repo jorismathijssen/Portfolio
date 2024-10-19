@@ -22,15 +22,24 @@ jobs:
         with:
           node-version: "20.x"
 
-      - name: npm install, build, and test
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Prepare build artifacts
         run: |
-          npm install
-          npm run build
           mv ./build/static ./build/standalone/build
           mv ./public ./build/standalone
 
-      - name: "Deploy to Azure Web App"
-        id: deploy-to-webapp
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.WEBAPP_NAME }}
