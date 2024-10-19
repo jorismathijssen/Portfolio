@@ -25,6 +25,14 @@ jobs:
           node-version: "20.x"
           cache: 'npm'
 
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install Dependencies
         run: npm ci
 
@@ -36,17 +44,6 @@ jobs:
 
       - name: Build the Project
         run: npm run build
-
-      - name: Verify Standalone Build
-        run: |
-          if [ -f ./build/standalone/server.js ]; then
-            echo "Standalone server.js found."
-            ls -la ./build/standalone/
-          else
-            echo "Standalone server.js not found."
-            ls -la ./build/
-            exit 1
-          fi
 
       - name: Zip Build Artifacts
         run: |
@@ -73,13 +70,10 @@ jobs:
       - name: Unzip Build Artifacts
         run: unzip ./deploy_artifacts/build-artifacts.zip -d ./deploy_artifacts/
 
-      - name: List Deploy Artifacts
-        run: ls -la ./deploy_artifacts/
-
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.WEBAPP_NAME }}
           slot-name: "Production"
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ./deploy_artifacts/  # Deploy de gedownloade en uitgepakte standalone build
+          package: ./deploy_artifacts/
