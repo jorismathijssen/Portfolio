@@ -47,8 +47,7 @@ jobs:
 
       - name: Zip Build Artifacts
         run: |
-          cd build/standalone
-          zip -r ../../build-artifacts.zip ./*
+          zip -r build-artifacts.zip ./build
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
@@ -76,7 +75,7 @@ jobs:
           app-name: ${{ env.WEBAPP_NAME }}
           slot-name: "Production"
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ./deploy_artifacts/
+          package: ./deploy_artifacts/build
 
       - name: Cleanup Build Artifacts
         run: rm -rf ./deploy_artifacts/build-artifacts.zip
