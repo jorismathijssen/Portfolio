@@ -1,0 +1,48 @@
+name: Azure Static Web Apps CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+
+jobs:
+  build_and_deploy_job:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          lfs: false
+
+      # Build and deploy the app
+      - name: Build And Deploy
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_THANKFUL_DUNE_008456D03 }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # For GitHub integrations (e.g., PR comments)
+          action: "upload"
+          app_location: "/" # Path to app source code
+          api_location: "" # Path to API source code, if any
+          output_location: ".next" # Path to build output
+
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Pull Request Job
+    steps:
+      # Close the pull request deployment
+      - name: Close Pull Request
+        id: closepullrequest
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_THANKFUL_DUNE_008456D03 }}
+          action: "close"
+          app_location: "/" # Path to app source code
