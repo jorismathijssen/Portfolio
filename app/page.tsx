@@ -11,11 +11,13 @@ export default function Home() {
       <main id="main-content" className="max-w-3xl mx-auto" tabIndex={-1}>
         <header className="mb-12 text-center" role="banner">
           <Image
-            src="/4.png"
+            src="/4.webp"
             alt="Headshot of Joris Mathijssen, a C# Software Developer"
             width={150}
             height={150}
             className="rounded-full mx-auto mb-4"
+            priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <h1 className="text-4xl font-bold mb-2">Joris Mathijssen</h1>
           <p className="text-2xl text-gray-600 dark:text-gray-400">
