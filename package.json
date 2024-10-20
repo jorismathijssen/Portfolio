@@ -11,10 +11,6 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@azure/monitor-opentelemetry-exporter": "^1.0.0-beta.26",
-    "@opentelemetry/sdk-trace-node": "^1.26.0",
-    "@opentelemetry/tracing": "^0.24.0",
-    "@vercel/otel": "^1.10.0",
     "next": "14.2.15",
     "next-themes": "^0.3.0",
     "react": "^18",
