@@ -2,11 +2,11 @@
 
 [![Azure Static Web Apps CI/CD](https://github.com/jorismathijssen/Portfolio/actions/workflows/azure-static-web-apps-thankful-dune-008456d03.yml/badge.svg)](https://github.com/jorismathijssen/Portfolio/actions/workflows/azure-static-web-apps-thankful-dune-008456d03.yml)
 
-This is the portfolio project for Joris Mathijssen, a C# API Developer at 9292. It showcases his skills, projects, and professional experience.
+Welcome to my portfolio project! I'm Joris Mathijssen, a C# API Developer at 9292. This project showcases my skills, projects, and professional experience.
 
-## About Joris Mathijssen
+## About Me
 
-Joris is a skilled C# API Developer with a passion for creating efficient and scalable APIs. He currently works at 9292, where he contributes to developing robust backend solutions.
+I'm a passionate C# API Developer with 8 years of experience in creating efficient and scalable APIs. Currently, I work at 9292, where I contribute to developing robust backend solutions for the Netherlands' leading transport platforms.
 
 ## Technologies Used
 
@@ -36,16 +36,7 @@ To run this project locally, follow these steps:
    npm run dev
    ```
 
-   Alternatively, you can use `yarn`, `pnpm`, or `bun`:
-   ```bash
-   yarn dev
-   # or
-   pnpm dev
-   # or
-   bun dev
-   ```
-
-4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Features
 
@@ -53,30 +44,29 @@ To run this project locally, follow these steps:
 - Project showcase
 - Skills and expertise highlight
 - Contact information
+- Dark mode support
 
 ## Deployment
 
 This project is deployed on Azure Static Web Apps. The CI/CD pipeline is set up using GitHub Actions, as indicated by the badge at the top of this README.
 
-For manual deployment or more information, check out the [Azure Static Web Apps documentation](https://docs.microsoft.com/en-us/azure/static-web-apps/).
-
 ## Learn More
 
-To learn more about the technologies used in this project:
+To learn more about the technologies I've used in this project:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [React Documentation](https://reactjs.org/) - learn about React.
-- [Tailwind CSS](https://tailwindcss.com/) - learn about the utility-first CSS framework.
-- [TypeScript Documentation](https://www.typescriptlang.org/docs/) - learn about TypeScript.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [React Documentation](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
 
-## Connect with Joris
+## Connect with Me
 
 - [LinkedIn](https://www.linkedin.com/in/jorismathijssen)
 - [GitHub](https://github.com/jorismathijssen)
 
 ## Contributing
 
-While this is a personal portfolio project, suggestions and feedback are welcome. Please open an issue to discuss any changes you'd like to propose.
+While this is my personal portfolio project, I welcome suggestions and feedback. Please open an issue to discuss any changes you'd like to propose.
 
 ## License
 
