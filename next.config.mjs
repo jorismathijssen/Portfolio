@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
-const config = {
-  experimental: {
-    instrumentationHook: true,
-  },
-  // other config
-};
- 
-export default config;
+const nextConfig = {
+    output: 'standalone',
+  };
+  
+  export default nextConfig;
