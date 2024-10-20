@@ -5,8 +5,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --link-color: #2563eb;
-  --link-hover-color: #1d4ed8;
+  --link-color: #1a73e8;
+  --link-hover-color: #1558b0;
   --primary-font: 'Arial, Helvetica, sans-serif';
   --heading-font-size: 1.5rem;
   --body-font-size: 1rem;
@@ -16,8 +16,8 @@
 .dark {
   --background: #0a0a0a;
   --foreground: #f3f4f6;
-  --link-color: #60a5fa;
-  --link-hover-color: #93c5fd;
+  --link-color: #2871ff;
+  --link-hover-color: #80bdff;
 }
 
 body {
