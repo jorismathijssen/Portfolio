@@ -1,10 +1,14 @@
 import Image from "next/image";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import Terminal from "./components/Terminal";
 
 export default function Home() {
   return (
     <div className="min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-10 focus:p-4 focus:bg-white focus:text-black">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:z-10 focus:p-4 focus:bg-white focus:text-black"
+      >
         Skip to main content
       </a>
       <main id="main-content" className="max-w-3xl mx-auto" tabIndex={-1}>
@@ -45,14 +49,35 @@ export default function Home() {
         </header>
 
         <section className="mb-12" aria-labelledby="about-heading">
-          <h2 id="about-heading" className="text-2xl font-semibold mb-4">About Me</h2>
+          <h2 id="about-heading" className="text-2xl font-semibold mb-4">
+            About Me
+          </h2>
+          <p className="text-lg mb-4">
+            I am a dedicated C# Software Developer with 9 years of experience
+            specializing in building robust and scalable APIs.
+          </p>
+          <p className="text-lg mb-4">
+            At{" "}
+            <a
+              href="https://9292.nl"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              9292
+            </a>
+            , the Netherlands’ leading public transport platform, I design and
+            maintain backend systems that enable millions of travelers to plan
+            their journeys and access real-time travel information every day.
+          </p>
           <p className="text-lg">
-            Experienced C# Developer with 8 years in building scalable APIs.
-            <br />
-            Employed by <a href="https://ict.eu" target="_blank" rel="noopener noreferrer">ICT Group</a> and seconded to <a href="https://9292.nl" target="_blank" rel="noopener noreferrer">9292</a>, enhancing the Netherlands&apos; leading transport platforms.
+            My passion lies in creating reliable digital solutions that make public
+            transport more accessible and efficient for everyone. I thrive in
+            collaborative environments and enjoy solving complex challenges that
+            have a real impact on daily life in the Netherlands.
           </p>
         </section>
       </main>
+      <Terminal />
     </div>
   );
 }

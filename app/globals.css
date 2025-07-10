@@ -89,3 +89,16 @@ img {
   outline: 2px solid var(--link-color);
   outline-offset: 2px;
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  background: #111;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 4px;
+}
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #222 #111;
+}
