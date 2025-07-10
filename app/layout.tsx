@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { ThemeProvider } from 'next-themes'
-import ThemeSwitcher from './components/ThemeSwitcher'
-import { Providers } from './providers'
+import ClientLayout from "./ClientLayout";
 
 const geistSans = localFont({
   src: "../public/fonts/GeistVF.woff",
@@ -18,8 +16,16 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Joris Mathijssen - C# Software Developer",
-  description: "Portfolio of Joris Mathijssen, a C# Software Developer specializing in API development at 9292. Explore my projects, skills, and experience in building high-performance software solutions.",
-  keywords: ["C#", "Software Developer", "API Development", ".NET", "ASP.NET Core", "9292"],
+  description:
+    "Portfolio of Joris Mathijssen, a C# Software Developer specializing in API development at 9292. Explore my projects, skills, and experience in building high-performance software solutions.",
+  keywords: [
+    "C#",
+    "Software Developer",
+    "API Development",
+    ".NET",
+    "ASP.NET Core",
+    "9292",
+  ],
 };
 
 /**
@@ -27,11 +33,7 @@ export const metadata: Metadata = {
  * - Wraps all pages with global styles and providers.
  * - Loads custom fonts and applies them to the body.
  */
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -61,23 +63,7 @@ export default function RootLayout({
         <link rel="preload" href="/fonts/GeistMonoVF.woff" as="font" type="font/woff" crossOrigin="anonymous" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <noscript>
-          <div style={{padding: '20px', textAlign: 'center'}}>
-            <p>This website requires JavaScript to function properly. Please enable JavaScript to continue.</p>
-            <h1 style={{marginTop: '20px'}}>Joris Mathijssen</h1>
-            <p>C# Software Developer</p>
-            <div style={{ marginTop: '20px' }}>
-              <a href="https://github.com/jorismathijssen" style={{ marginRight: '10px' }}>GitHub</a>
-              <a href="https://www.linkedin.com/in/jorismathijssen/">LinkedIn</a>
-            </div>
-          </div>
-        </noscript>
-        <Providers>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-            <ThemeSwitcher />
-            {children}
-          </ThemeProvider>
-        </Providers>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

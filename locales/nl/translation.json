@@ -1,0 +1,15 @@
+{
+  "header.title": "Joris Mathijssen",
+  "header.role": "Senior .NET Developer bij <1>9292</1>",
+  "about.heading": "Over Mij",
+  "about.intro": "Senior .NET Developer gespecialiseerd in schaalbare API’s en moderne .NET 8 architectuur",
+  "about.exp": "Ik ben een ervaren C# ontwikkelaar met focus op het bouwen van schaalbare en betrouwbare backends met moderne .NET-technologieën. Bij een toonaangevend mobiliteitsplatform in Nederland werk ik aan systemen die dagelijks miljoenen reizigers voorzien van actuele reisdata en adviezen.",
+  "about.scrum": "Mijn werk combineert technische diepgang met pragmatische samenwerking in multidisciplinaire Scrum-teams. Dankzij mijn <1>Scrum Master-certificering</1> help ik teams gestructureerd waarde leveren met een sterke focus op kwaliteit, onderhoudbaarheid en performance.",
+  "about.skills": [
+    ".NET 8 / ASP.NET Core: RESTful APIs, background services",
+    "Clean Architecture, Domain-Driven Design: testbare code",
+    "DevOps: GitHub Actions, Docker, structured logging & observability",
+    "Infrastructure-as-Code: veilige en herhaalbare deployments",
+    "Agile/Scrum: technische begeleiding en sprintvoorbereiding"
+  ]
+}
