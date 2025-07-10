@@ -1,5 +1,9 @@
 // Matrix and confetti effect helpers for Terminal
 
+/**
+ * Starts the Matrix rain animation on the given canvas.
+ * @param canvas The canvas element to draw the effect on.
+ */
 export function startMatrix(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext('2d');
   let width = window.innerWidth;
@@ -37,6 +41,10 @@ export function startMatrix(canvas: HTMLCanvasElement) {
   (canvas as HTMLCanvasElement & { _matrixCleanup?: () => void })._matrixCleanup = () => cancelAnimationFrame(animationFrame);
 }
 
+/**
+ * Starts the confetti animation on the given canvas.
+ * @param canvas The canvas element to draw the effect on.
+ */
 export function startConfetti(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext('2d');
   let width = window.innerWidth;

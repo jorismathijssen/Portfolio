@@ -1,5 +1,8 @@
 // Terminal command definitions and help text
 
+/**
+ * All valid terminal commands.
+ */
 export type TerminalCommand =
   | 'help'
   | 'about'
@@ -19,6 +22,9 @@ export type TerminalCommand =
   | 'light'
   | 'party';
 
+/**
+ * Maps each command to its output string.
+ */
 export const COMMANDS: Record<TerminalCommand, string> = {
   help: 'Available commands: help, about, skills, clear, sl, joke, ascii, hack, rick, matrix, cat, invert, shake, rainbow, dark, light, party',
   about: 'Joris Mathijssen - C# Developer at 9292. Passionate about APIs and public transport tech.',

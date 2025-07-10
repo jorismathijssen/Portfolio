@@ -58,12 +58,6 @@ This document outlines a detailed plan to refactor and improve the `Terminal.tsx
   - Add unit tests for command parsing and effect helpers.
   - Add component tests for Terminal and Toaster (e.g., using React Testing Library).
 
-## 9. Documentation
-- **Goal:** Make the codebase easy to understand and contribute to.
-- **Tasks:**
-  - Add inline documentation and comments.
-  - Add a README section for the terminal feature, including usage, commands, and customization.
-
 ## 10. Deployment Improvements
 - **Goal:** Ensure safe, reliable, and high-uptime deployments.
 - **Tasks:**

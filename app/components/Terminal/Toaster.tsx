@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
+/**
+ * Props for the Toaster popup component.
+ */
 interface ToasterProps {
+  /** Called when the toaster is clicked. */
   onClick: () => void;
 }
 
+/**
+ * Toaster popup that invites users to try the terminal.
+ * Disappears after 2 minutes or when clicked.
+ */
 const Toaster: React.FC<ToasterProps> = ({ onClick }) => {
   const [visible, setVisible] = useState(false);
   useEffect(() => {

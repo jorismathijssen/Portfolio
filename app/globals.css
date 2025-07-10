@@ -1,3 +1,10 @@
+/* Global styles for the portfolio app. */
+/*
+  - Uses Tailwind for utility classes.
+  - Custom fonts loaded from /public/fonts.
+  - Applies base styles for body, html, and main layout.
+*/
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

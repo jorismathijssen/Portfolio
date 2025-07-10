@@ -22,6 +22,11 @@ export const metadata: Metadata = {
   keywords: ["C#", "Software Developer", "API Development", ".NET", "ASP.NET Core", "9292"],
 };
 
+/**
+ * Main layout component for the portfolio app.
+ * - Wraps all pages with global styles and providers.
+ * - Loads custom fonts and applies them to the body.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{

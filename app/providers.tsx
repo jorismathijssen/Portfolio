@@ -13,6 +13,10 @@ function ProviderContent() {
   );
 }
 
+/**
+ * Providers component wraps the app with context providers (e.g., theme, analytics).
+ * Add new providers here as needed.
+ */
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <>

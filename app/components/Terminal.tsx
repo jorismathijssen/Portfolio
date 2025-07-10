@@ -4,6 +4,10 @@ import Toaster from './Terminal/Toaster';
 import { startMatrix, startConfetti } from './Terminal/effects';
 import { COMMANDS, TerminalCommand } from './Terminal/commands';
 
+/**
+ * Triggers visual or page-wide effects based on the command.
+ * @param cmd The command string.
+ */
 function triggerEffect(cmd: string) {
   if (cmd === 'invert') {
     document.body.classList.toggle('invert');
@@ -60,6 +64,11 @@ function triggerEffect(cmd: string) {
   }
 }
 
+/**
+ * Terminal component: floating, fun, and interactive terminal UI.
+ * - Supports fun commands, visual effects, and dark/light mode.
+ * - Accessible and mobile-friendly.
+ */
 export default function Terminal() {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState<string[]>([]);
