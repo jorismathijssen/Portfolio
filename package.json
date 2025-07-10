@@ -8,8 +8,7 @@
     "lint": "next lint",
     "start": "next start",
     "analyze": "BUNDLE_ANALYZE=both next build",
-    "test": "echo \"No tests specified\" && exit 0",
-    "prepare": "husky install"
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
     "framer-motion": "^12.23.3",
@@ -25,8 +24,8 @@
     "@types/node": "^24.0.12",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.15",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^15.0.0",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
     "postcss": "^8",
