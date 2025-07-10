@@ -23,10 +23,22 @@ export default function Home() {
             C# Software Developer
           </p>
           <div className="flex justify-center mt-4 space-x-4">
-            <a href="https://github.com/jorismathijssen" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <a
+              href="https://github.com/jorismathijssen"
+              data-id="githubLink" // Added data-id
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+            >
               <FaGithub className="text-2xl text-gray-600 dark:text-gray-400" />
             </a>
-            <a href="https://www.linkedin.com/in/jorismathijssen/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <a
+              href="https://www.linkedin.com/in/jorismathijssen/"
+              data-id="linkedinLink" // Added data-id
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+            >
               <FaLinkedin className="text-2xl text-gray-600 dark:text-gray-400" />
             </a>
           </div>

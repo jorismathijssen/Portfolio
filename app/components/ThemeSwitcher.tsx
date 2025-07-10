@@ -19,6 +19,7 @@ export default function ThemeSwitcher() {
 
   return (
     <button
+      data-id="themeSwitcher" // Added data-id
       onClick={() => setTheme(currentTheme === 'dark' ? 'light' : 'dark')}
       className="fixed top-4 right-4 w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500"
       aria-label={`Switch to ${currentTheme === 'dark' ? 'light' : 'dark'} mode`}

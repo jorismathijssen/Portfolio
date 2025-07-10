@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from 'next-themes'
 import ThemeSwitcher from './components/ThemeSwitcher'
-import { Providers } from './providers';
+import { Providers } from './providers'
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,8 +42,28 @@ export default function RootLayout({
         <meta name="twitter:title" content="Joris Mathijssen - C# Software Developer" />
         <meta name="twitter:description" content="Explore my projects, skills, and experience in building high-performance software solutions." />
         <meta name="twitter:image" content="https://jorismathijssen.nl/4.png" />
+        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+        <link rel="canonical" href="https://jorismathijssen.nl" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="preload" href="/fonts/GeistVF.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/GeistMonoVF.woff" as="font" type="font/woff" crossOrigin="anonymous" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <noscript>
+          <div style={{padding: '20px', textAlign: 'center'}}>
+            <p>This website requires JavaScript to function properly. Please enable JavaScript to continue.</p>
+            <h1 style={{marginTop: '20px'}}>Joris Mathijssen</h1>
+            <p>C# Software Developer</p>
+            <div style={{ marginTop: '20px' }}>
+              <a href="https://github.com/jorismathijssen" style={{ marginRight: '10px' }}>GitHub</a>
+              <a href="https://www.linkedin.com/in/jorismathijssen/">LinkedIn</a>
+            </div>
+          </div>
+        </noscript>
         <Providers>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
             <ThemeSwitcher />
