@@ -179,7 +179,7 @@ function Toaster({ onClick }: { onClick: () => void }) {
       style: {
         position: 'fixed',
         bottom: '1.5rem',
-        right: '4.5rem',
+        right: '6.0rem',
         zIndex: 100,
         background: 'rgba(34,34,34,0.85)',
         color: '#39ff14',
