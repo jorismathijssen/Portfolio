@@ -2,7 +2,7 @@ name: 🚀 Deploy Portfolio to VPS
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   deploy:
