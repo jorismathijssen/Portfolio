@@ -1,6 +1,6 @@
 # Joris Mathijssen's Portfolio
 
-[![Azure Static Web Apps CI/CD](https://github.com/jorismathijssen/Portfolio/actions/workflows/azure-static-web-apps-thankful-dune-008456d03.yml/badge.svg)](https://github.com/jorismathijssen/Portfolio/actions/workflows/azure-static-web-apps-thankful-dune-008456d03.yml)
+[![🚀 Deploy Portfolio to VPS](https://github.com/jorismathijssen/Portfolio/actions/workflows/VPS_DEPLOY_ACTION.yml/badge.svg?branch=main)](https://github.com/jorismathijssen/Portfolio/actions/workflows/VPS_DEPLOY_ACTION.yml)
 
 Welcome to my portfolio project! I'm Joris Mathijssen, a C# API Developer at 9292. This project showcases my skills, projects, and professional experience.
 
