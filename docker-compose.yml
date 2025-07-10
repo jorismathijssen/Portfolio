@@ -29,11 +29,13 @@ services:
     container_name: nginx-proxy
     restart: always
     ports:
-      - "127.0.0.1:80:80"
-      - "127.0.0.1:443:443"
+      - "80:80"
+      - "443:443"
+    environment:
+      - ENABLE_IPV6=false
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./certs:/etc/nginx/certs
+      - ./certs:/etc/nginx/certs:rw
       - ./vhost.d:/etc/nginx/vhost.d
       - ./html:/usr/share/nginx/html
     networks:
@@ -44,14 +46,15 @@ services:
     container_name: letsencrypt
     restart: always
     environment:
-      NGINX_PROXY_CONTAINER: nginx-proxy
-      ACME_CA_URI: https://acme-v02.api.letsencrypt.org/directory
-      DEFAULT_EMAIL: ${LETSENCRYPT_EMAIL}
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+      - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./certs:/etc/nginx/certs
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./certs:/etc/nginx/certs:rw
       - ./vhost.d:/etc/nginx/vhost.d
       - ./html:/usr/share/nginx/html
+    depends_on:
+      - nginx-proxy
     networks:
       - web
 
