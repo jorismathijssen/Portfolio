@@ -19,16 +19,26 @@ jobs:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Deploy via SSH
+        env:
+          COMPOSE_HTTP_TIMEOUT: 200
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            set -e
+            set -euo pipefail
+
             cd ~/Portfolio || exit 1
+
             echo "📥 Pulling latest code..."
-            git fetch origin main
+            git fetch --prune origin main
             git reset --hard origin/main
+
             echo "🐳 Pulling Docker images..."
-            docker-compose pull || true
-            echo "🚀 Starting containers..."
-            docker-compose up -d --build
+            docker compose pull || true
+
+            echo "🧹 Pruning unused images..."
+            docker image prune -f || true
+
+            echo "🚀 Building and starting containers..."
+            docker compose up -d --build
+
             echo "✅ Deployment complete."
           EOF

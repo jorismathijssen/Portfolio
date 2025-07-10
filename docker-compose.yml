@@ -5,10 +5,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      cache_from:
-        - type=local,src=./.build_cache
-      cache_to:
-        - type=local,dest=./.build_cache,mode=max
+      tags:
+        - portfolio:latest
+      x-bake:
+        cache-from:
+          - type=local,src=./.build_cache
+        cache-to:
+          - type=local,dest=./.build_cache,mode=max
     container_name: portfolio
     restart: always
     expose:
