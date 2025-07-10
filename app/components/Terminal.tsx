@@ -1,25 +1,8 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
-
-const COMMANDS = {
-  help: 'Available commands: help, about, skills, clear, sl, joke, ascii, hack, rick, matrix, cat, invert, shake, rainbow, dark, light, party',
-  about: 'Joris Mathijssen - C# Developer at 9292. Passionate about APIs and public transport tech.',
-  skills: 'C#, .NET, TypeScript, React, Next.js, Azure, REST APIs',
-  clear: '',
-  sl: '🚂🚃🚃🚃\n    Choo Choo! (Type "clear" to reset)',
-  joke: 'Why do programmers prefer dark mode? Because light attracts bugs!',
-  ascii: '¯\\_(ツ)_/¯\n(\"._.\")',
-  hack: 'Accessing mainframe...\nPassword: ********\nAccess granted!\nWelcome, Agent 47.',
-  rick: 'Never gonna give you up, never gonna let you down... 🎶',
-  matrix: 'Matrix effect activated! Type "clear" to stop.',
-  cat: 'Meow! 🐱 Here is a virtual cat for you.',
-  invert: 'Inverting colors! Type "invert" again to undo.',
-  shake: 'Shaking the page! Type "shake" again to stop.',
-  rainbow: 'Rainbow mode activated! Type "rainbow" again to turn off.',
-  dark: 'Dark mode enabled!',
-  light: 'Light mode enabled!',
-  party: 'Confetti party! Type "clear" to clean up.',
-};
+import Toaster from './Terminal/Toaster';
+import { startMatrix, startConfetti } from './Terminal/effects';
+import { COMMANDS, TerminalCommand } from './Terminal/commands';
 
 function triggerEffect(cmd: string) {
   if (cmd === 'invert') {
@@ -49,7 +32,7 @@ function triggerEffect(cmd: string) {
       canvas.style.width = '100vw';
       canvas.style.height = '100vh';
       canvas.style.pointerEvents = 'none';
-      canvas.style.zIndex = '10'; // Lower z-index so terminal stays above
+      canvas.style.zIndex = '10';
       document.body.appendChild(canvas);
       startMatrix(canvas);
     }
@@ -77,134 +60,6 @@ function triggerEffect(cmd: string) {
   }
 }
 
-function startMatrix(canvas) {
-  const ctx = canvas.getContext('2d');
-  let width = window.innerWidth;
-  let height = window.innerHeight;
-  canvas.width = width;
-  canvas.height = height;
-  const letters = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズヅブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン'.split('');
-  const fontSize = 16;
-  const columns = Math.floor(width / fontSize);
-  const drops = Array(columns).fill(1);
-  let animationFrame;
-  function draw() {
-    ctx.fillStyle = 'rgba(0,0,0,0.05)';
-    ctx.fillRect(0, 0, width, height);
-    ctx.fillStyle = '#0F0';
-    ctx.font = fontSize + 'px monospace';
-    for (let i = 0; i < drops.length; i++) {
-      const text = letters[Math.floor(Math.random() * letters.length)];
-      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-      if (drops[i] * fontSize > height && Math.random() > 0.975) {
-        drops[i] = 0;
-      }
-      drops[i]++;
-    }
-    animationFrame = requestAnimationFrame(draw);
-  }
-  draw();
-  window.addEventListener('resize', () => {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-  });
-  canvas._matrixCleanup = () => cancelAnimationFrame(animationFrame);
-}
-
-function startConfetti(canvas) {
-  const ctx = canvas.getContext('2d');
-  let width = window.innerWidth;
-  let height = window.innerHeight;
-  canvas.width = width;
-  canvas.height = height;
-  const confetti = Array.from({ length: 150 }, () => ({
-    x: Math.random() * width,
-    y: Math.random() * height,
-    r: Math.random() * 6 + 4,
-    d: Math.random() * 150,
-    color: `hsl(${Math.random() * 360},100%,50%)`,
-    tilt: Math.random() * 10 - 10,
-    tiltAngle: 0,
-  }));
-  let angle = 0;
-  let animationFrame;
-  function draw() {
-    ctx.clearRect(0, 0, width, height);
-    angle += 0.01;
-    for (let i = 0; i < confetti.length; i++) {
-      const c = confetti[i];
-      c.tiltAngle += 0.1;
-      c.y += Math.cos(angle + c.d) + 1 + c.r / 2;
-      c.x += Math.sin(angle);
-      c.tilt = Math.sin(c.tiltAngle - (i / 3)) * 15;
-      if (c.y > height) {
-        c.x = Math.random() * width;
-        c.y = -10;
-      }
-      ctx.beginPath();
-      ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
-      ctx.fillStyle = c.color;
-      ctx.fill();
-    }
-    animationFrame = requestAnimationFrame(draw);
-  }
-  draw();
-  window.addEventListener('resize', () => {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-  });
-  canvas._confettiCleanup = () => cancelAnimationFrame(animationFrame);
-}
-
-function Toaster({ onClick }: { onClick: () => void }) {
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const visits = parseInt(localStorage.getItem('terminalToasterVisits') || '0', 10);
-    if (visits < 10) {
-      setVisible(true);
-      localStorage.setItem('terminalToasterVisits', String(visits + 1));
-      const timer = setTimeout(() => setVisible(false), 120000); // 2 minutes
-      return () => clearTimeout(timer);
-    }
-  }, []);
-  if (!visible) return null;
-  return (
-    React.createElement('div', {
-      className: 'terminal-toaster',
-      onClick: () => { setVisible(false); onClick(); },
-      style: {
-        position: 'fixed',
-        bottom: '1.5rem',
-        right: '6.0rem',
-        zIndex: 100,
-        background: 'rgba(34,34,34,0.85)',
-        color: '#39ff14',
-        borderRadius: '0.35rem',
-        border: '1px solid #2e2e2e',
-        boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
-        padding: '0.25rem 0.7rem 0.25rem 0.5rem',
-        fontSize: '0.92rem',
-        cursor: 'pointer',
-        width: '200px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.35rem',
-        opacity: 0.92,
-        pointerEvents: 'auto',
-        transition: 'opacity 0.2s',
-      }
-    },
-      React.createElement('span', { role: 'img', 'aria-label': 'terminal', style: { fontSize: '1.05rem', marginRight: '0.2rem' } }, '💻'),
-      React.createElement('span', { style: { flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' } }, 'Try the terminal!'),
-      React.createElement('span', { style: { fontWeight: 'bold', fontSize: '0.95rem', marginLeft: '0.1rem' } }, '→')
-    )
-  );
-}
-
 export default function Terminal() {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState<string[]>([]);
@@ -216,14 +71,18 @@ export default function Terminal() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const cmd = input.trim().toLowerCase();
+    const cmd = input.trim().toLowerCase() as TerminalCommand;
     if (cmd === 'clear') {
       setOutput([]);
       triggerEffect(cmd);
       setInput('');
       return;
     }
-    setOutput((prev) => [...prev, `> ${input}`, COMMANDS[cmd] || `Command not found: ${input}`]);
+    setOutput((prev) => [
+      ...prev,
+      `> ${input}`,
+      COMMANDS[cmd] || `Command not found: ${input}`
+    ]);
     triggerEffect(cmd);
     setInput('');
   }

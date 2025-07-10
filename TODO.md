@@ -4,23 +4,6 @@ This document outlines a detailed plan to refactor and improve the `Terminal.tsx
 
 ---
 
-## 1. Component Structure & Splitting
-- **Goal:** Separate concerns for maintainability and reusability.
-- **Tasks:**
-  - Move the Toaster popup into its own file: `Toaster.tsx`.
-  - Move effect logic (matrix, confetti, etc.) into `effects.ts`.
-  - Move command definitions and help text into `commands.ts`.
-  - Keep `Terminal.tsx` focused on UI and state management.
-  - Consider a folder structure like:
-    ```
-    app/components/Terminal/
-      Terminal.tsx
-      Toaster.tsx
-      effects.ts
-      commands.ts
-      terminal.module.css (or Tailwind classes)
-    ```
-
 ## 2. TypeScript & Typing
 - **Goal:** Improve type safety and developer experience.
 - **Tasks:**
@@ -80,6 +63,18 @@ This document outlines a detailed plan to refactor and improve the `Terminal.tsx
 - **Tasks:**
   - Add inline documentation and comments.
   - Add a README section for the terminal feature, including usage, commands, and customization.
+
+## 10. Deployment Improvements
+- **Goal:** Ensure safe, reliable, and high-uptime deployments.
+- **Tasks:**
+  - Update deployment pipeline to automatically cancel any running deployment if a new one is triggered (e.g., use GitHub Actions `concurrency` or similar in your CI/CD provider).
+  - Research and implement a zero-downtime deployment strategy:
+    - If using Vercel/Netlify: These platforms handle atomic swaps automatically for near-100% uptime.
+    - If self-hosted (Docker, Nginx, etc.):
+      - Use blue-green or canary deployment patterns.
+      - Deploy new version to a separate environment, run health checks, then swap traffic (e.g., update Nginx config or use a load balancer).
+      - Only switch live traffic after the new deployment passes health checks.
+  - Document the chosen approach and any required configuration changes.
 
 ---
 
