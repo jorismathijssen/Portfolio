@@ -38,17 +38,20 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="Portfolio of Joris Mathijssen, a C# Software Developer specializing in API development at 9292." />
         <meta name="keywords" content="C#, Software Developer, API Development, .NET, ASP.NET Core, 9292" />
+        <meta name="author" content="Joris Mathijssen" />
+        <meta name="robots" content="index, follow" />
         <meta property="og:title" content="Joris Mathijssen - C# Software Developer" />
         <meta property="og:description" content="Explore my projects, skills, and experience in building high-performance software solutions." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://jorismathijssen.nl" />
-        <meta property="og:image" content="https://jorismathijssen.nl/4.png" />
+        <meta property="og:image" content="https://jorismathijssen.nl/profile_pic_original.webp" />
+        <meta property="og:locale" content="nl_NL" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Joris Mathijssen - C# Software Developer" />
         <meta name="twitter:description" content="Explore my projects, skills, and experience in building high-performance software solutions." />
-        <meta name="twitter:image" content="https://jorismathijssen.nl/4.png" />
+        <meta name="twitter:image" content="https://jorismathijssen.nl/profile_pic_original.webp" />
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-        <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+        <meta name="theme-color" content="#1f2937" media="(prefers-color-scheme: dark)" />
         <link rel="canonical" href="https://jorismathijssen.nl" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />

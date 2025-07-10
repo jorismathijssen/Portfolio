@@ -18,7 +18,7 @@ export default function Home() {
       <main id="main-content" className="max-w-3xl mx-auto" tabIndex={-1}>
         <header className="mb-12 text-center" role="banner">
           <Image
-            src="/4.webp"
+            src="/profile_pic_300x300.webp"
             alt="Headshot of Joris Mathijssen, a C# Software Developer"
             width={150}
             height={150}
@@ -28,12 +28,20 @@ export default function Home() {
           />
           <h1 className="text-4xl font-bold mb-2">Joris Mathijssen</h1>
           <p className="text-2xl text-gray-600 dark:text-gray-400">
-            C# Software Developer
+            Senior .NET Developer bij{" "}
+            <a
+              href="https://9292.nl"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="9292 mobiliteitsplatform"
+            >
+              9292
+            </a>
           </p>
           <div className="flex justify-center mt-4 space-x-4">
             <a
               href="https://github.com/jorismathijssen"
-              data-id="githubLink" // Added data-id
+              data-id="githubLink"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
@@ -42,7 +50,7 @@ export default function Home() {
             </a>
             <a
               href="https://www.linkedin.com/in/jorismathijssen/"
-              data-id="linkedinLink" // Added data-id
+              data-id="linkedinLink"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
@@ -54,31 +62,66 @@ export default function Home() {
 
         <section className="mb-12" aria-labelledby="about-heading">
           <h2 id="about-heading" className="text-2xl font-semibold mb-4">
-            About Me
+            Over Mij
           </h2>
           <p className="text-lg mb-4">
-            I am a dedicated C# Software Developer with 9 years of experience
-            specializing in building robust and scalable APIs.
+            Senior .NET Developer gespecialiseerd in schaalbare API’s en moderne
+            .NET 8 architectuur
           </p>
           <p className="text-lg mb-4">
-            At{" "}
+            Ik ben een ervaren C# ontwikkelaar met focus op het bouwen van
+            schaalbare en betrouwbare backends met moderne .NET-technologieën. Bij
+            een toonaangevend mobiliteitsplatform in Nederland werk ik aan
+            systemen die dagelijks miljoenen reizigers voorzien van actuele
+            reisdata en adviezen.
+          </p>
+          <p className="text-lg mb-4">
+            Mijn werk combineert technische diepgang met pragmatische samenwerking
+            in multidisciplinaire Scrum-teams. Dankzij mijn{" "}
             <a
-              href="https://9292.nl"
+              href="https://www.scrum.org/professional-scrum-certifications/professional-scrum-master-assessments"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Scrum Master certificering"
+              className="underline text-blue-700 hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
-              9292
-            </a>
-            , the Netherlands’ leading public transport platform, I design and
-            maintain backend systems that enable millions of travelers to plan
-            their journeys and access real-time travel information every day.
+              Scrum Master-certificering
+            </a>{" "}
+            help ik teams gestructureerd waarde leveren met een sterke focus op
+            kwaliteit, onderhoudbaarheid en performance.
           </p>
-          <p className="text-lg">
-            My passion lies in creating reliable digital solutions that make public
-            transport more accessible and efficient for everyone. I thrive in
-            collaborative environments and enjoy solving complex challenges that
-            have a real impact on daily life in the Netherlands.
-          </p>
+          <ul className="list-disc pl-8 mb-4 space-y-1 text-base text-gray-800 dark:text-gray-200">
+            <li>
+              <span className="font-medium text-gray-900 dark:text-white">
+                .NET 8 / ASP.NET Core:
+              </span>{" "}
+              RESTful APIs, background services
+            </li>
+            <li>
+              <span className="font-medium text-gray-900 dark:text-white">
+                Clean Architecture, Domain-Driven Design:
+              </span>{" "}
+              testbare code
+            </li>
+            <li>
+              <span className="font-medium text-gray-900 dark:text-white">
+                DevOps:
+              </span>{" "}
+              GitHub Actions, Docker, structured logging &amp; observability
+            </li>
+            <li>
+              <span className="font-medium text-gray-900 dark:text-white">
+                Infrastructure-as-Code:
+              </span>{" "}
+              veilige en herhaalbare deployments
+            </li>
+            <li>
+              <span className="font-medium text-gray-900 dark:text-white">
+                Agile/Scrum:
+              </span>{" "}
+              technische begeleiding en sprintvoorbereiding
+            </li>
+          </ul>
         </section>
       </main>
       <Terminal />
