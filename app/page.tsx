@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import Terminal from "./components/Terminal";
 
 export default function Home() {
   return (
@@ -53,27 +54,21 @@ export default function Home() {
           </h2>
           <p className="text-lg">
             I am a dedicated C# Software Developer with 9 years of experience
-            specializing in building robust and scalable APIs.
-            <br />
-          </p>
-          <p className="text-lg">
-            At
+            specializing in building robust and scalable APIs. At{" "}
             <a href="https://9292.nl" target="_blank" rel="noopener noreferrer">
               9292
             </a>
             , the Netherlands’ leading public transport platform, I design and
             maintain backend systems that enable millions of travelers to plan
-            their journeys and access real-time travel information every day.
-            <br />
-          </p>
-          <p className="text-lg">
-            My passion lies in creating reliable digital solutions that make
-            public transport more accessible and efficient for everyone. I
-            thrive in collaborative environments and enjoy solving complex
-            challenges that have a real impact on daily life in the Netherlands.
+            their journeys and access real-time travel information every day. My
+            passion lies in creating reliable digital solutions that make public
+            transport more accessible and efficient for everyone. I thrive in
+            collaborative environments and enjoy solving complex challenges that
+            have a real impact on daily life in the Netherlands.
           </p>
         </section>
       </main>
+      <Terminal />
     </div>
   );
 }
