@@ -2,18 +2,13 @@ version: '3.8'
 
 services:
   portfolio:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      tags:
-        - portfolio:latest
-      x-bake:
-        cache-from:
-          - type=local,src=./.build_cache
-        cache-to:
-          - type=local,dest=./.build_cache,mode=max
+    image: node:20-alpine
     container_name: portfolio
     restart: always
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: ["npx", "next", "start"]
     expose:
       - "3000"
     environment:
