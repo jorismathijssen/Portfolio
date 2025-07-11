@@ -58,7 +58,7 @@ jobs:
 
             echo "📦 Extracting $TAR_FILE to $DEPLOY_DIR"
             mkdir -p "$DEPLOY_DIR"
-            tar -xzf "$TAR_FILE" -C "$DEPLOY_DIR" --strip-components=1
+            tar -xzf "$TAR_FILE" -C "$DEPLOY_DIR" --strip-components=2
 
             echo "🔗 Updating ~/Portfolio symlink to new version"
             ln -sfn "$DEPLOY_DIR" "$HOME/Portfolio"
