@@ -2,19 +2,20 @@ version: '3.8'
 
 services:
   portfolio:
-    image: node:20
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: portfolio
     restart: always
-    working_dir: /app
-    volumes:
-      - ./:/app
-    command: ["node", ".next/standalone/server.js"]
     expose:
       - "3000"
     env_file:
       - /home/ubuntu/envs/portfolio.env
     networks:
       - web
+    environment:
+      - VIRTUAL_HOST=jorismathijssen.nl
+      - LETSENCRYPT_HOST=jorismathijssen.nl
 
   nginx-proxy:
     image: jwilder/nginx-proxy

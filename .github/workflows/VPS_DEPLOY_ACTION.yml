@@ -25,12 +25,13 @@ jobs:
 
       - name: 📁 Create deployment bundle
         run: |
-          mkdir -p deploy/.next
-          cp -r .next/standalone deploy/.next/
+          mkdir -p deploy/.next/standalone
+          cp -r .next/standalone/* deploy/.next/standalone/
           cp -r .next/static deploy/.next/
           cp -r public deploy/
           cp package.json deploy/
           cp next.config.mjs deploy/
+          cp Dockerfile deploy/
           cp docker-compose.yml deploy/
           tar -czf portfolio-${{ github.run_number }}.tar.gz -C deploy .
 
@@ -60,21 +61,21 @@ jobs:
             mkdir -p "$DEPLOY_DIR"
             tar -xzf "$TAR_FILE" -C "$DEPLOY_DIR"
 
-            echo "🔗 Safely updating ~/Portfolio symlink"
-            rm -rf "$HOME/Portfolio" # Ensure old Portfolio is deleted first
+            echo "🔗 Updating ~/Portfolio symlink"
+            rm -rf "$HOME/Portfolio"
             ln -sfn "$DEPLOY_DIR" "$HOME/Portfolio"
 
-            echo "🔄 Restarting Docker Compose from safe location"
+            echo "🔄 Restarting Docker Compose"
             cd "$HOME/Portfolio"
             docker compose down
             docker compose up -d --remove-orphans
 
-            echo "🧹 Cleaning up safely old tarballs (keeping latest 3)"
+            echo "🧹 Cleaning up old bundles (keep 3)"
             cd "$HOME/deploy"
             ls -tp portfolio-*.tar.gz | grep -v '/$' | tail -n +4 | xargs -r rm --
 
-            echo "🧹 Cleaning up safely old deployments (keeping latest 3)"
+            echo "🧹 Cleaning up old deploy folders (keep 3)"
             cd "$HOME"
             ls -td Portfolio-* | grep -v '^Portfolio$' | tail -n +4 | xargs -r rm -rf --
 
-            echo "✅ Safe deployment complete."
+            echo "✅ Deployment complete."
