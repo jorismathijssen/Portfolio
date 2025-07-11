@@ -2,13 +2,14 @@ version: '3.8'
 
 services:
   portfolio:
-    image: node:20-alpine
+    image: node:20
     container_name: portfolio
     restart: always
     working_dir: /app
+    user: root
     volumes:
       - ./:/app
-    command: ["npx", "next", "start"]
+    command: ["node", ".next/standalone/server.js"]
     expose:
       - "3000"
     environment:
