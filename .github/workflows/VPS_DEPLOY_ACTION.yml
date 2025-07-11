@@ -72,9 +72,8 @@ jobs:
             cd "$HOME/deploy"
             ls -tp portfolio-*.tar.gz | grep -v '/$' | tail -n +4 | xargs -r rm --
 
-            echo "🧹 Cleaning up old extracted deploys (keeping latest 3)"
+            echo "🧹 Cleaning up old extracted deploy directories (keeping latest 3)"
             cd "$HOME"
             ls -td Portfolio-* | grep -v '^Portfolio$' | tail -n +4 | xargs -r rm -rf --
 
             echo "✅ Deployment complete."
-            
