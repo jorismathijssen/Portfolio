@@ -30,9 +30,9 @@ services:
       - ENABLE_IPV6=false
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./certs:/etc/nginx/certs:rw
-      - ./vhost.d:/etc/nginx/vhost.d
-      - ./html:/usr/share/nginx/html
+      - /home/ubuntu/nginx/certs:/etc/nginx/certs:rw
+      - /home/ubuntu/nginx/vhost.d:/etc/nginx/vhost.d
+      - /home/ubuntu/nginx/html:/usr/share/nginx/html
     networks:
       - web
 
@@ -45,9 +45,9 @@ services:
       - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./certs:/etc/nginx/certs:rw
-      - ./vhost.d:/etc/nginx/vhost.d
-      - ./html:/usr/share/nginx/html
+      - /home/ubuntu/nginx/certs:/etc/nginx/certs:rw
+      - /home/ubuntu/nginx/vhost.d:/etc/nginx/vhost.d
+      - /home/ubuntu/nginx/html:/usr/share/nginx/html
     depends_on:
       - nginx-proxy
     networks:

@@ -52,10 +52,10 @@ jobs:
           script: |
             set -e
 
-            echo "🧹 Clean old build files"
-            rm -rf ~/Portfolio
+            echo "🧹 Clean contents of previous ~/Portfolio build"
+            find ~/Portfolio -mindepth 1 -exec rm -rf {} +
 
-            echo "📦 Extracting bundle to ~"
+            echo "📦 Extracting new bundle"
             tar -xzf ~/deploy/portfolio-${{ github.run_number }}.tar.gz -C ~
 
             echo "🔄 Restarting Docker Compose"
