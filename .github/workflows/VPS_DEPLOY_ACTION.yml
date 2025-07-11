@@ -61,6 +61,7 @@ jobs:
             tar -xzf "$TAR_FILE" -C "$DEPLOY_DIR"
 
             echo "🔗 Safely updating ~/Portfolio symlink"
+            rm -rf "$HOME/Portfolio" # Ensure old Portfolio is deleted first
             ln -sfn "$DEPLOY_DIR" "$HOME/Portfolio"
 
             echo "🔄 Restarting Docker Compose from safe location"
