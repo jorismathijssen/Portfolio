@@ -2,14 +2,14 @@
   "header.title": "Joris Mathijssen",
   "header.role": "Senior .NET Developer bij <1>9292</1>",
   "about.heading": "Over Mij",
-  "about.intro": "Senior .NET Developer gespecialiseerd in schaalbare API’s en moderne .NET 8 architectuur",
-  "about.exp": "Ik ben een ervaren C# ontwikkelaar met focus op het bouwen van schaalbare en betrouwbare backends met moderne .NET-technologieën. Bij een toonaangevend mobiliteitsplatform in Nederland werk ik aan systemen die dagelijks miljoenen reizigers voorzien van actuele reisdata en adviezen.",
-  "about.scrum": "Mijn werk combineert technische diepgang met pragmatische samenwerking in multidisciplinaire Scrum-teams. Dankzij mijn <1>Scrum Master-certificering</1> help ik teams gestructureerd waarde leveren met een sterke focus op kwaliteit, onderhoudbaarheid en performance.",
+  "about.intro": "Senior .NET Developer met oog voor schaalbare oplossingen en moderne technologie",
+  "about.exp": "Ik ben een ervaren C# developer die graag werkt aan stabiele en goed presterende backends. Op dit moment bouw ik mee aan één van de grootste mobiliteitsplatforms van Nederland, waar ik help om miljoenen reizigers dagelijks van actuele reisinformatie te voorzien.",
+  "about.scrum": "In mijn werk combineer ik technische kennis met een praktische aanpak. Ik werk graag samen in Scrum-teams en zorg ervoor dat we als team duidelijke keuzes maken en echt waarde leveren. Als gecertificeerd <1>Scrum Master</1> denk ik actief mee over structuur, samenwerking en kwaliteit — zonder het grotere geheel uit het oog te verliezen.",
   "about.skills": [
-    ".NET 8 / ASP.NET Core: RESTful APIs, background services",
-    "Clean Architecture, Domain-Driven Design: testbare code",
-    "DevOps: GitHub Actions, Docker, structured logging & observability",
-    "Infrastructure-as-Code: veilige en herhaalbare deployments",
-    "Agile/Scrum: technische begeleiding en sprintvoorbereiding"
+    ".NET 8 / ASP.NET Core – RESTful API’s, background services",
+    "Architectuur & design – Clean Architecture, Domain-Driven Design",
+    "DevOps & monitoring – GitHub Actions, Docker, logging en observability",
+    "Infrastructure-as-Code – veilige en herhaalbare deployments",
+    "Agile/Scrum – technische coaching en sprintvoorbereiding"
   ]
 }
