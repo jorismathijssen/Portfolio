@@ -46,17 +46,16 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
             set -e
-            echo "📦 Extracting bundle and restarting app..."
 
+            echo "📦 Deploying portfolio.tar.gz to ~/Portfolio"
+            mkdir -p ~/Portfolio
+            tar -xzf ~/deploy/portfolio.tar.gz -C ~/Portfolio
+
+            echo "🧹 Stopping old container"
             cd ~/Portfolio
-
-            # Extract new build
-            tar -xzf ~/deploy/portfolio.tar.gz -C .
-
-            # Remove any running container
             docker compose down
 
-            # Start fresh container with latest files
+            echo "🚀 Starting new container"
             docker compose up -d --remove-orphans
 
             echo "✅ Deployment complete."
