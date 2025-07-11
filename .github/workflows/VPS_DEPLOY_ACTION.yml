@@ -23,11 +23,11 @@ jobs:
           npm ci
           npm run build
 
-      - name: 📁 Create deployment bundle
+      - name: 📁 Create deployment bundle (under /Portfolio)
         run: |
-          mkdir deploy
-          cp -r .next public node_modules package.json next.config.mjs deploy/
-          tar -czf portfolio.tar.gz -C deploy .
+          mkdir -p deploy/Portfolio
+          cp -r .next public node_modules package.json next.config.mjs deploy/Portfolio/
+          tar -czf portfolio.tar.gz -C deploy Portfolio
 
       - name: 📤 Copy bundle to VPS
         uses: appleboy/scp-action@v0.1.4
@@ -47,15 +47,15 @@ jobs:
           script: |
             set -e
 
-            echo "📦 Deploying portfolio.tar.gz to ~/Portfolio"
-            mkdir -p ~/Portfolio
-            tar -xzf ~/deploy/portfolio.tar.gz -C ~/Portfolio
+            echo "🧹 Clean old build files (optional)"
+            rm -rf ~/Portfolio/.next ~/Portfolio/node_modules ~/Portfolio/public
 
-            echo "🧹 Stopping old container"
+            echo "📦 Extracting to ~ (will place everything under ~/Portfolio)"
+            tar -xzf ~/deploy/portfolio.tar.gz -C ~
+
+            echo "🔄 Restarting container"
             cd ~/Portfolio
             docker compose down
-
-            echo "🚀 Starting new container"
             docker compose up -d --remove-orphans
 
             echo "✅ Deployment complete."
