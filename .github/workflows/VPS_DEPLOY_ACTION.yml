@@ -1,4 +1,4 @@
-name: 🚀 Deploy Portfolio to VPS
+name: 🚀 Build and Deploy Portfolio to VPS
 
 on:
   push:
@@ -10,35 +10,49 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: 🧾 Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.9.0
+      - name: 🟢 Setup Node
+        uses: actions/setup-node@v4
         with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+          node-version: 20
 
-      - name: Deploy via SSH
-        env:
-          COMPOSE_HTTP_TIMEOUT: 200
+      - name: 📦 Install dependencies & build
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            set -euo pipefail
+          npm ci
+          npm run build
 
-            cd ~/Portfolio || exit 1
+      - name: 📁 Create deployment bundle
+        run: |
+          mkdir deploy
+          cp -r .next public node_modules package.json next.config.mjs deploy/
+          tar -czf portfolio.tar.gz -C deploy .
 
-            echo "📥 Pulling latest code..."
-            git fetch --prune origin main
-            git reset --hard origin/main
+      - name: 📤 Copy bundle to VPS
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          source: portfolio.tar.gz
+          target: ~/deploy/
 
-            echo "🐳 Pulling Docker images..."
-            docker compose pull || true
+      - name: 🔧 SSH & deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+            set -e
+            cd ~/Portfolio
 
-            echo "🧹 Pruning unused images..."
-            docker image prune -f || true
+            echo "📦 Extracting build..."
+            rm -rf .next public node_modules || true
+            tar -xzf ~/deploy/portfolio.tar.gz -C .
 
-            echo "🚀 Building and starting containers..."
-            docker compose up -d --build
+            echo "🚀 Restarting app..."
+            docker compose restart portfolio || docker compose up -d
 
             echo "✅ Deployment complete."
-          EOF
