@@ -52,19 +52,29 @@ jobs:
           script: |
             set -e
 
-            echo "🧹 Clean contents of previous ~/Portfolio build"
-            find ~/Portfolio -mindepth 1 -exec rm -rf {} +
+            VERSION="Portfolio-${{ github.run_number }}"
+            DEPLOY_DIR="$HOME/$VERSION"
+            TAR_FILE="$HOME/deploy/portfolio-${{ github.run_number }}.tar.gz"
 
-            echo "📦 Extracting new bundle"
-            tar -xzf ~/deploy/portfolio-${{ github.run_number }}.tar.gz -C ~
+            echo "📦 Extracting $TAR_FILE to $DEPLOY_DIR"
+            mkdir -p "$DEPLOY_DIR"
+            tar -xzf "$TAR_FILE" -C "$DEPLOY_DIR" --strip-components=1
+
+            echo "🔗 Updating ~/Portfolio symlink to new version"
+            ln -sfn "$DEPLOY_DIR" "$HOME/Portfolio"
 
             echo "🔄 Restarting Docker Compose"
-            cd ~/Portfolio
+            cd "$HOME/Portfolio"
             docker compose down
             docker compose up -d --remove-orphans
 
-            echo "🗑️ Cleaning up old tarballs (keeping 3)"
-            cd ~/deploy
+            echo "🧹 Cleaning up old tarballs (keeping latest 3)"
+            cd "$HOME/deploy"
             ls -tp portfolio-*.tar.gz | grep -v '/$' | tail -n +4 | xargs -r rm --
 
+            echo "🧹 Cleaning up old extracted deploys (keeping latest 3)"
+            cd "$HOME"
+            ls -td Portfolio-* | grep -v '^Portfolio$' | tail -n +4 | xargs -r rm -rf --
+
             echo "✅ Deployment complete."
+            
