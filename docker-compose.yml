@@ -11,11 +11,8 @@ services:
     command: ["node", ".next/standalone/server.js"]
     expose:
       - "3000"
-    environment:
-      - NODE_ENV=production
-      - VIRTUAL_HOST=${VIRTUAL_HOST}
-      - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    env_file:
+      - /home/ubuntu/envs/portfolio.env
     networks:
       - web
 
