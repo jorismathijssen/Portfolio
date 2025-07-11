@@ -26,13 +26,13 @@ jobs:
       - name: 📁 Create deployment bundle (under /Portfolio)
         run: |
           mkdir -p deploy/Portfolio/.next
-          cp -r .next/standalone deploy/Portfolio/
+          cp -r .next/standalone deploy/Portfolio/.next/
           cp -r .next/static deploy/Portfolio/.next/
           cp -r public deploy/Portfolio/
           cp package.json deploy/Portfolio/
           cp next.config.mjs deploy/Portfolio/
           cp docker-compose.yml deploy/Portfolio/
-          tar -czf portfolio.tar.gz -C deploy Portfolio
+          tar -czf portfolio-${{ github.run_number }}.tar.gz -C deploy Portfolio
 
       - name: 📤 Copy bundle to VPS
         uses: appleboy/scp-action@v0.1.4
@@ -40,7 +40,7 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
-          source: portfolio.tar.gz
+          source: portfolio-${{ github.run_number }}.tar.gz
           target: ~/deploy/
 
       - name: 🔧 SSH & deploy
@@ -56,11 +56,15 @@ jobs:
             rm -rf ~/Portfolio
 
             echo "📦 Extracting bundle to ~"
-            tar -xzf ~/deploy/portfolio.tar.gz -C ~
+            tar -xzf ~/deploy/portfolio-${{ github.run_number }}.tar.gz -C ~
 
             echo "🔄 Restarting Docker Compose"
             cd ~/Portfolio
             docker compose down
             docker compose up -d --remove-orphans
+
+            echo "🗑️ Cleaning up old tarballs (keeping 3)"
+            cd ~/deploy
+            ls -tp portfolio-*.tar.gz | grep -v '/$' | tail -n +4 | xargs -r rm --
 
             echo "✅ Deployment complete."

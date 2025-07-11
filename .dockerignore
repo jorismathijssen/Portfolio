@@ -1,8 +1,19 @@
+# Node / build output
 node_modules/
-.git
-.github
+.next/
+*.log
+
+# Local files not needed in Docker context
+deploy/
+*.tar.gz
+
+# Git & project files
+.git/
+.github/
 Dockerfile
 docker-compose.yml
+
+# nginx-related
 certs/
 vhost.d/
 html/
