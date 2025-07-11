@@ -25,8 +25,13 @@ jobs:
 
       - name: 📁 Create deployment bundle (under /Portfolio)
         run: |
-          mkdir -p deploy/Portfolio
-          cp -r .next public node_modules package.json next.config.mjs deploy/Portfolio/
+          mkdir -p deploy/Portfolio/.next
+          cp -r .next/standalone deploy/Portfolio/
+          cp -r .next/static deploy/Portfolio/.next/
+          cp -r public deploy/Portfolio/
+          cp package.json deploy/Portfolio/
+          cp next.config.mjs deploy/Portfolio/
+          cp docker-compose.yml deploy/Portfolio/
           tar -czf portfolio.tar.gz -C deploy Portfolio
 
       - name: 📤 Copy bundle to VPS
@@ -47,13 +52,13 @@ jobs:
           script: |
             set -e
 
-            echo "🧹 Clean old build files (optional)"
-            rm -rf ~/Portfolio/.next ~/Portfolio/node_modules ~/Portfolio/public
+            echo "🧹 Clean old build files"
+            rm -rf ~/Portfolio
 
-            echo "📦 Extracting to ~ (will place everything under ~/Portfolio)"
+            echo "📦 Extracting bundle to ~"
             tar -xzf ~/deploy/portfolio.tar.gz -C ~
 
-            echo "🔄 Restarting container"
+            echo "🔄 Restarting Docker Compose"
             cd ~/Portfolio
             docker compose down
             docker compose up -d --remove-orphans

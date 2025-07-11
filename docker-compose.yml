@@ -6,7 +6,6 @@ services:
     container_name: portfolio
     restart: always
     working_dir: /app
-    user: root
     volumes:
       - ./:/app
     command: ["node", ".next/standalone/server.js"]
