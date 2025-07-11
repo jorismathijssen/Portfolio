@@ -23,16 +23,16 @@ jobs:
           npm ci
           npm run build
 
-      - name: 📁 Create deployment bundle (under /Portfolio)
+      - name: 📁 Create deployment bundle
         run: |
-          mkdir -p deploy/Portfolio/.next
-          cp -r .next/standalone deploy/Portfolio/.next/
-          cp -r .next/static deploy/Portfolio/.next/
-          cp -r public deploy/Portfolio/
-          cp package.json deploy/Portfolio/
-          cp next.config.mjs deploy/Portfolio/
-          cp docker-compose.yml deploy/Portfolio/
-          tar -czf portfolio-${{ github.run_number }}.tar.gz -C deploy Portfolio
+          mkdir -p deploy/.next
+          cp -r .next/standalone deploy/.next/
+          cp -r .next/static deploy/.next/
+          cp -r public deploy/
+          cp package.json deploy/
+          cp next.config.mjs deploy/
+          cp docker-compose.yml deploy/
+          tar -czf portfolio-${{ github.run_number }}.tar.gz -C deploy .
 
       - name: 📤 Copy bundle to VPS
         uses: appleboy/scp-action@v0.1.4
@@ -43,7 +43,7 @@ jobs:
           source: portfolio-${{ github.run_number }}.tar.gz
           target: ~/deploy/
 
-      - name: 🔧 SSH & deploy
+      - name: 🔧 SSH & deploy safely
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -56,24 +56,24 @@ jobs:
             DEPLOY_DIR="$HOME/$VERSION"
             TAR_FILE="$HOME/deploy/portfolio-${{ github.run_number }}.tar.gz"
 
-            echo "📦 Extracting $TAR_FILE to $DEPLOY_DIR"
+            echo "📦 Extracting $TAR_FILE safely to $DEPLOY_DIR"
             mkdir -p "$DEPLOY_DIR"
-            tar -xzf "$TAR_FILE" -C "$DEPLOY_DIR" --strip-components=2
+            tar -xzf "$TAR_FILE" -C "$DEPLOY_DIR"
 
-            echo "🔗 Updating ~/Portfolio symlink to new version"
+            echo "🔗 Safely updating ~/Portfolio symlink"
             ln -sfn "$DEPLOY_DIR" "$HOME/Portfolio"
 
-            echo "🔄 Restarting Docker Compose"
+            echo "🔄 Restarting Docker Compose from safe location"
             cd "$HOME/Portfolio"
             docker compose down
             docker compose up -d --remove-orphans
 
-            echo "🧹 Cleaning up old tarballs (keeping latest 3)"
+            echo "🧹 Cleaning up safely old tarballs (keeping latest 3)"
             cd "$HOME/deploy"
             ls -tp portfolio-*.tar.gz | grep -v '/$' | tail -n +4 | xargs -r rm --
 
-            echo "🧹 Cleaning up old extracted deploy directories (keeping latest 3)"
+            echo "🧹 Cleaning up safely old deployments (keeping latest 3)"
             cd "$HOME"
             ls -td Portfolio-* | grep -v '^Portfolio$' | tail -n +4 | xargs -r rm -rf --
 
-            echo "✅ Deployment complete."
+            echo "✅ Safe deployment complete."
