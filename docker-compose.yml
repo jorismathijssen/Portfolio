@@ -2,55 +2,55 @@ version: '3.8'
 
 services:
   portfolio:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     image: portfolio:${GITHUB_RUN_NUMBER:-latest}
     container_name: portfolio
-    restart: always
+    restart: unless-stopped
     expose:
       - "3000"
     env_file:
       - /home/ubuntu/envs/portfolio.env
-    networks:
-      - web
     environment:
       - VIRTUAL_HOST=jorismathijssen.nl
       - LETSENCRYPT_HOST=jorismathijssen.nl
+    networks:
+      - web
 
   nginx-proxy:
     image: jwilder/nginx-proxy
     container_name: nginx-proxy
-    restart: always
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
-    environment:
-      - ENABLE_IPV6=false
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - /home/ubuntu/nginx/certs:/etc/nginx/certs:rw
-      - /home/ubuntu/nginx/vhost.d:/etc/nginx/vhost.d
-      - /home/ubuntu/nginx/html:/usr/share/nginx/html
+      - nginx_certs:/etc/nginx/certs
+      - nginx_vhost:/etc/nginx/vhost.d
+      - nginx_html:/usr/share/nginx/html
     networks:
       - web
 
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: letsencrypt
-    restart: always
+    restart: unless-stopped
     environment:
       - NGINX_PROXY_CONTAINER=nginx-proxy
-      - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /home/ubuntu/nginx/certs:/etc/nginx/certs:rw
-      - /home/ubuntu/nginx/vhost.d:/etc/nginx/vhost.d
-      - /home/ubuntu/nginx/html:/usr/share/nginx/html
+      - nginx_certs:/etc/nginx/certs
+      - nginx_vhost:/etc/nginx/vhost.d
+      - nginx_html:/usr/share/nginx/html
     depends_on:
       - nginx-proxy
     networks:
       - web
+
+volumes:
+  nginx_certs:
+  nginx_vhost:
+  nginx_html:
 
 networks:
   web:

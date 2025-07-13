@@ -25,9 +25,8 @@ jobs:
 
       - name: 📁 Create deployment bundle
         run: |
-          mkdir -p deploy/.next/standalone
-          cp -r .next/standalone/* deploy/.next/standalone/
-          cp -r .next/static deploy/.next/
+          mkdir -p deploy
+          cp -r .next deploy/
           cp -r public deploy/
           cp package.json deploy/
           cp next.config.mjs deploy/
@@ -52,34 +51,26 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
             set -e
+            
+            # Extract new version
+            cd ~/deploy
+            rm -rf current
+            mkdir current
+            tar -xzf portfolio-${{ github.run_number }}.tar.gz -C current
 
-            VERSION="Portfolio-${{ github.run_number }}"
-            DEPLOY_DIR="$HOME/$VERSION"
-            TAR_FILE="$HOME/deploy/portfolio-${{ github.run_number }}.tar.gz"
+            # Update symlink
+            rm -rf ~/Portfolio
+            ln -sfn ~/deploy/current ~/Portfolio
 
-            echo "📦 Extracting $TAR_FILE safely to $DEPLOY_DIR"
-            mkdir -p "$DEPLOY_DIR"
-            tar -xzf "$TAR_FILE" -C "$DEPLOY_DIR"
-
-            echo "🔗 Updating ~/Portfolio symlink"
-            rm -rf "$HOME/Portfolio"
-            ln -sfn "$DEPLOY_DIR" "$HOME/Portfolio"
-
-            echo "🔄 Restarting Docker Compose"
-            cd "$HOME/Portfolio"
-            docker compose down
+            # Deploy with Docker
+            cd ~/Portfolio
+            export GITHUB_RUN_NUMBER=${{ github.run_number }}
+            docker compose down || true
             docker compose build --no-cache
-            docker compose up -d --remove-orphans
+            docker compose up -d
 
-            echo "🧹 Cleaning up Docker images"
+            # Cleanup
             docker image prune -f
+            find ~/deploy -name "portfolio-*.tar.gz" -type f | head -n -3 | xargs rm -f
 
-            echo "🧹 Cleaning up old bundles (keep 3)"
-            cd "$HOME/deploy"
-            ls -tp portfolio-*.tar.gz | grep -v '/$' | tail -n +4 | xargs -r rm --
-
-            echo "🧹 Cleaning up old deploy folders (keep 3)"
-            cd "$HOME"
-            ls -td Portfolio-* | grep -v '^Portfolio$' | tail -n +4 | xargs -r rm -rf --
-
-            echo "✅ Deployment complete."
+            echo "✅ Deployment complete!"
