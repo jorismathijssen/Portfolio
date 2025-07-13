@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "start": "node .next/standalone/server.js",
     "lint": "next lint",
-    "start": "next start",
-    "analyze": "BUNDLE_ANALYZE=both next build",
+    "analyze": "ANALYZE=true next build",
     "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
