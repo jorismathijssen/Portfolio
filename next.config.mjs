@@ -5,21 +5,14 @@ const nextConfig = {
   output: 'standalone',
 
   // 🚀 Performance
-  compress: true, // Enable gzip
-  poweredByHeader: false, // Disable X-Powered-By
+  compress: true,
+  poweredByHeader: false,
 
-  // 🌍 Internationalization
-  i18n: {
-    locales: ['en', 'nl'],
-    defaultLocale: 'en',
-    localeDetection: true,
-  },
-
-  // 🛡️ Security headers (Next.js native)
+  // 🛡️ Security headers
   async headers() {
     return [
       {
-        source: '/(.*)', // Apply to all routes
+        source: '/(.*)',
         headers: [
           {
             key: 'Content-Security-Policy',
@@ -51,7 +44,7 @@ const nextConfig = {
     ];
   },
 
-  // 🧪 Optioneel: experimentele optimalisaties
+  // 🔬 Experimentele optimalisaties
   experimental: {
     scrollRestoration: true,
   },
