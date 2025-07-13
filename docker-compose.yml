@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: portfolio:${GITHUB_RUN_NUMBER:-latest}
     container_name: portfolio
     restart: always
     expose:

@@ -68,7 +68,11 @@ jobs:
             echo "🔄 Restarting Docker Compose"
             cd "$HOME/Portfolio"
             docker compose down
+            docker compose build --no-cache
             docker compose up -d --remove-orphans
+
+            echo "🧹 Cleaning up Docker images"
+            docker image prune -f
 
             echo "🧹 Cleaning up old bundles (keep 3)"
             cd "$HOME/deploy"
