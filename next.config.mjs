@@ -1,6 +1,8 @@
 import withBundleAnalyzer from '@next/bundle-analyzer';
 
 /** @type {import('next').NextConfig} */
+const isProduction = process.env.NODE_ENV === 'production';
+
 const nextConfig = {
   output: 'standalone',
 
@@ -10,6 +12,8 @@ const nextConfig = {
 
   // 🛡️ Security headers
   async headers() {
+    if (!isProduction) return []; // Skip headers in non-production environments
+
     return [
       {
         source: '/(.*)',

@@ -5,10 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node .next/standalone/server.js",
+    "start": "NODE_ENV=production node .next/standalone/server.js",
     "lint": "next lint",
     "analyze": "ANALYZE=true next build",
-    "test": "echo \"No tests specified\" && exit 0"
+    "test": "echo \"No tests specified\" && exit 0",
+    "build:prod": "npm run build && cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/",
+    "start:prod": "node .next/standalone/server.js"
   },
   "dependencies": {
     "framer-motion": "^12.23.3",
