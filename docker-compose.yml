@@ -11,9 +11,9 @@ services:
     env_file:
       - /home/ubuntu/envs/portfolio.env
     environment:
-      - VIRTUAL_HOST=jorismathijssen.nl
+      - VIRTUAL_HOST=jorismathijssen.nl,84.235.172.81
       - LETSENCRYPT_HOST=jorismathijssen.nl
-      - LETSENCRYPT_EMAIL=jorismathijssen@gmail.com
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     networks:
       - web
 
@@ -38,9 +38,9 @@ services:
     restart: unless-stopped
     environment:
       - NGINX_PROXY_CONTAINER=nginx-proxy
-      - DEFAULT_EMAIL=jorismathijssen@gmail.com
-      - ACME_CA_URI=${ACME_CA_URI:-https://acme-v02.api.letsencrypt.org/directory}
-      - DEBUG=${LETSENCRYPT_DEBUG:-false}
+      - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
+      - ACME_CA_URI=${ACME_CA_URI:-https://acme-staging-v02.api.letsencrypt.org/directory}
+      - DEBUG=${LETSENCRYPT_DEBUG:-true}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - nginx_certs:/etc/nginx/certs
