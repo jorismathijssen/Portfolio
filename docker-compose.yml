@@ -39,8 +39,8 @@ services:
     environment:
       - NGINX_PROXY_CONTAINER=nginx-proxy
       - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
-      - ACME_CA_URI=${ACME_CA_URI:-https://acme-staging-v02.api.letsencrypt.org/directory}
-      - DEBUG=${LETSENCRYPT_DEBUG:-true}
+      - ACME_CA_URI=${ACME_CA_URI:-https://acme-v02.api.letsencrypt.org/directory}
+      - DEBUG=${LETSENCRYPT_DEBUG:-false}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - nginx_certs:/etc/nginx/certs
