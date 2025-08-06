@@ -11,7 +11,10 @@ export const UMAMI_SRC = process.env.NEXT_PUBLIC_UMAMI_SRC || 'https://analytics
  */
 export const trackEvent = (eventName: string, eventData?: Record<string, string | number>) => {
   if (typeof window !== 'undefined' && window.umami) {
+    console.log('📊 Tracking event:', eventName, eventData);
     window.umami.track(eventName, eventData);
+  } else {
+    console.warn('⚠️ Umami not loaded, event not tracked:', eventName, eventData);
   }
 };
 
@@ -76,3 +79,26 @@ declare global {
     };
   }
 }
+
+/**
+ * Debug function to check Umami status
+ */
+export const debugUmami = () => {
+  if (typeof window === 'undefined') {
+    console.log('🔍 Umami Debug: Running on server side');
+    return;
+  }
+  
+  console.log('🔍 Umami Debug:', {
+    scriptLoaded: typeof window.umami !== 'undefined',
+    websiteId: UMAMI_WEBSITE_ID,
+    scriptSrc: UMAMI_SRC,
+    environment: process.env.NODE_ENV,
+  });
+  
+  if (window.umami) {
+    console.log('✅ Umami is ready! Test with: window.umami.track("test", {})');
+  } else {
+    console.log('❌ Umami not loaded. Check network tab for script loading errors.');
+  }
+};
