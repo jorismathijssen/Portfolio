@@ -8,8 +8,6 @@ services:
     restart: unless-stopped
     expose:
       - "3000"
-    env_file:
-      - /home/ubuntu/envs/portfolio.env
     environment:
       - VIRTUAL_HOST=jorismathijssen.nl,84.235.172.81
       - LETSENCRYPT_HOST=jorismathijssen.nl
@@ -23,8 +21,6 @@ services:
     restart: unless-stopped
     expose:
       - "3000"
-    env_file:
-      - /home/ubuntu/envs/portfolio.env
     environment:
       - DATABASE_URL=postgresql://postgres:${UMAMI_DB_PASSWORD}@umami-db:5432/umami
       - DATABASE_TYPE=postgresql
@@ -43,8 +39,6 @@ services:
     image: postgres:15-alpine
     container_name: umami-db
     restart: unless-stopped
-    env_file:
-      - /home/ubuntu/envs/portfolio.env
     environment:
       - POSTGRES_DB=umami
       - POSTGRES_USER=postgres
@@ -78,8 +72,6 @@ services:
     image: nginxproxy/acme-companion:latest
     container_name: letsencrypt
     restart: unless-stopped
-    env_file:
-      - /home/ubuntu/envs/portfolio.env
     environment:
       - NGINX_PROXY_CONTAINER=nginx-proxy
       - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
