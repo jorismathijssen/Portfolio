@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import Script from 'next/script';
-import { UMAMI_WEBSITE_ID, UMAMI_SRC } from '../lib/analytics';
+import { UMAMI_WEBSITE_ID, UMAMI_SRC, type UmamiEventData } from '../lib/analytics';
 
 /**
  * Umami Analytics component with environment detection and v2.x best practices
@@ -38,7 +38,7 @@ export default function UmamiAnalytics() {
       window.umami.track((props) => ({
         ...props,
         // Enhanced environment context
-        environment: window.umamiEnv,
+        environment: window.umamiEnv || 'unknown',
         initial_load: true,
         timestamp: Date.now(),
         // Browser insights (respecting privacy)
@@ -48,7 +48,7 @@ export default function UmamiAnalytics() {
         ...((navigator as unknown as { connection?: { effectiveType: string } }).connection && {
           connection_type: (navigator as unknown as { connection: { effectiveType: string } }).connection.effectiveType
         })
-      }));
+      }) as UmamiEventData);
 
       // Development feedback
       if (window.umamiEnv === 'development') {
