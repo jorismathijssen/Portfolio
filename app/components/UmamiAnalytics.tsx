@@ -1,6 +1,7 @@
 'use client';
 
 import Script from 'next/script';
+import { useEffect } from 'react';
 import { UMAMI_WEBSITE_ID, UMAMI_SRC } from '../lib/analytics';
 
 /**
@@ -8,18 +9,20 @@ import { UMAMI_WEBSITE_ID, UMAMI_SRC } from '../lib/analytics';
  * Only loads in production environment
  */
 export default function UmamiAnalytics() {
-  // ALWAYS log debug info to diagnose the issue
-  console.log('🔍 UmamiAnalytics Component Rendered!');
-  console.log('🔍 UmamiAnalytics Debug:', {
-    nodeEnv: process.env.NODE_ENV,
-    isProduction: process.env.NODE_ENV === 'production',
-    websiteId: UMAMI_WEBSITE_ID,
-    scriptSrc: UMAMI_SRC,
-    hasWebsiteId: !!UMAMI_WEBSITE_ID,
-    hasSrc: !!UMAMI_SRC,
-    typeofNodeEnv: typeof process.env.NODE_ENV,
-    processEnvKeys: Object.keys(process.env).filter(k => k.includes('NODE')),
-  });
+  // Client-side debug logging
+  useEffect(() => {
+    console.log('🔍 UmamiAnalytics Component Rendered (CLIENT-SIDE)!');
+    console.log('🔍 UmamiAnalytics Debug:', {
+      nodeEnv: process.env.NODE_ENV,
+      isProduction: process.env.NODE_ENV === 'production',
+      websiteId: UMAMI_WEBSITE_ID,
+      scriptSrc: UMAMI_SRC,
+      hasWebsiteId: !!UMAMI_WEBSITE_ID,
+      hasSrc: !!UMAMI_SRC,
+      typeofNodeEnv: typeof process.env.NODE_ENV,
+      processEnvKeys: Object.keys(process.env).filter(k => k.includes('NODE')),
+    });
+  }, []);
 
   // Only load in production
   if (process.env.NODE_ENV !== 'production') {
