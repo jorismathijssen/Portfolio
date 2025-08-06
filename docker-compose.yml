@@ -12,6 +12,8 @@ services:
       - VIRTUAL_HOST=jorismathijssen.nl,84.235.172.81
       - LETSENCRYPT_HOST=jorismathijssen.nl
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - NEXT_PUBLIC_UMAMI_WEBSITE_ID=${NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+      - NEXT_PUBLIC_UMAMI_SRC=${NEXT_PUBLIC_UMAMI_SRC}
     networks:
       - web
 

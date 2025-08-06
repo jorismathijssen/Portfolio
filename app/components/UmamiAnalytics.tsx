@@ -8,7 +8,8 @@ import { UMAMI_WEBSITE_ID, UMAMI_SRC } from '../lib/analytics';
  * Only loads in production environment
  */
 export default function UmamiAnalytics() {
-  // Debug logging for production
+  // ALWAYS log debug info to diagnose the issue
+  console.log('🔍 UmamiAnalytics Component Rendered!');
   console.log('🔍 UmamiAnalytics Debug:', {
     nodeEnv: process.env.NODE_ENV,
     isProduction: process.env.NODE_ENV === 'production',
@@ -16,6 +17,8 @@ export default function UmamiAnalytics() {
     scriptSrc: UMAMI_SRC,
     hasWebsiteId: !!UMAMI_WEBSITE_ID,
     hasSrc: !!UMAMI_SRC,
+    typeofNodeEnv: typeof process.env.NODE_ENV,
+    processEnvKeys: Object.keys(process.env).filter(k => k.includes('NODE')),
   });
 
   // Only load in production
