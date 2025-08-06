@@ -1,7 +1,0 @@
-certs/
-vhost.d/
-html/
-.git
-.github
-Dockerfile
-docker-compose.yml

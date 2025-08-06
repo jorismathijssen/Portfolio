@@ -1,1 +1,132 @@
-{"name":"Joris Mathijssen Portfolio","short_name":"Joris Portfolio","description":"Portfolio website for Joris Mathijssen, C# Software Developer. Showcasing skills, projects, and contact information.","icons":[{"src":"/android-chrome-192x192.png","sizes":"192x192","type":"image/png"},{"src":"/android-chrome-512x512.png","sizes":"512x512","type":"image/png"}],"theme_color":"#1f2937","background_color":"#ffffff","display":"standalone","start_url":"/","scope":"/","orientation":"portrait","lang":"nl","categories":["portfolio","developer","software","personal"],"screenshots":[{"src":"/profile_pic_300x300.webp","sizes":"300x300","type":"image/webp"}]}
+{
+  "name": "Joris Mathijssen Portfolio",
+  "short_name": "Joris Portfolio",
+  "description": "Portfolio website for Joris Mathijssen, C# Software Developer at 9292. Showcasing skills, projects, experience, and contact information for professional opportunities.",
+  "version": "2.0.0",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "dir": "ltr",
+  "theme_color": "#1f2937",
+  "background_color": "#ffffff",
+  "categories": [
+    "portfolio",
+    "developer",
+    "software",
+    "personal",
+    "professional",
+    "cv",
+    "resume"
+  ],
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/profile_pic_300x300.webp",
+      "sizes": "300x300",
+      "type": "image/webp",
+      "platform": "wide",
+      "label": "Joris Mathijssen Profile"
+    }
+  ],
+  "features": [
+    "cross-platform",
+    "high-performance",
+    "pwa-ready",
+    "responsive-design",
+    "accessibility-compliant"
+  ],
+  "serviceworker": {
+    "src": "/sw.js",
+    "scope": "/",
+    "update_via_cache": "imports"
+  },
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "shortcuts": [
+    {
+      "name": "About",
+      "short_name": "About",
+      "description": "Learn about Joris Mathijssen",
+      "url": "/#about",
+      "icons": [
+        {
+          "src": "/favicon-32x32.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Skills",
+      "short_name": "Skills",
+      "description": "View technical skills and expertise",
+      "url": "/#skills",
+      "icons": [
+        {
+          "src": "/favicon-32x32.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "short_name": "Projects",
+      "description": "Explore development projects",
+      "url": "/#projects",
+      "icons": [
+        {
+          "src": "/favicon-32x32.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Contact",
+      "short_name": "Contact",
+      "description": "Get in touch",
+      "url": "/#contact",
+      "icons": [
+        {
+          "src": "/favicon-32x32.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

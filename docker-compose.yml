@@ -17,6 +17,44 @@ services:
     networks:
       - web
 
+  umami:
+    image: docker.umami.is/umami-software/umami:postgresql-latest
+    container_name: umami
+    restart: unless-stopped
+    expose:
+      - "3000"
+    environment:
+      - DATABASE_URL=postgresql://umami:${UMAMI_DB_PASSWORD}@umami-db:5432/umami
+      - DATABASE_TYPE=postgresql
+      - APP_SECRET=${UMAMI_APP_SECRET}
+      - VIRTUAL_HOST=analytics.jorismathijssen.nl
+      - LETSENCRYPT_HOST=analytics.jorismathijssen.nl
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    depends_on:
+      umami-db:
+        condition: service_healthy
+    networks:
+      - web
+      - umami
+
+  umami-db:
+    image: postgres:15-alpine
+    container_name: umami-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=umami
+      - POSTGRES_USER=umami
+      - POSTGRES_PASSWORD=${UMAMI_DB_PASSWORD}
+    volumes:
+      - umami_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U umami -d umami"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - umami
+
   nginx-proxy:
     image: nginxproxy/nginx-proxy:latest
     container_name: nginx-proxy
@@ -61,7 +99,11 @@ volumes:
     driver: local
   acme_data:
     driver: local
+  umami_data:
+    driver: local
 
 networks:
   web:
+    driver: bridge
+  umami:
     driver: bridge

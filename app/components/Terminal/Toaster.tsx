@@ -1,67 +1,135 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { cn } from '../../lib/utils';
+import { DEFAULTS, Z_INDEX, STORAGE_KEYS } from '../../constants';
+import type { BaseComponentProps, AccessibleProps } from '../../types';
 
 /**
- * Props for the Toaster popup component.
+ * Props for the Toaster popup component
  */
-interface ToasterProps {
-  /** Called when the toaster is clicked. */
+interface ToasterProps extends BaseComponentProps, AccessibleProps {
+  /** Called when the toaster is clicked */
   onClick: () => void;
+  /** Optional custom message */
+  message?: string;
 }
 
 /**
- * Toaster popup that invites users to try the terminal.
- * Disappears after 2 minutes or when clicked.
+ * Toaster popup that invites users to try the terminal
+ * 
+ * Features:
+ * - Automatic visibility management based on visit count
+ * - Auto-hide after timeout
+ * - Accessible with proper ARIA attributes
+ * - Click-to-dismiss functionality
+ * - Local storage persistence
+ * - Keyboard navigation support
+ * 
+ * @param props - Toaster component props
+ * @returns Toaster component or null if hidden
  */
-const Toaster: React.FC<ToasterProps> = ({ onClick }) => {
+export default function Toaster({ 
+  onClick, 
+  message = 'Try the terminal!',
+  className,
+  'aria-label': ariaLabel,
+  'data-testid': testId = 'terminal-toaster',
+}: ToasterProps): React.JSX.Element | null {
   const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const visits = parseInt(localStorage.getItem('terminalToasterVisits') || '0', 10);
-    if (visits < 10) {
-      setVisible(true);
-      localStorage.setItem('terminalToasterVisits', String(visits + 1));
-      const timer = setTimeout(() => setVisible(false), 120000); // 2 minutes
-      return () => clearTimeout(timer);
+
+  /**
+   * Handle toaster click with proper cleanup
+   */
+  const handleClick = useCallback(() => {
+    setVisible(false);
+    onClick();
+  }, [onClick]);
+
+  /**
+   * Get visit count from localStorage safely
+   */
+  const getVisitCount = useCallback((): number => {
+    try {
+      return parseInt(localStorage.getItem(STORAGE_KEYS.TOASTER_VISITS) || '0', 10);
+    } catch {
+      return 0;
     }
   }, []);
-  if (!visible) return null;
+
+  /**
+   * Increment visit count in localStorage safely
+   */
+  const incrementVisitCount = useCallback((currentCount: number): void => {
+    try {
+      localStorage.setItem(STORAGE_KEYS.TOASTER_VISITS, String(currentCount + 1));
+    } catch {
+      // Fail silently if localStorage is not available
+    }
+  }, []);
+
+  // Memoized styles for performance
+  const toasterClasses = useMemo(() => cn(
+    'fixed bottom-6 right-24 z-50 bg-gray-900/90 text-green-400',
+    'rounded-md border border-gray-700 shadow-lg p-2 pr-3',
+    'flex items-center gap-2 cursor-pointer transition-all duration-200',
+    'hover:bg-gray-800/90 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400',
+    'w-48 text-sm font-mono',
+    className
+  ), [className]);
+
+  // Setup visibility and auto-hide timer
+  useEffect(() => {
+    const visits = getVisitCount();
+    
+    if (visits < DEFAULTS.TOASTER_MAX_VISITS) {
+      setVisible(true);
+      incrementVisitCount(visits);
+      
+      const timer = setTimeout(() => {
+        setVisible(false);
+      }, DEFAULTS.TOASTER_TIMEOUT);
+      
+      return () => clearTimeout(timer);
+    }
+    return undefined;
+  }, [getVisitCount, incrementVisitCount]);
+
+  if (!visible) {
+    return null;
+  }
   return (
     <div
-      className="terminal-toaster"
-      onClick={() => {
-        setVisible(false);
-        onClick();
+      className={toasterClasses}
+      onClick={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleClick();
+        }
       }}
-      style={{
-        position: 'fixed',
-        bottom: '1.5rem',
-        right: '6.0rem',
-        zIndex: 100,
-        background: 'rgba(34,34,34,0.85)',
-        color: '#39ff14',
-        borderRadius: '0.35rem',
-        border: '1px solid #2e2e2e',
-        boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
-        padding: '0.25rem 0.7rem 0.25rem 0.5rem',
-        fontSize: '0.92rem',
-        cursor: 'pointer',
-        width: '200px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.35rem',
-        opacity: 0.92,
-        pointerEvents: 'auto',
-        transition: 'opacity 0.2s',
-      }}
+      style={{ zIndex: Z_INDEX.TOAST }}
+      role="button"
+      tabIndex={0}
+      aria-label={ariaLabel || `${message} Click to open terminal`}
+      data-testid={testId}
     >
-      <span role="img" aria-label="terminal" style={{ fontSize: '1.05rem', marginRight: '0.2rem' }}>
+      <span 
+        role="img" 
+        aria-label="terminal" 
+        className="text-lg"
+      >
         💻
       </span>
-      <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-        Try the terminal!
+      
+      <span className="flex-1 truncate">
+        {message}
       </span>
-      <span style={{ fontWeight: 'bold', fontSize: '0.95rem', marginLeft: '0.1rem' }}>→</span>
+      
+      <span 
+        className="font-bold text-sm ml-1"
+        aria-hidden="true"
+      >
+        →
+      </span>
     </div>
   );
-};
-
-export default Toaster;
+}

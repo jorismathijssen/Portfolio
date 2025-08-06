@@ -1,41 +1,171 @@
 {
   "compilerOptions": {
+    "target": "ES2022",
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "es2022",
+      "webworker"
     ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
+    "jsx": "preserve",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": true,
+
+    "allowJs": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleDetection": "force",
+
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "exactOptionalPropertyTypes": true,
+
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitThis": true,
+
+    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": true,
+    "removeComments": false,
+    "importHelpers": true,
+    "downlevelIteration": true,
+    "preserveConstEnums": true,
+
+    "allowUmdGlobalAccess": false,
+    "checkJs": false,
+    "maxNodeModuleJsDepth": 0,
+
+    "verbatimModuleSyntax": false,
+
+    "skipLibCheck": true,
     "incremental": true,
+    "tsBuildInfoFile": ".next/cache/tsconfig.tsbuildinfo",
+
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@/components/*": ["./app/components/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/app/*": ["./app/*"],
+      "@/hooks/*": ["./app/hooks/*"],
+      "@/types/*": ["./app/types/*"],
+      "@/utils/*": ["./app/lib/*"],
+      "@/constants/*": ["./app/constants/*"],
+      "@/public/*": ["./public/*"]
+    },
+
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "paths": {
-      "@/*": [
-        "./*"
-      ]
-    },
-    "target": "ES2017"
+    ]
   },
   "include": [
+    // Application files
     "**/*.ts",
     "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.mjs",
+    
+    // Next.js generated types
     ".next/types/**/*.ts",
     "next-env.d.ts",
-    "build/types/**/*.ts"
+    
+    // Build output types
+    "build/types/**/*.ts",
+    
+    // Configuration files
+    "next.config.mjs",
+    "tailwind.config.ts",
+    "postcss.config.mjs",
+    
+    // Test files
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    
+    // Story files (if using Storybook)
+    "**/*.stories.ts",
+    "**/*.stories.tsx"
   ],
   "exclude": [
-    "node_modules"
-  ]
+    // Dependencies
+    "node_modules",
+    
+    // Build outputs
+    ".next",
+    "build",
+    "dist",
+    "out",
+    
+    // Cache directories
+    ".cache",
+    ".vercel",
+    ".turbo",
+    
+    // Test coverage
+    "coverage",
+    
+    // Environment files
+    ".env*",
+    
+    // IDE files
+    ".vscode",
+    ".idea",
+    
+    // OS files
+    ".DS_Store",
+    "Thumbs.db",
+    
+    // Logs
+    "*.log",
+    "logs",
+    
+    // Docker
+    "Dockerfile*",
+    "docker-compose*",
+    
+    // CI/CD
+    ".github",
+    ".gitlab-ci.yml",
+    
+    // Documentation (if not needed for types)
+    "*.md"
+  ],
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    "compilerOptions": {
+      "module": "ESNext",
+      "moduleResolution": "node"
+    }
+  },
+  "watchOptions": {
+    "watchFile": "useFsEvents",
+    "watchDirectory": "useFsEvents",
+    "fallbackPolling": "dynamicPriority",
+    "synchronousWatchDirectory": true,
+    "excludeDirectories": ["**/node_modules", "**/.git", "**/.next"]
+  }
 }

@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import ClientLayout from "./ClientLayout";
+import ErrorBoundary from "./components/ErrorBoundary";
+import UmamiAnalytics from "./components/UmamiAnalytics";
+import WebVitals from "./components/WebVitals";
 
 const geistSans = localFont({
   src: "../public/fonts/GeistVF.woff",
@@ -63,7 +66,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <link rel="preload" href="/fonts/GeistMonoVF.woff" as="font" type="font/woff" crossOrigin="anonymous" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ClientLayout>{children}</ClientLayout>
+        <UmamiAnalytics />
+        <WebVitals />
+        <ErrorBoundary>
+          <ClientLayout>{children}</ClientLayout>
+        </ErrorBoundary>
       </body>
     </html>
   );

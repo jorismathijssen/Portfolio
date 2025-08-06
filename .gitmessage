@@ -1,0 +1,47 @@
+Replace GA4 with Umami Analytics - privacy-first tracking
+
+## 🔄 **Changes Made:**
+
+### **Removed:**
+- Google Analytics 4 implementation
+- Heavy 45KB tracking script
+- Privacy-concerning Google tracking
+- Complex GDPR configuration requirements
+
+### **Added:**
+- Umami Analytics (self-hosted, privacy-first)
+- Lightweight 2KB tracking script (20x smaller)
+- PostgreSQL database for data storage
+- Docker Compose integration with nginx-proxy
+- GDPR compliant by default (no cookies)
+
+### **Benefits:**
+- ✅ **Privacy**: No Google tracking, data stays on our server
+- ✅ **Performance**: 20x lighter script, faster page loads
+- ✅ **Compliance**: GDPR compliant by default
+- ✅ **Cost**: Completely free, self-hosted
+- ✅ **Control**: Full data ownership and control
+
+### **Infrastructure:**
+- Added umami service to docker-compose.yml
+- Added umami-db (PostgreSQL) service
+- Integrated with existing nginx-proxy and Let's Encrypt
+- Will be accessible at analytics.jorismathijssen.nl
+
+### **Next Steps:**
+1. Deploy via GitHub Actions
+2. Configure DNS (analytics.jorismathijssen.nl)
+3. Set up environment variables on VPS
+4. Access Umami dashboard and configure website
+5. Update UMAMI_WEBSITE_ID in environment
+
+## 📊 **Tracking Features:**
+- Page views and unique visitors
+- Terminal command usage
+- Project card clicks
+- Contact form interactions
+- Language/theme switches
+- Core Web Vitals
+- Real-time analytics
+
+No breaking changes - existing functionality preserved.

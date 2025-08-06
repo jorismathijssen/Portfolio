@@ -1,203 +1,342 @@
 'use client';
-import React, { useState, useRef, useEffect } from 'react';
-import Toaster from './Terminal/Toaster';
-import { startMatrix, startConfetti } from './Terminal/effects';
+
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import clsx from 'clsx';
+import { useDarkMode } from '../hooks/useDarkMode';
+import { useTerminalEffects } from '../hooks/useTerminalEffects';
+import type { TerminalEffect } from '../hooks/useTerminalEffects';
+import { useAutoScroll } from '../hooks/useAutoScroll';
+import { DEFAULTS, Z_INDEX, STORAGE_KEYS } from '../constants';
+import type { BaseComponentProps, AccessibleProps } from '../types';
 import { COMMANDS, TerminalCommand } from './Terminal/commands';
+import Toaster from './Terminal/Toaster';
 
 /**
- * Triggers visual or page-wide effects based on the command.
- * @param cmd The command string.
+ * Terminal component props interface
  */
-function triggerEffect(cmd: string) {
-  if (cmd === 'invert') {
-    document.body.classList.toggle('invert');
-  }
-  if (cmd === 'shake') {
-    document.body.classList.toggle('shake');
-  }
-  if (cmd === 'rainbow') {
-    document.body.classList.toggle('rainbow');
-  }
-  if (cmd === 'dark') {
-    document.documentElement.classList.add('dark');
-    document.documentElement.classList.remove('light');
-  }
-  if (cmd === 'light') {
-    document.documentElement.classList.add('light');
-    document.documentElement.classList.remove('dark');
-  }
-  if (cmd === 'matrix') {
-    if (!document.getElementById('matrix-effect')) {
-      const canvas = document.createElement('canvas');
-      canvas.id = 'matrix-effect';
-      canvas.style.position = 'fixed';
-      canvas.style.top = '0';
-      canvas.style.left = '0';
-      canvas.style.width = '100vw';
-      canvas.style.height = '100vh';
-      canvas.style.pointerEvents = 'none';
-      canvas.style.zIndex = '10';
-      document.body.appendChild(canvas);
-      startMatrix(canvas);
-    }
-  }
-  if (cmd === 'party') {
-    if (!document.getElementById('confetti-canvas')) {
-      const canvas = document.createElement('canvas');
-      canvas.id = 'confetti-canvas';
-      canvas.style.position = 'fixed';
-      canvas.style.top = '0';
-      canvas.style.left = '0';
-      canvas.style.width = '100vw';
-      canvas.style.height = '100vh';
-      canvas.style.pointerEvents = 'none';
-      canvas.style.zIndex = '9999';
-      document.body.appendChild(canvas);
-      startConfetti(canvas);
-    }
-  }
-  if (cmd === 'clear') {
-    const matrix = document.getElementById('matrix-effect');
-    if (matrix) matrix.remove();
-    const confetti = document.getElementById('confetti-canvas');
-    if (confetti) confetti.remove();
-  }
+interface TerminalProps extends BaseComponentProps, AccessibleProps {
+  initialCommands?: string[];
+  maxLines?: number;
+  onCommand?: (command: string) => string | Promise<string>;
+  defaultOpen?: boolean;
 }
 
 /**
- * Terminal component: floating, fun, and interactive terminal UI.
- * - Supports fun commands, visual effects, and dark/light mode.
- * - Accessible and mobile-friendly.
+ * Interactive terminal component with command history and effects
  */
-export default function Terminal() {
-  const [input, setInput] = useState('');
-  const [output, setOutput] = useState<string[]>([]);
-  const [open, setOpen] = useState(false);
-  const [showToaster, setShowToaster] = useState(true);
-  const terminalRef = useRef<HTMLDivElement>(null);
+export default function Terminal({
+  initialCommands = [],
+  maxLines = DEFAULTS.MAX_TERMINAL_LINES,
+  onCommand,
+  defaultOpen = false,
+  className,
+  'aria-label': ariaLabel = 'Interactive terminal emulator',
+  'data-testid': testId = 'terminal',
+}: TerminalProps): React.JSX.Element | null {
+  // State management with proper typing
+  const [input, setInput] = useState<string>('');
+  const [output, setOutput] = useState<string[]>(initialCommands);
+  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState<number>(-1);
+  const [isOpen, setIsOpen] = useState<boolean>(defaultOpen);
+  const [showToaster, setShowToaster] = useState<boolean>(true);
+
+  // Refs for DOM manipulation and focus management
   const inputRef = useRef<HTMLInputElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  
+  // Custom hooks
+  const { isDarkMode, setTheme, isLoading } = useDarkMode();
+  const { executeEffect } = useTerminalEffects({ setTheme });
+  const { scrollRef } = useAutoScroll({ 
+    dependency: output,
+    smooth: true 
+  });
 
-  function handleSubmit(e: React.FormEvent) {
+  /**
+   * Execute terminal command with error handling and history management
+   */
+  const executeCommand = useCallback(async (command: string) => {
+    try {
+      let result: string;
+      if (onCommand) {
+        const customResult = onCommand(command);
+        result = typeof customResult === 'string' ? customResult : await customResult;
+      } else {
+        result = COMMANDS[command as TerminalCommand] ?? `Command not found: ${command}. Type 'help' for available commands.`;
+      }
+      
+      setOutput(prev => [
+        ...prev.slice(-(maxLines - 2)), // Maintain max lines
+        `> ${command}`,
+        result
+      ]);
+
+      // Update command history
+      setCommandHistory(prev => {
+        const newHistory = [command, ...prev.filter(cmd => cmd !== command)].slice(0, DEFAULTS.MAX_COMMAND_HISTORY);
+        // Persist to localStorage with error handling
+        try {
+          localStorage.setItem(STORAGE_KEYS.TERMINAL_HISTORY, JSON.stringify(newHistory));
+        } catch (error) {
+          console.warn('Failed to save command history:', error);
+          // Continue execution even if localStorage fails
+        }
+        return newHistory;
+      });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      setOutput(prev => [
+        ...prev,
+        `> ${command}`,
+        `Error: ${errorMessage}`
+      ]);
+      console.error('Terminal command execution failed:', error);
+    }
+  }, [onCommand, maxLines]);
+
+  /**
+   * Handle form submission for terminal commands
+   */
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
-    const cmd = input.trim().toLowerCase() as TerminalCommand;
-    if (cmd === 'clear') {
-      setOutput([]);
-      triggerEffect(cmd);
+    const cmd = input.trim();
+    
+    if (cmd) {
+      executeCommand(cmd);
+      executeEffect(cmd as TerminalEffect); // Execute visual effects
       setInput('');
-      return;
+      setHistoryIndex(-1);
     }
-    setOutput((prev) => [
-      ...prev,
-      `> ${input}`,
-      COMMANDS[cmd] || `Command not found: ${input}`
-    ]);
-    triggerEffect(cmd);
-    setInput('');
-  }
+  }, [input, executeCommand, executeEffect]);
 
-  function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Enter') {
-      handleSubmit(e);
+  /**
+   * Handle keyboard events for terminal input with command history navigation
+   */
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    switch (e.key) {
+      case 'Enter':
+        handleSubmit(e);
+        break;
+        
+      case 'ArrowUp':
+        e.preventDefault();
+        if (commandHistory.length > 0) {
+          const newIndex = Math.min(historyIndex + 1, commandHistory.length - 1);
+          setHistoryIndex(newIndex);
+          const command = commandHistory[newIndex];
+          if (command) {
+            setInput(command);
+          }
+        }
+        break;
+        
+      case 'ArrowDown':
+        e.preventDefault();
+        if (historyIndex > 0) {
+          const newIndex = historyIndex - 1;
+          setHistoryIndex(newIndex);
+          const command = commandHistory[newIndex];
+          if (command) {
+            setInput(command);
+          }
+        } else if (historyIndex === 0) {
+          setHistoryIndex(-1);
+          setInput('');
+        }
+        break;
+        
+      case 'Escape':
+        setIsOpen(false);
+        break;
+        
+      case 'Tab':
+        e.preventDefault();
+        break;
     }
-  }
+  }, [handleSubmit, commandHistory, historyIndex]);
 
+  // Load command history from localStorage on mount
   useEffect(() => {
-    const terminal = terminalRef.current;
-    if (terminal) {
-      terminal.scrollTop = terminal.scrollHeight;
+    try {
+      const savedHistory = localStorage.getItem(STORAGE_KEYS.TERMINAL_HISTORY);
+      if (savedHistory) {
+        const history = JSON.parse(savedHistory);
+        if (Array.isArray(history)) {
+          setCommandHistory(history);
+        }
+      }
+    } catch (error) {
+      console.warn('Failed to load command history:', error);
     }
-  }, [output]);
-
-  // Detect dark mode
-  const [isDark, setIsDark] = useState(false);
-  useEffect(() => {
-    const checkDark = () => setIsDark(document.documentElement.classList.contains('dark'));
-    checkDark();
-    window.addEventListener('classChange', checkDark);
-    return () => window.removeEventListener('classChange', checkDark);
   }, []);
 
-  // Hide toaster when terminal is opened
+  /**
+   * Hide toaster when terminal is opened
+   */
   useEffect(() => {
-    if (open) setShowToaster(false);
-  }, [open]);
+    if (isOpen) {
+      setShowToaster(false);
+    }
+  }, [isOpen]);
+
+  /**
+   * Focus input when terminal opens
+   */
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
+
+  /**
+   * Handle terminal open/close toggle
+   */
+  const toggleTerminal = useCallback(() => {
+    setIsOpen(prev => !prev);
+  }, []);
+
+  /**
+   * Handle toaster click
+   */
+  const handleToasterClick = useCallback(() => {
+    setIsOpen(true);
+    setShowToaster(false);
+  }, []);
+
+  // Memoized class names for performance using clsx
+  const terminalClasses = useMemo(() => clsx(
+    isOpen ? 'terminal--expanded' : 'terminal--minimized',
+    className
+  ), [isOpen, className]);
+
+  const titleClasses = useMemo(() => clsx(
+    'font-bold transition-all duration-200',
+    {
+      'text-base text-green-400 m-0': isOpen,
+      'text-lg': !isOpen,
+      'text-yellow-300': !isOpen && isDarkMode,
+      'text-green-400': !isOpen && !isDarkMode,
+    }
+  ), [isOpen, isDarkMode]);
+
+  // Don't render until theme is loaded to prevent hydration mismatch
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <>
-      {showToaster && <Toaster onClick={() => { setOpen(true); setShowToaster(false); }} />}
-      <div className={`terminal ${open ? 'open' : 'minimized'}`}
-        style={{
-          position: 'fixed',
-          bottom: '1rem',
-          right: '1rem',
-          width: open ? '420px' : '56px',
-          height: open ? '320px' : '56px',
-          maxWidth: '90vw',
-          maxHeight: '60vh',
-          backgroundColor: open ? '#111' : (isDark ? '#1f2937' : '#111'),
-          color: open ? '#39ff14' : (isDark ? '#facc15' : '#39ff14'),
-          border: open ? 'none' : (isDark ? '1.5px solid #e5e7eb' : 'none'),
-          borderRadius: '0.75rem',
-          boxShadow: '0 4px 24px rgba(0,0,0,0.5)',
-          overflow: 'hidden',
-          transition: 'all 0.3s',
-          zIndex: 50,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'stretch',
-          justifyContent: open ? 'flex-start' : 'center',
-          cursor: open ? 'default' : 'pointer',
-        }}>
-        <div className="terminal-header" onClick={() => setOpen((prev) => !prev)}
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: open ? '0.75rem 1rem' : '0',
-            backgroundColor: open ? '#222' : 'transparent',
-            cursor: 'pointer',
-            borderBottom: open ? '2px solid #39ff14' : 'none',
-            borderRadius: open ? '0.75rem 0.75rem 0 0' : '0.75rem',
-            width: '100%',
-            height: open ? 'auto' : '100%',
-          }}>
-          <div className="terminal-title" style={{ fontWeight: 'bold', margin: '0 auto', fontSize: open ? '1rem' : '1.5rem', color: open ? '#39ff14' : (isDark ? '#facc15' : '#39ff14') }}>{open ? 'Terminal' : '💻'}</div>
-          {open && (
-            <div className="terminal-controls" style={{ display: 'flex', gap: '0.5rem' }}>
-              <div className="control-button close" style={{ width: '10px', height: '10px', backgroundColor: '#ff605c', borderRadius: '50%', cursor: 'pointer' }} />
-              <div className="control-button minimize" style={{ width: '10px', height: '10px', backgroundColor: isDark ? 'rgb(31 41 55)' : '#ffbd44', borderRadius: '50%', cursor: 'pointer' }} />
-              <div className="control-button maximize" style={{ width: '10px', height: '10px', backgroundColor: '#00ca4e', borderRadius: '50%', cursor: 'pointer' }} />
+      {showToaster && <Toaster onClick={handleToasterClick} />}
+      
+      <div
+        className={terminalClasses}
+        style={{ zIndex: Z_INDEX.MODAL }}
+        role="application"
+        aria-label={ariaLabel}
+        aria-expanded={isOpen}
+        data-testid={testId}
+      >
+        {/* Terminal header */}
+        <div 
+          className={clsx(
+            isOpen ? 'terminal__header' : 'w-full h-full flex items-center justify-center',
+            {
+              'cursor-pointer': !isOpen,
+            }
+          )}
+          onClick={toggleTerminal}
+          role="button"
+          tabIndex={0}
+          aria-label={isOpen ? 'Minimize terminal' : 'Open terminal'}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              toggleTerminal();
+            }
+          }}
+        >
+          <div className={titleClasses}>
+            {isOpen ? 'Terminal' : '💻'}
+          </div>
+          
+          {isOpen && (
+            <div className="terminal__controls">
+              <button
+                className="terminal__control-btn terminal__control-btn--close"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsOpen(false);
+                }}
+                aria-label="Close terminal"
+              />
+              <button
+                className="terminal__control-btn terminal__control-btn--minimize"
+                onClick={(e) => e.stopPropagation()}
+                aria-label="Minimize terminal"
+              />
+              <button
+                className="terminal__control-btn terminal__control-btn--maximize"
+                onClick={(e) => e.stopPropagation()}
+                aria-label="Maximize terminal"
+              />
             </div>
           )}
         </div>
-        {open && (
-          <div className="terminal-body" ref={scrollRef}
-            style={{
-              padding: '1rem',
-              height: 'calc(100% - 48px)',
-              overflowY: 'auto',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.5rem',
-              justifyContent: 'flex-end',
-            }}>
-            <div>
-              {output.length === 0 && 'Welcome to the terminal emulator! Type "help" for commands.'}
-              {output.map((line, index) => <div key={index} className="terminal-line" style={{ marginBottom: '0.5rem' }}>{line}</div>)}
+
+        {/* Terminal body */}
+        {isOpen && (
+          <div className="terminal__body">
+            {/* Output area */}
+            <div 
+              ref={scrollRef}
+              className="terminal__output"
+              role="log"
+              aria-live="polite"
+              aria-label="Terminal output"
+            >
+              {output.length === 0 ? (
+                <div className="text-green-400/70">
+                  Welcome to the terminal emulator! Type &ldquo;help&rdquo; for available commands.
+                </div>
+              ) : (
+                output.map((line, index) => (
+                  <div 
+                    key={`line-${index}`} 
+                    className={clsx(
+                      'terminal__line',
+                      {
+                        'terminal__line--command': line.startsWith('>'),
+                        'terminal__line--output': !line.startsWith('>'),
+                      }
+                    )}
+                  >
+                    {line}
+                  </div>
+                ))
+              )}
             </div>
-            <div className="terminal-input" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', borderTop: '1px solid #39ff14', paddingTop: '0.5rem', background: '#111', position: 'sticky', bottom: 0 }}>
-              <span style={{ fontWeight: 'bold' }}>{'>'}</span>
-              <input
-                ref={inputRef}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                autoFocus
-                style={{ flex: 1, padding: '0.5rem', borderRadius: '0.375rem', border: '1px solid #39ff14', backgroundColor: '#222', color: '#39ff14', fontSize: '1rem' }}
-                placeholder="Enter command..."
-              />
-            </div>
+
+            {/* Input area */}
+            <form 
+              onSubmit={handleSubmit} 
+              className="terminal__input-area"
+            >
+              <div className="terminal__input-wrapper">
+                <span className="terminal__prompt">$</span>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="terminal__input"
+                  placeholder="Type a command..."
+                  aria-label="Terminal command input"
+                  autoComplete="off"
+                  spellCheck={false}
+                />
+              </div>
+            </form>
           </div>
         )}
       </div>
