@@ -8,46 +8,42 @@ import { UMAMI_WEBSITE_ID, UMAMI_SRC } from '../lib/analytics';
  * Only loads in production environment
  */
 export default function UmamiAnalytics() {
-  // Hard-coded fallback values for debugging
-  const WEBSITE_ID = UMAMI_WEBSITE_ID || '5f39fbfe-ea25-4a31-a34f-5ca167af4af1';
-  const SCRIPT_SRC = UMAMI_SRC || 'https://analytics.jorismathijssen.nl/script.js';
-  
-  // Check NODE_ENV explicitly
-  const NODE_ENV = process.env.NODE_ENV;
-  const IS_PRODUCTION = NODE_ENV === 'production';
-  const IS_DEVELOPMENT = NODE_ENV === 'development';
-  
-  // Force debug logging to always show
-  console.log('🔍 UmamiAnalytics Component Rendered!');
-  console.log('🔍 NODE_ENV Debug:', {
-    NODE_ENV,
-    IS_PRODUCTION,
-    IS_DEVELOPMENT,
-    typeofNodeEnv: typeof NODE_ENV,
-    processEnvKeys: Object.keys(process.env).filter(k => k.includes('NODE')),
-  });
+  // Debug logging for production
   console.log('🔍 UmamiAnalytics Debug:', {
-    websiteIdFromEnv: UMAMI_WEBSITE_ID,
-    websiteIdFallback: WEBSITE_ID,
-    srcFromEnv: UMAMI_SRC,
-    srcFallback: SCRIPT_SRC,
-    willLoad: !!WEBSITE_ID,
+    nodeEnv: process.env.NODE_ENV,
+    isProduction: process.env.NODE_ENV === 'production',
+    websiteId: UMAMI_WEBSITE_ID,
+    scriptSrc: UMAMI_SRC,
+    hasWebsiteId: !!UMAMI_WEBSITE_ID,
+    hasSrc: !!UMAMI_SRC,
   });
 
-  // Always load for now (remove production check temporarily)
-  if (!WEBSITE_ID) {
-    console.log('⚠️ Umami not loading: no website ID available');
+  // Only load in production
+  if (process.env.NODE_ENV !== 'production') {
+    console.log('❌ Umami not loading: not in production mode');
     return null;
   }
 
-  console.log('✅ Loading Umami script with ID:', WEBSITE_ID);
-  
+  // Don't load if no website ID is configured
+  if (!UMAMI_WEBSITE_ID || !UMAMI_SRC) {
+    console.log('❌ Umami not loading: missing config', { 
+      websiteId: !!UMAMI_WEBSITE_ID, 
+      src: !!UMAMI_SRC 
+    });
+    return null;
+  }
+
+  console.log('✅ Loading Umami script with config:', {
+    websiteId: UMAMI_WEBSITE_ID,
+    src: UMAMI_SRC,
+  });
+
   return (
     <Script
       async
       defer
-      data-website-id={WEBSITE_ID}
-      src={SCRIPT_SRC}
+      data-website-id={UMAMI_WEBSITE_ID}
+      src={UMAMI_SRC}
       strategy="afterInteractive"
       onLoad={() => {
         console.log('✅ Umami script loaded successfully!');
@@ -55,7 +51,7 @@ export default function UmamiAnalytics() {
       }}
       onError={(e) => {
         console.error('❌ Umami script failed to load:', e);
-        console.error('❌ Script src was:', SCRIPT_SRC);
+        console.error('❌ Script src was:', UMAMI_SRC);
       }}
     />
   );
