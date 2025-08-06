@@ -16,11 +16,11 @@ const SECURITY_HEADERS = [
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' *.vercel-insights.com *.vercel-analytics.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' *.vercel-insights.com *.vercel-analytics.com *.cloudflareinsights.com analytics.jorismathijssen.nl",
       "style-src 'self' 'unsafe-inline' fonts.googleapis.com",
       "img-src * blob: data:",
       "font-src 'self' fonts.gstatic.com data:",
-      "connect-src *",
+      "connect-src * *.cloudflareinsights.com analytics.jorismathijssen.nl",
       "media-src 'self'",
       "object-src 'none'",
       "base-uri 'self'",
