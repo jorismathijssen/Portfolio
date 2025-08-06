@@ -21,7 +21,7 @@ jobs:
       - name: 📦 Install dependencies & build
         run: |
           npm ci
-          npm run build
+          NODE_ENV=production npm run build
 
       - name: 📁 Create deployment bundle
         run: |
