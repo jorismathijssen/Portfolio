@@ -30,6 +30,9 @@ services:
       - VIRTUAL_HOST=analytics.jorismathijssen.nl
       - LETSENCRYPT_HOST=analytics.jorismathijssen.nl
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - CORS_MAX_AGE=86400
+      - CLIENT_IP_HEADER=x-forwarded-for
+      - ALLOWED_ORIGINS=https://jorismathijssen.nl,https://www.jorismathijssen.nl
     depends_on:
       umami-db:
         condition: service_healthy
