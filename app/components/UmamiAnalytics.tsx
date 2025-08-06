@@ -2,54 +2,32 @@
 
 import Script from 'next/script';
 import { useEffect } from 'react';
-import { UMAMI_WEBSITE_ID, UMAMI_SRC } from '../lib/analytics';
 
 /**
- * Umami Analytics component with optimized loading
- * Only loads in production environment
+ * Umami Analytics component - HARDCODED FOR TESTING
  */
 export default function UmamiAnalytics() {
   // Client-side debug logging
   useEffect(() => {
     console.log('🔍 UmamiAnalytics Component Rendered (CLIENT-SIDE)!');
-    console.log('🔍 UmamiAnalytics Debug:', {
-      nodeEnv: process.env.NODE_ENV,
-      isProduction: process.env.NODE_ENV === 'production',
-      websiteId: UMAMI_WEBSITE_ID,
-      scriptSrc: UMAMI_SRC,
-      hasWebsiteId: !!UMAMI_WEBSITE_ID,
-      hasSrc: !!UMAMI_SRC,
-      typeofNodeEnv: typeof process.env.NODE_ENV,
-      processEnvKeys: Object.keys(process.env).filter(k => k.includes('NODE')),
-    });
+    console.log('🔍 Hardcoded Umami loading...');
   }, []);
 
-  // Only load in production
-  if (process.env.NODE_ENV !== 'production') {
-    console.log('❌ Umami not loading: not in production mode');
-    return null;
-  }
+  // HARDCODED VALUES - NO ENV CHECKS
+  const WEBSITE_ID = '5f39fbfe-ea25-4a31-a34f-5ca167af4af1';
+  const SCRIPT_SRC = 'https://analytics.jorismathijssen.nl/script.js';
 
-  // Don't load if no website ID is configured
-  if (!UMAMI_WEBSITE_ID || !UMAMI_SRC) {
-    console.log('❌ Umami not loading: missing config', { 
-      websiteId: !!UMAMI_WEBSITE_ID, 
-      src: !!UMAMI_SRC 
-    });
-    return null;
-  }
-
-  console.log('✅ Loading Umami script with config:', {
-    websiteId: UMAMI_WEBSITE_ID,
-    src: UMAMI_SRC,
+  console.log('✅ Loading Umami script with hardcoded config:', {
+    websiteId: WEBSITE_ID,
+    src: SCRIPT_SRC,
   });
 
   return (
     <Script
       async
       defer
-      data-website-id={UMAMI_WEBSITE_ID}
-      src={UMAMI_SRC}
+      data-website-id={WEBSITE_ID}
+      src={SCRIPT_SRC}
       strategy="afterInteractive"
       onLoad={() => {
         console.log('✅ Umami script loaded successfully!');
@@ -57,7 +35,7 @@ export default function UmamiAnalytics() {
       }}
       onError={(e) => {
         console.error('❌ Umami script failed to load:', e);
-        console.error('❌ Script src was:', UMAMI_SRC);
+        console.error('❌ Script src was:', SCRIPT_SRC);
       }}
     />
   );
