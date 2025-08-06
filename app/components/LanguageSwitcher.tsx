@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { trackLanguageSwitch } from '../lib/analytics';
 
 /**
  * Language option type
@@ -29,11 +30,15 @@ export default function LanguageSwitcher(): React.JSX.Element | null {
   }, []);
 
   /**
-   * Handle language change with proper typing
+   * Handle language change with proper typing and analytics
    */
   const handleLanguageChange = useCallback(() => {
     const currentLang = i18n.language as Language;
     const newLang: Language = currentLang === 'nl' ? 'en' : 'nl';
+    
+    // Track language switch
+    trackLanguageSwitch(newLang);
+    
     i18n.changeLanguage(newLang);
   }, [i18n]);
 
@@ -52,6 +57,8 @@ export default function LanguageSwitcher(): React.JSX.Element | null {
   return (
     <button
       data-id="languageSwitcher"
+      data-umami-event="language-switch"
+      data-umami-event-language={isDutch ? 'en' : 'nl'}
       onClick={handleLanguageChange}
       aria-label={ariaLabel}
       className="fixed top-4 right-20 w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 font-bold text-lg tracking-wide transition-all duration-200 text-gray-800 dark:text-gray-200 font-[family-name:var(--font-geist-sans)] hover:bg-gray-300 dark:hover:bg-gray-700"

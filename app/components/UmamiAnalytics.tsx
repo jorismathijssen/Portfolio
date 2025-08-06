@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import Script from 'next/script';
-import { UMAMI_WEBSITE_ID, UMAMI_SRC, type UmamiEventData } from '../lib/analytics';
+import { UMAMI_WEBSITE_ID, UMAMI_SRC } from '../lib/analytics';
 
 /**
  * Umami Analytics component with environment detection and v2.x best practices
@@ -31,24 +31,13 @@ export default function UmamiAnalytics() {
   }
 
   const handleScriptLoad = () => {
-    // Verify Umami loaded correctly with proper function signatures
+    // Verify Umami loaded correctly
     if (typeof window !== 'undefined' && window.umami?.track) {
-      // Send enhanced initial pageview with environment metadata
-      // Using the function syntax for more control over data
-      window.umami.track((props) => ({
-        ...props,
-        // Enhanced environment context
-        environment: window.umamiEnv || 'unknown',
-        initial_load: true,
-        timestamp: Date.now(),
-        // Browser insights (respecting privacy)
-        browser_language: navigator.language,
-        screen_resolution: `${screen.width}x${screen.height}`,
-        // Connection type if available (with proper typing)
-        ...((navigator as unknown as { connection?: { effectiveType: string } }).connection && {
-          connection_type: (navigator as unknown as { connection: { effectiveType: string } }).connection.effectiveType
-        })
-      }) as UmamiEventData);
+      // Send a simple pageview - let Umami handle the default properties
+      // Only add minimal environment context as event data
+      window.umami.track('pageview', {
+        environment: window.umamiEnv || 'production'
+      });
 
       // Development feedback
       if (window.umamiEnv === 'development') {

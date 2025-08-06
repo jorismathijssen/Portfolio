@@ -1,32 +1,25 @@
 /**
- * Enhanced Umami Analytics implementation with environment detection
+ * Umami Analytics - Best Practices Implementation
+ * Following official Umami documentation and patterns
  */
 
-// Umami configuration
+// Configuration
 export const UMAMI_WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID || '5f39fbfe-ea25-4a31-a34f-5ca167af4af1';
 export const UMAMI_SRC = process.env.NEXT_PUBLIC_UMAMI_SRC || 'https://analytics.jorismathijssen.nl/script.js';
 
-// Type definitions for Umami event data
+// Simple event data interface - only primitives as per Umami best practices
 export interface UmamiEventData {
-  [key: string]: string | number | boolean | string[] | number[] | UmamiEventData | UmamiEventData[];
+  [key: string]: string | number | boolean;
 }
 
-// Global interface for Umami tracker - Updated to match Umami v2.x TypeScript definitions
+// Global Umami interface
 declare global {
   interface Window {
     umami: {
       track: {
-        // Track page view
         (): Promise<string>;
-        // Track event with name only (max 50 characters)
         (eventName: string): Promise<string>;
-        // Track event with name and data - follows Umami data constraints:
-        // - Strings max 500 chars, Numbers max precision 4, Objects max 50 properties
         (eventName: string, eventData: UmamiEventData): Promise<string>;
-        // Track with full properties object
-        (properties: { website: string; url?: string; title?: string; [key: string]: unknown }): Promise<string>;
-        // Track with custom function
-        (eventFunction: (props: UmamiEventData) => UmamiEventData): Promise<string>;
       };
       identify?: (userId: string, userData?: UmamiEventData) => Promise<string>;
     };
@@ -35,27 +28,20 @@ declare global {
 }
 
 /**
- * Enhanced event tracking with environment tagging and Umami v2.x best practices
- * Ensures data constraints: strings ≤500 chars, numbers ≤4 precision, objects ≤50 properties
+ * Core tracking function - simple and clean
  */
-export const trackEvent = async (eventName: string, eventData?: UmamiEventData) => {
+export const track = async (eventName: string, eventData?: UmamiEventData) => {
   if (typeof window !== 'undefined' && window.umami?.track) {
     try {
-      // Truncate event name to Umami's 50 character limit
-      const truncatedName = eventName.substring(0, 50);
+      const cleanName = eventName.substring(0, 50);
+      const prefixedName = window.umamiEnv === 'development' ? `dev-${cleanName}` : cleanName;
       
-      // Add environment tag and sanitize data according to Umami constraints
-      const enhancedData = sanitizeEventData({
-        ...eventData,
-        environment: window.umamiEnv || 'unknown',
-      });
-      
-      // Prefix development events for easy filtering in dashboard
-      const prefixedName = window.umamiEnv === 'development' ? `[DEV] ${truncatedName}` : truncatedName;
-      
-      return await window.umami.track(prefixedName, enhancedData);
+      if (eventData) {
+        return await window.umami.track(prefixedName, eventData);
+      } else {
+        return await window.umami.track(prefixedName);
+      }
     } catch (error) {
-      // Fail silently in production, log in development
       if (window.umamiEnv === 'development') {
         console.warn('Umami tracking failed:', error);
       }
@@ -64,150 +50,128 @@ export const trackEvent = async (eventName: string, eventData?: UmamiEventData) 
   return Promise.resolve('');
 };
 
+// =============================================================================
+// SPECIFIC EVENT FUNCTIONS - Following Umami naming conventions
+// =============================================================================
+
 /**
- * Sanitize event data according to Umami v2.x constraints
+ * Theme switching events
  */
-const sanitizeEventData = (data: UmamiEventData): UmamiEventData => {
-  const sanitized: UmamiEventData = {};
-  let propertyCount = 0;
-  
-  for (const [key, value] of Object.entries(data)) {
-    // Limit to 50 properties maximum
-    if (propertyCount >= 50) break;
-    
-    if (typeof value === 'string') {
-      // Strings max 500 characters
-      sanitized[key] = value.substring(0, 500);
-    } else if (typeof value === 'number') {
-      // Numbers max precision 4
-      sanitized[key] = Number(value.toFixed(4));
-    } else if (typeof value === 'boolean') {
-      sanitized[key] = value;
-    } else if (Array.isArray(value)) {
-      // Arrays converted to string with 500 char limit
-      sanitized[key] = JSON.stringify(value).substring(0, 500);
-    } else if (typeof value === 'object' && value !== null) {
-      // Objects are flattened and count as 1 property
-      sanitized[key] = JSON.stringify(value).substring(0, 500);
-    }
-    
-    propertyCount++;
-  }
-  
-  return sanitized;
+export const trackThemeSwitch = async (theme: string) => {
+  return track('theme-switch', { theme });
 };
 
 /**
- * Terminal command tracking with command details
+ * Language switching events  
  */
-export const trackTerminalCommand = async (command: string, success: boolean = true) => {
-  return trackEvent('terminal_command', { 
-    command: command.substring(0, 50), // Umami event name character limit
-    success,
-    timestamp: Date.now()
+export const trackLanguageSwitch = async (language: string) => {
+  return track('language-switch', { language });
+};
+
+/**
+ * Terminal command events
+ */
+export const trackTerminalCommand = async (command: string) => {
+  return track('terminal-command', { 
+    command: command.substring(0, 50) // Keep command name short
   });
 };
 
 /**
- * Project interaction tracking
+ * Project interactions
  */
-export const trackProjectClick = async (projectTitle: string, source: string = 'card') => {
-  return trackEvent('project_interaction', { 
-    project: projectTitle.substring(0, 100),
-    source,
-    action: 'click'
+export const trackProjectClick = async (project: string, source: string = 'card') => {
+  return track('project-click', { 
+    project: project.substring(0, 100),
+    source 
   });
 };
 
 /**
- * Language switch tracking
+ * Contact form interactions
  */
-export const trackLanguageSwitch = async (fromLanguage: string, toLanguage: string) => {
-  return trackEvent('language_switch', { 
-    from: fromLanguage,
-    to: toLanguage
-  });
-};
-
-/**
- * Theme switch tracking with enhanced metadata
- */
-export const trackThemeSwitch = async (fromTheme: string, toTheme: string) => {
-  return trackEvent('theme_switch', { 
-    from: fromTheme,
-    to: toTheme,
-    timestamp: Date.now()
-  });
-};
-
-/**
- * Contact form tracking with detailed stages
- */
-export const trackContactForm = async (action: 'view' | 'start' | 'submit' | 'success' | 'error', errorType?: string) => {
-  return trackEvent('contact_form', { 
+export const trackContactForm = async (action: string, step?: string) => {
+  return track('contact-form', { 
     action,
-    ...(errorType && { errorType: errorType.substring(0, 100) }),
-    timestamp: Date.now()
+    ...(step && { step })
   });
 };
 
 /**
- * Social media click tracking
+ * Social media clicks
  */
-export const trackSocialClick = async (platform: string, action: string = 'click') => {
-  return trackEvent('social_interaction', { 
-    platform: platform.substring(0, 50),
-    action
-  });
+export const trackSocialClick = async (platform: string) => {
+  return track('social-click', { platform });
 };
 
 /**
- * Performance tracking for Core Web Vitals with Umami constraints
+ * Navigation events
  */
-export const trackWebVitals = async (metric: string, value: number, rating: string) => {
-  return trackEvent('web_vitals', {
-    metric: metric.substring(0, 50),
-    value: Number(value.toFixed(4)), // Max precision 4
-    rating,
-    url: typeof window !== 'undefined' ? window.location.pathname.substring(0, 200) : 'unknown'
-  });
+export const trackNavigation = async (section: string) => {
+  return track('navigation', { section });
 };
 
 /**
- * Custom event for user engagement tracking
+ * Download events
  */
-export const trackEngagement = async (type: string, duration?: number, details?: UmamiEventData) => {
-  return trackEvent('user_engagement', {
-    type: type.substring(0, 50),
-    ...(duration && { duration: Number(duration.toFixed(4)) }),
-    ...sanitizeEventData(details || {})
-  });
+export const trackDownload = async (file: string, type: string) => {
+  return track('download', { file, type });
 };
 
 /**
- * Error tracking for debugging with data constraints
+ * Search events
  */
-export const trackError = async (errorType: string, errorMessage: string, source?: string) => {
-  return trackEvent('application_error', {
-    type: errorType.substring(0, 50),
-    message: errorMessage.substring(0, 200), // Reasonable limit for error messages
-    source: source?.substring(0, 100) || 'unknown',
-    timestamp: Date.now()
+export const trackSearch = async (query: string, results: number) => {
+  return track('search', { 
+    query: query.substring(0, 100),
+    results 
   });
 };
 
 /**
- * Session identification for user journey tracking (Umami v2.x feature)
- * Use this to link events to specific user sessions
+ * Error tracking
+ */
+export const trackError = async (type: string, message: string) => {
+  return track('error', { 
+    type,
+    message: message.substring(0, 200)
+  });
+};
+
+/**
+ * Performance tracking
+ */
+export const trackPerformance = async (metric: string, value: number) => {
+  return track('performance', { 
+    metric,
+    value: Number(value.toFixed(2))
+  });
+};
+
+/**
+ * Feature usage tracking
+ */
+export const trackFeatureUse = async (feature: string, context?: string) => {
+  return track('feature-use', { 
+    feature,
+    ...(context && { context })
+  });
+};
+
+// =============================================================================
+// UTILITY FUNCTIONS
+// =============================================================================
+
+/**
+ * Session identification
  */
 export const identifyUser = async (userId: string, userData?: UmamiEventData) => {
   if (typeof window !== 'undefined' && window.umami?.identify) {
     try {
-      const sanitizedData = userData ? sanitizeEventData(userData) : undefined;
-      return await window.umami.identify(userId.substring(0, 100), sanitizedData);
+      return await window.umami.identify(userId, userData);
     } catch (error) {
       if (window.umamiEnv === 'development') {
-        console.warn('Umami user identification failed:', error);
+        console.warn('Umami identification failed:', error);
       }
     }
   }
@@ -215,48 +179,30 @@ export const identifyUser = async (userId: string, userData?: UmamiEventData) =>
 };
 
 /**
- * Debug function to check Umami status with comprehensive health check
+ * Debug function
  */
 export const debugUmami = () => {
-  if (typeof window === 'undefined') return 'Server-side - Umami not available';
+  if (typeof window === 'undefined') return 'Server-side';
   
-  const status = {
+  return {
     loaded: typeof window.umami !== 'undefined',
-    trackFunction: typeof window.umami?.track === 'function',
-    identifyFunction: typeof window.umami?.identify === 'function',
     environment: window.umamiEnv || 'unknown',
     websiteId: UMAMI_WEBSITE_ID,
     scriptSrc: UMAMI_SRC,
-    currentUrl: window.location.href,
-    userAgent: navigator.userAgent.substring(0, 100),
   };
-  
-  // Additional checks for development
-  if (window.umamiEnv === 'development') {
-    console.log('🔍 Umami Debug Status:', status);
-  }
-  
-  return status;
 };
 
 /**
- * Test function to verify Umami is working correctly
- * Use this in development to ensure analytics are functioning
+ * Test function for development
  */
 export const testUmami = async () => {
   if (typeof window === 'undefined') return false;
   
   try {
-    await trackEvent('test_event', { 
-      test: true, 
-      timestamp: Date.now(),
-      source: 'debug_function'
-    });
-    
+    await track('test-event', { source: 'debug' });
     if (window.umamiEnv === 'development') {
-      console.log('✅ Umami test event sent successfully');
+      console.log('✅ Umami test successful');
     }
-    
     return true;
   } catch (error) {
     if (window.umamiEnv === 'development') {

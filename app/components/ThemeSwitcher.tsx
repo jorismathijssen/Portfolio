@@ -21,8 +21,8 @@ export default function ThemeSwitcher(): React.JSX.Element | null {
     const currentTheme = (theme === 'system' ? systemTheme : theme) as ThemeOption;
     const newTheme: ThemeOption = currentTheme === 'dark' ? 'light' : 'dark';
     
-    // Track theme switch event
-    trackThemeSwitch(currentTheme || 'unknown', newTheme);
+    // Track theme switch event with clean naming
+    trackThemeSwitch(newTheme);
     
     setTheme(newTheme);
   }, [theme, systemTheme, setTheme]);
@@ -49,6 +49,8 @@ export default function ThemeSwitcher(): React.JSX.Element | null {
   return (
     <button
       data-id="themeSwitcher"
+      data-umami-event="theme-switch"
+      data-umami-event-theme={currentTheme === 'dark' ? 'light' : 'dark'}
       onClick={handleThemeToggle}
       className="fixed top-4 right-4 w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 hover:bg-gray-300 dark:hover:bg-gray-700 hover:scale-105"
       aria-label={ariaLabel}
