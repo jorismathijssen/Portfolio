@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTheme } from 'next-themes';
+import { trackThemeSwitch } from '../lib/analytics';
 
 type ThemeOption = 'light' | 'dark' | 'system';
 
@@ -19,6 +20,10 @@ export default function ThemeSwitcher(): React.JSX.Element | null {
   const handleThemeToggle = useCallback(() => {
     const currentTheme = (theme === 'system' ? systemTheme : theme) as ThemeOption;
     const newTheme: ThemeOption = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    // Track theme switch event
+    trackThemeSwitch(currentTheme || 'unknown', newTheme);
+    
     setTheme(newTheme);
   }, [theme, systemTheme, setTheme]);
 

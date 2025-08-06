@@ -1,22 +1,85 @@
 'use client';
 
+import { useEffect } from 'react';
 import Script from 'next/script';
+import { UMAMI_WEBSITE_ID, UMAMI_SRC } from '../lib/analytics';
 
 /**
- * Umami Analytics component - Production ready
+ * Umami Analytics component with environment detection and v2.x best practices
+ * Implements proper initialization, error handling, and environment tagging
  */
 export default function UmamiAnalytics() {
-  // HARDCODED VALUES - WORKING VERSION
-  const WEBSITE_ID = '5f39fbfe-ea25-4a31-a34f-5ca167af4af1';
-  const SCRIPT_SRC = 'https://analytics.jorismathijssen.nl/script.js';
+  useEffect(() => {
+    // Enhanced environment detection
+    const isDevelopment = 
+      typeof window !== 'undefined' && 
+      (window.location.hostname === 'localhost' || 
+       window.location.hostname === '127.0.0.1' ||
+       window.location.port === '3000' ||
+       window.location.hostname.includes('dev') ||
+       process.env.NODE_ENV === 'development');
+
+    // Set global environment variable for tracking functions
+    if (typeof window !== 'undefined') {
+      window.umamiEnv = isDevelopment ? 'development' : 'production';
+    }
+  }, []);
+
+  // Check if we have valid configuration
+  if (!UMAMI_WEBSITE_ID || !UMAMI_SRC) {
+    return null;
+  }
+
+  const handleScriptLoad = () => {
+    // Verify Umami loaded correctly with proper function signatures
+    if (typeof window !== 'undefined' && window.umami?.track) {
+      // Send enhanced initial pageview with environment metadata
+      // Using the function syntax for more control over data
+      window.umami.track((props) => ({
+        ...props,
+        // Enhanced environment context
+        environment: window.umamiEnv,
+        initial_load: true,
+        timestamp: Date.now(),
+        // Browser insights (respecting privacy)
+        browser_language: navigator.language,
+        screen_resolution: `${screen.width}x${screen.height}`,
+        // Connection type if available (with proper typing)
+        ...((navigator as unknown as { connection?: { effectiveType: string } }).connection && {
+          connection_type: (navigator as unknown as { connection: { effectiveType: string } }).connection.effectiveType
+        })
+      }));
+
+      // Development feedback
+      if (window.umamiEnv === 'development') {
+        console.log('🚀 Umami Analytics v2.x initialized');
+        console.log('📊 Environment:', window.umamiEnv);
+        console.log('🆔 Website ID:', UMAMI_WEBSITE_ID);
+        console.log('📍 Source:', UMAMI_SRC);
+      }
+    }
+  };
+
+  const handleScriptError = (error: Error) => {
+    // Graceful error handling
+    if (typeof window !== 'undefined' && window.umamiEnv === 'development') {
+      console.error('❌ Umami Analytics failed to load:', error);
+    }
+  };
 
   return (
     <Script
-      async
-      defer
-      data-website-id={WEBSITE_ID}
-      src={SCRIPT_SRC}
+      src={UMAMI_SRC}
+      data-website-id={UMAMI_WEBSITE_ID}
+      data-domains="jorismathijssen.nl,portfolio.jorismathijssen.nl"
+      data-auto-track="true"
+      data-do-not-track="false"
+      data-exclude-search="false"
+      data-exclude-hash="false"
       strategy="afterInteractive"
+      onLoad={handleScriptLoad}
+      onError={handleScriptError}
+      defer
     />
   );
 }
