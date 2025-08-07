@@ -296,10 +296,27 @@ const nextConfig = {
     ];
   },
 
-  // Rewrites for clean URLs
+  // Rewrites for clean URLs and ad blocker bypass
   async rewrites() {
     return [
-      // API rewrites if needed
+      // Umami Analytics - Ad blocker bypass rewrites
+      // Proxy the main tracker script
+      {
+        source: '/stats.js',
+        destination: 'https://analytics.jorismathijssen.nl/script.js',
+      },
+      // Proxy the stats collection endpoint
+      {
+        source: '/api/stats/:path*',
+        destination: 'https://analytics.jorismathijssen.nl/api/:path*',
+      },
+      // Alternative tracker script name (common bypass technique)
+      {
+        source: '/t.js',
+        destination: 'https://analytics.jorismathijssen.nl/script.js',
+      },
+      
+      // API rewrites
       {
         source: '/health',
         destination: '/api/health',

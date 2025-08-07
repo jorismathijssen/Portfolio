@@ -3,9 +3,13 @@
  * Following official Umami documentation and event naming best practices
  */
 
-// Configuration
+// Configuration with ad blocker bypass
 export const UMAMI_WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID || '5f39fbfe-ea25-4a31-a34f-5ca167af4af1';
-export const UMAMI_SRC = process.env.NEXT_PUBLIC_UMAMI_SRC || 'https://analytics.jorismathijssen.nl/script.js';
+
+// Use proxied script URL to bypass ad blockers
+// Falls back to direct URL if proxy fails
+export const UMAMI_SRC = process.env.NEXT_PUBLIC_UMAMI_SRC || '/stats.js';
+export const UMAMI_FALLBACK_SRC = 'https://analytics.jorismathijssen.nl/script.js';
 
 // Event data interface - only primitives as per Umami best practices
 export interface UmamiEventData {

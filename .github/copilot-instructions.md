@@ -93,6 +93,11 @@ style={{ backgroundColor: '#000' }} // Violates architecture
 - `npm run analyze` - Bundle analysis via webpack-bundle-analyzer
 - `npm run build:prod` - Docker-optimized build with asset copying
 
+### Documentation Policy
+- **NO MARKDOWN FILES**: Do not create documentation files (.md) after changes
+- Report implementation details and results in chat responses only
+- Keep documentation inline in code comments and JSDoc where appropriate
+
 ### TypeScript Standards (Strict Mode)
 ```tsx
 // ✅ Required: All components have comprehensive interfaces

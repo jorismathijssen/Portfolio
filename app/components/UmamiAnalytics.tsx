@@ -1,14 +1,17 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Script from 'next/script';
-import { UMAMI_WEBSITE_ID, UMAMI_SRC } from '../lib/analytics';
+import { UMAMI_WEBSITE_ID, UMAMI_SRC, UMAMI_FALLBACK_SRC } from '../lib/analytics';
 
 /**
- * Umami Analytics component with environment detection and v2.x best practices
+ * Umami Analytics component with ad blocker bypass and fallback handling
  * Implements proper initialization, error handling, and environment tagging
  */
 export default function UmamiAnalytics() {
+  const [scriptSrc, setScriptSrc] = useState(UMAMI_SRC);
+  const [retryCount, setRetryCount] = useState(0);
+
   useEffect(() => {
     // Enhanced environment detection
     const isDevelopment = 
@@ -38,27 +41,37 @@ export default function UmamiAnalytics() {
         console.log('🚀 Umami Analytics v2.x initialized');
         console.log('📊 Environment:', window.umamiEnv);
         console.log('🆔 Website ID:', UMAMI_WEBSITE_ID);
-        console.log('📍 Source:', UMAMI_SRC);
+        console.log('📍 Source:', scriptSrc);
+        console.log('🛡️ Ad blocker bypass:', scriptSrc.startsWith('/') ? 'active' : 'fallback');
       }
     }
   };
 
   const handleScriptError = (error: Error) => {
-    // Graceful error handling
+    // Graceful error handling with fallback
     if (typeof window !== 'undefined' && window.umamiEnv === 'development') {
       console.error('❌ Umami Analytics failed to load:', error);
+      console.log('🔄 Attempting fallback...');
+    }
+    
+    // Try fallback if we haven't exceeded retry limit and we're not already using fallback
+    if (retryCount < 2 && scriptSrc !== UMAMI_FALLBACK_SRC) {
+      setRetryCount(prev => prev + 1);
+      setScriptSrc(UMAMI_FALLBACK_SRC);
     }
   };
 
   return (
     <Script
-      src={UMAMI_SRC}
+      key={scriptSrc} // Force re-render on source change
+      src={scriptSrc}
       data-website-id={UMAMI_WEBSITE_ID}
       data-domains="jorismathijssen.nl,portfolio.jorismathijssen.nl"
       data-auto-track="true"
       data-do-not-track="false"
       data-exclude-search="false"
       data-exclude-hash="false"
+      data-host-url="https://analytics.jorismathijssen.nl"
       strategy="afterInteractive"
       onLoad={handleScriptLoad}
       onError={handleScriptError}
