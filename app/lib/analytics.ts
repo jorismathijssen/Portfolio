@@ -92,12 +92,15 @@ export const trackLanguageSwitch = async (language: string, trigger: 'switcher' 
   });
 };
 
-// Contact form interactions
+// Contact form interactions with campaign attribution
 export const trackContactForm = async (action: 'start' | 'submit' | 'success' | 'error', step?: string) => {
+  const attribution = getTrafficAttribution();
+  
   return track('formulier_contact_actie', { 
     category: EVENT_CATEGORIES.USER_INTERACTION,
     pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
     actie_type: action,
+    ...attribution,
     ...(step && { formulier_stap: step })
   });
 };
@@ -146,18 +149,21 @@ export const trackTerminalEffect = async (effect: string, duration?: number) => 
   });
 };
 
-// Project interactions
+// Project interactions with traffic attribution for campaign measurement
 export const trackProjectInteraction = async (
   action: 'view' | 'click' | 'demo' | 'github',
   project: string, 
   location: 'card' | 'timeline' | 'search' = 'card'
 ) => {
+  const attribution = getTrafficAttribution();
+  
   return track('project_kaart_interactie', { 
     category: EVENT_CATEGORIES.ENGAGEMENT,
     pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
     actie_type: action,
     project_naam: project.substring(0, 50),
-    locatie_sectie: location
+    locatie_sectie: location,
+    ...attribution
   });
 };
 
@@ -190,18 +196,50 @@ export const trackSearch = async (query: string, results: number, source: 'portf
  * PERFORMANCE EVENTS
  */
 
-// Web Vitals tracking with better categorization
+// Web Vitals tracking following Umami best practices with campaign attribution
 export const trackWebVital = async (
   metric: 'CLS' | 'FID' | 'FCP' | 'LCP' | 'TTFB' | 'INP', 
   value: number,
   rating: 'good' | 'needs-improvement' | 'poor'
 ) => {
+  // Get device context for performance analysis
+  const getDeviceContext = () => {
+    if (typeof window === 'undefined') return { apparaat_type: 'unknown', verbinding_type: 'unknown' };
+    
+    const userAgent = navigator.userAgent;
+    let deviceType = 'desktop';
+    
+    if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
+      deviceType = 'mobile';
+    } else if (/iPad/i.test(userAgent)) {
+      deviceType = 'tablet';
+    }
+
+    const connection = (navigator as {
+      connection?: { effectiveType?: string };
+      mozConnection?: { effectiveType?: string };
+      webkitConnection?: { effectiveType?: string };
+    }).connection || (navigator as { mozConnection?: { effectiveType?: string } }).mozConnection || (navigator as { webkitConnection?: { effectiveType?: string } }).webkitConnection;
+    const connectionType = connection?.effectiveType || 'unknown';
+
+    return {
+      apparaat_type: deviceType,
+      verbinding_type: connectionType
+    };
+  };
+
+  const deviceContext = getDeviceContext();
+  const attribution = getTrafficAttribution();
+
+  // Single event with rich context for Umami dashboard filtering and UTM reports
   return track('prestatie_web_vital_gemeten', { 
     category: EVENT_CATEGORIES.PERFORMANCE,
     pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
     metric_type: metric,
     waarde: Number(value.toFixed(2)),
-    beoordeling: rating
+    beoordeling: rating,
+    ...deviceContext,
+    ...attribution
   });
 };
 
@@ -295,6 +333,61 @@ export const identifyUser = async (userId: string, userData?: UmamiEventData) =>
     }
   }
   return Promise.resolve('');
+};
+
+/**
+ * Get UTM parameters and traffic source context for campaign attribution
+ * Umami automatically captures UTM parameters, this adds additional context
+ */
+export const getTrafficAttribution = () => {
+  if (typeof window === 'undefined') return {
+    verkeer_bron: 'server_side',
+    heeft_utm: 'onbekend',
+    sessie_type: 'server'
+  };
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  const referrer = document.referrer;
+  
+  // Classify traffic source for better analytics
+  let traffic_source = 'direct';
+  let session_type = 'organic';
+  
+  if (referrer) {
+    const domain = new URL(referrer).hostname;
+    
+    if (domain.includes('google.')) {
+      traffic_source = 'google_search';
+      session_type = 'organic';
+    } else if (domain.includes('linkedin.')) {
+      traffic_source = 'linkedin';
+      session_type = 'social';
+    } else if (domain.includes('github.')) {
+      traffic_source = 'github';
+      session_type = 'referral';
+    } else if (domain.includes('twitter.') || domain.includes('x.com')) {
+      traffic_source = 'twitter';
+      session_type = 'social';
+    } else {
+      traffic_source = 'referral';
+      session_type = 'referral';
+    }
+  }
+  
+  // Check for UTM parameters (Umami captures these automatically)
+  const hasUTM = ['utm_source', 'utm_medium', 'utm_campaign'].some(param => 
+    urlParams.has(param)
+  );
+  
+  if (hasUTM) {
+    session_type = 'campaign';
+  }
+  
+  return {
+    verkeer_bron: traffic_source,
+    heeft_utm: hasUTM ? 'ja' : 'nee',
+    sessie_type: session_type
+  };
 };
 
 /**
