@@ -48,47 +48,75 @@ export const getTrackingProps = (eventName: string, eventData?: UmamiEventData) 
 export const TRACKING_CONFIGS = {
   // Social media links
   social: (platform: string, location: string = 'header') => 
-    getTrackingProps('social_click', { platform, location }),
+    getTrackingProps('cta_klik_social_platform', { 
+      pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+      platform, 
+      locatie_sectie: location 
+    }),
 
   // Project interactions
   project: (action: string, project: string, location: string = 'card') =>
-    getTrackingProps('project_interaction', { action, project, location }),
+    getTrackingProps('project_kaart_interactie', { 
+      pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+      actie_type: action, 
+      project_naam: project, 
+      locatie_sectie: location 
+    }),
 
   // Navigation items
   navigation: (section: string, method: string = 'click') =>
-    getTrackingProps('section_view', { section, method }),
+    getTrackingProps('navigatie_sectie_bekeken', { 
+      pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+      sectie_naam: section, 
+      navigatie_methode: method 
+    }),
 
   // Download links
   download: (file: string, type: string) =>
-    getTrackingProps('file_download', { file, type }),
+    getTrackingProps('cta_download_bestand', { 
+      pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+      bestand_naam: file, 
+      bestand_type: type 
+    }),
 
   // Terminal commands (for help text, etc.)
   terminal: (command: string, category?: string) =>
-    getTrackingProps('terminal_command', { 
-      command: command.substring(0, 30),
-      ...(category && { command_category: category })
+    getTrackingProps('terminal_commando_uitgevoerd', { 
+      pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+      commando_naam: command.substring(0, 30),
+      ...(category && { commando_categorie: category })
     }),
 
   // Theme switcher
   theme: (theme: string, trigger: string = 'button') =>
-    getTrackingProps('theme_change', { theme, trigger }),
+    getTrackingProps('thema_wijziging_knop', { 
+      pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+      thema_type: theme, 
+      trigger_methode: trigger 
+    }),
 
   // Language switcher
   language: (language: string, trigger: string = 'switcher') =>
-    getTrackingProps('language_change', { language, trigger }),
+    getTrackingProps('taal_wijziging_switcher', { 
+      pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+      taal: language, 
+      trigger_methode: trigger 
+    }),
 
   // Contact form elements
   contact: (action: string, step?: string) =>
-    getTrackingProps('contact_form', { 
-      action,
-      ...(step && { step })
+    getTrackingProps('formulier_contact_actie', { 
+      pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+      actie_type: action,
+      ...(step && { formulier_stap: step })
     }),
 
   // Feature usage
   feature: (feature: string, context?: string) =>
-    getTrackingProps('feature_usage', { 
-      feature,
-      ...(context && { context })
+    getTrackingProps('functie_gebruikt', { 
+      pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+      functie_naam: feature,
+      ...(context && { context_info: context })
     })
 } as const;
 
@@ -114,14 +142,16 @@ export const getExternalLinkTracking = (url: string, linkText?: string) => {
     const urlObj = new URL(url);
     const domain = urlObj.hostname;
     
-    return getTrackingProps('external_link', {
-      domain,
-      ...(linkText && { link_text: linkText.substring(0, 50) })
+    return getTrackingProps('cta_klik_externe_link', {
+      pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+      doel_domein: domain,
+      ...(linkText && { link_tekst: linkText.substring(0, 50) })
     });
   } catch {
-    return getTrackingProps('external_link', {
-      domain: 'unknown',
-      ...(linkText && { link_text: linkText.substring(0, 50) })
+    return getTrackingProps('cta_klik_externe_link', {
+      pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+      doel_domein: 'onbekend',
+      ...(linkText && { link_tekst: linkText.substring(0, 50) })
     });
   }
 };

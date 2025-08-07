@@ -60,8 +60,10 @@ export default function LanguageSwitcher(): React.JSX.Element | null {
   return (
     <button
       data-id="languageSwitcher"
-      data-umami-event="language-switch"
-      data-umami-event-language={isDutch ? 'en' : 'nl'}
+      data-umami-event="taal_wijziging_switcher"
+      data-umami-event-pagina={typeof window !== 'undefined' ? window.location.pathname : 'onbekend'}
+      data-umami-event-taal={isDutch ? 'en' : 'nl'}
+      data-umami-event-trigger-methode="switcher"
       onClick={handleLanguageChange}
       aria-label={ariaLabel}
       className="fixed top-4 right-20 w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 font-bold text-lg tracking-wide transition-all duration-200 font-[family-name:var(--font-geist-sans)] hover:bg-gray-200 dark:hover:bg-gray-700 shadow-md"

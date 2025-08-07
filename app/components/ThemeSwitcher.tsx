@@ -49,8 +49,10 @@ export default function ThemeSwitcher(): React.JSX.Element | null {
   return (
     <button
       data-id="themeSwitcher"
-      data-umami-event="theme-switch"
-      data-umami-event-theme={currentTheme === 'dark' ? 'light' : 'dark'}
+      data-umami-event="thema_wijziging_knop"
+      data-umami-event-pagina={typeof window !== 'undefined' ? window.location.pathname : 'onbekend'}
+      data-umami-event-thema-type={currentTheme === 'dark' ? 'light' : 'dark'}
+      data-umami-event-trigger-methode="button"
       onClick={handleThemeToggle}
       className="fixed top-4 right-4 w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 hover:bg-gray-200 dark:hover:bg-gray-700 hover:scale-105 shadow-md"
       aria-label={ariaLabel}

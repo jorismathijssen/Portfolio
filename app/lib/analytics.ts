@@ -4,11 +4,11 @@
  */
 
 // Configuration with ad blocker bypass
-export const UMAMI_WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID || '5f39fbfe-ea25-4a31-a34f-5ca167af4af1';
+export const UMAMI_WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID || 'f89e04ae-4fef-4bcc-b8c6-e2bd3f4be6c1';
 
 // Use proxied script URL to bypass ad blockers
 // Falls back to direct URL if proxy fails
-export const UMAMI_SRC = process.env.NEXT_PUBLIC_UMAMI_SRC || '/stats.js';
+export const UMAMI_SRC = process.env.NEXT_PUBLIC_UMAMI_SRC || '/script.js';
 export const UMAMI_FALLBACK_SRC = 'https://analytics.jorismathijssen.nl/script.js';
 
 // Event data interface - only primitives as per Umami best practices
@@ -16,14 +16,14 @@ export interface UmamiEventData {
   [key: string]: string | number | boolean;
 }
 
-// Event categories for better organization
+// Event categories for better organization - Nederlandse categorieën
 export const EVENT_CATEGORIES = {
-  USER_INTERACTION: 'interaction',
-  NAVIGATION: 'navigation', 
-  FEATURE_USAGE: 'feature',
-  PERFORMANCE: 'performance',
-  ERROR: 'error',
-  ENGAGEMENT: 'engagement'
+  USER_INTERACTION: 'gebruiker_interactie',
+  NAVIGATION: 'navigatie', 
+  FEATURE_USAGE: 'functie_gebruik',
+  PERFORMANCE: 'prestatie',
+  ERROR: 'fout',
+  ENGAGEMENT: 'betrokkenheid'
 } as const;
 
 // Global Umami interface
@@ -74,46 +74,51 @@ export const track = async (eventName: string, eventData?: UmamiEventData) => {
 
 // Theme switching events
 export const trackThemeSwitch = async (theme: string, trigger: 'button' | 'command' | 'system' = 'button') => {
-  return track('theme_change', { 
+  return track('thema_wijziging_knop', { 
     category: EVENT_CATEGORIES.USER_INTERACTION,
-    theme,
-    trigger
+    pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+    thema_type: theme,
+    trigger_methode: trigger
   });
 };
 
 // Language switching events  
 export const trackLanguageSwitch = async (language: string, trigger: 'switcher' | 'browser' = 'switcher') => {
-  return track('language_change', { 
+  return track('taal_wijziging_switcher', { 
     category: EVENT_CATEGORIES.USER_INTERACTION,
-    language,
-    trigger
+    pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+    taal: language,
+    trigger_methode: trigger
   });
 };
 
 // Contact form interactions
 export const trackContactForm = async (action: 'start' | 'submit' | 'success' | 'error', step?: string) => {
-  return track('contact_form', { 
+  return track('formulier_contact_actie', { 
     category: EVENT_CATEGORIES.USER_INTERACTION,
-    action,
-    ...(step && { step })
+    pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+    actie_type: action,
+    ...(step && { formulier_stap: step })
   });
 };
 
 // Social media clicks
 export const trackSocialClick = async (platform: string, location: 'header' | 'footer' | 'about' = 'header') => {
-  return track('social_click', { 
+  return track('cta_klik_social_platform', { 
     category: EVENT_CATEGORIES.USER_INTERACTION,
-    platform,
-    location
+    pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+    platform: platform,
+    locatie_sectie: location
   });
 };
 
 // Download events
 export const trackDownload = async (file: string, type: string) => {
-  return track('file_download', { 
+  return track('cta_download_bestand', { 
     category: EVENT_CATEGORIES.USER_INTERACTION,
-    file: file.substring(0, 100), 
-    type 
+    pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+    bestand_naam: file.substring(0, 100), 
+    bestand_type: type 
   });
 };
 
@@ -123,19 +128,21 @@ export const trackDownload = async (file: string, type: string) => {
 
 // Terminal command events
 export const trackTerminalCommand = async (command: string, category?: string) => {
-  return track('terminal_command', { 
+  return track('terminal_commando_uitgevoerd', { 
     category: EVENT_CATEGORIES.FEATURE_USAGE,
-    command: command.substring(0, 30),
-    ...(category && { command_category: category })
+    pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+    commando_naam: command.substring(0, 30),
+    ...(category && { commando_categorie: category })
   });
 };
 
 // Terminal effect events
 export const trackTerminalEffect = async (effect: string, duration?: number) => {
-  return track('terminal_effect', {
+  return track('terminal_effect_gestart', {
     category: EVENT_CATEGORIES.FEATURE_USAGE,
-    effect,
-    ...(duration && { duration_ms: Math.round(duration) })
+    pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+    effect_type: effect,
+    ...(duration && { duur_milliseconden: Math.round(duration) })
   });
 };
 
@@ -145,11 +152,12 @@ export const trackProjectInteraction = async (
   project: string, 
   location: 'card' | 'timeline' | 'search' = 'card'
 ) => {
-  return track('project_interaction', { 
+  return track('project_kaart_interactie', { 
     category: EVENT_CATEGORIES.ENGAGEMENT,
-    action,
-    project: project.substring(0, 50),
-    location
+    pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+    actie_type: action,
+    project_naam: project.substring(0, 50),
+    locatie_sectie: location
   });
 };
 
@@ -159,20 +167,22 @@ export const trackProjectInteraction = async (
 
 // Section navigation
 export const trackSectionView = async (section: string, method: 'scroll' | 'click' | 'direct' = 'scroll') => {
-  return track('section_view', { 
+  return track('navigatie_sectie_bekeken', { 
     category: EVENT_CATEGORIES.NAVIGATION,
-    section,
-    method
+    pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+    sectie_naam: section,
+    navigatie_methode: method
   });
 };
 
 // Search events
 export const trackSearch = async (query: string, results: number, source: 'portfolio' | 'terminal' = 'portfolio') => {
-  return track('search_query', { 
+  return track('zoekfunctie_query_uitgevoerd', { 
     category: EVENT_CATEGORIES.FEATURE_USAGE,
-    query: query.substring(0, 50),
-    results,
-    source
+    pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+    zoekterm: query.substring(0, 50),
+    resultaten_aantal: results,
+    bron_sectie: source
   });
 };
 
@@ -186,29 +196,32 @@ export const trackWebVital = async (
   value: number,
   rating: 'good' | 'needs-improvement' | 'poor'
 ) => {
-  return track('web_vital', { 
+  return track('prestatie_web_vital_gemeten', { 
     category: EVENT_CATEGORIES.PERFORMANCE,
-    metric,
-    value: Number(value.toFixed(2)),
-    rating
+    pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+    metric_type: metric,
+    waarde: Number(value.toFixed(2)),
+    beoordeling: rating
   });
 };
 
 // Page load performance
 export const trackPageLoad = async (loadTime: number, pageType: string = 'home') => {
-  return track('page_load', {
+  return track('prestatie_pagina_geladen', {
     category: EVENT_CATEGORIES.PERFORMANCE,
-    load_time_ms: Math.round(loadTime),
-    page_type: pageType
+    pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+    laadtijd_milliseconden: Math.round(loadTime),
+    pagina_type: pageType
   });
 };
 
 // Resource loading performance
 export const trackResourceLoad = async (resource: string, loadTime: number) => {
-  return track('resource_load', {
+  return track('prestatie_resource_geladen', {
     category: EVENT_CATEGORIES.PERFORMANCE,
-    resource,
-    load_time_ms: Math.round(loadTime)
+    pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+    resource_type: resource,
+    laadtijd_milliseconden: Math.round(loadTime)
   });
 };
 
@@ -222,20 +235,22 @@ export const trackError = async (
   message: string,
   component?: string
 ) => {
-  return track('error_occurred', { 
+  return track('fout_javascript_opgetreden', { 
     category: EVENT_CATEGORIES.ERROR,
-    error_type: type,
-    message: message.substring(0, 100),
-    ...(component && { component })
+    pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+    fout_type: type,
+    fout_bericht: message.substring(0, 100),
+    ...(component && { component_naam: component })
   });
 };
 
 // Feature usage tracking
 export const trackFeatureUse = async (feature: string, context?: string) => {
-  return track('feature_usage', { 
+  return track('functie_gebruikt', { 
     category: EVENT_CATEGORIES.FEATURE_USAGE,
-    feature,
-    ...(context && { context })
+    pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+    functie_naam: feature,
+    ...(context && { context_info: context })
   });
 };
 
@@ -245,19 +260,20 @@ export const trackFeatureUse = async (feature: string, context?: string) => {
 
 // Time spent on sections
 export const trackTimeSpent = async (section: string, timeSeconds: number) => {
-  return track('time_spent', {
+  return track('tijd_doorgebracht_sectie', {
     category: EVENT_CATEGORIES.ENGAGEMENT,
-    section,
-    duration_seconds: Math.round(timeSeconds)
+    pagina: typeof window !== 'undefined' ? window.location.pathname : 'onbekend',
+    sectie_naam: section,
+    duur_seconden: Math.round(timeSeconds)
   });
 };
 
 // Scroll depth tracking
 export const trackScrollDepth = async (depth: 25 | 50 | 75 | 100, page: string = 'home') => {
-  return track('scroll_depth', {
+  return track('scroll_diepte_bereikt', {
     category: EVENT_CATEGORIES.ENGAGEMENT,
-    depth_percent: depth,
-    page
+    pagina: typeof window !== 'undefined' ? window.location.pathname : page,
+    diepte_percentage: depth
   });
 };
 
@@ -302,7 +318,10 @@ export const testUmami = async () => {
   if (typeof window === 'undefined') return false;
   
   try {
-    await track('test-event', { source: 'debug' });
+    await track('test_event_ontwikkeling', { 
+      pagina: window.location.pathname,
+      bron: 'debug_functie' 
+    });
     if (window.umamiEnv === 'development') {
       console.log('✅ Umami test successful');
     }
