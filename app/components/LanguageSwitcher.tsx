@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from 'next-themes';
 import { trackLanguageSwitch } from '../lib/analytics';
 
 /**
@@ -22,6 +23,7 @@ type Language = 'en' | 'nl';
  */
 export default function LanguageSwitcher(): React.JSX.Element | null {
   const { i18n } = useTranslation();
+  const { theme, systemTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   // Handle hydration
@@ -44,6 +46,7 @@ export default function LanguageSwitcher(): React.JSX.Element | null {
 
   // Memoized values for performance
   const isDutch = useMemo(() => i18n.language === 'nl', [i18n.language]);
+  const currentTheme = useMemo(() => theme === 'system' ? systemTheme : theme, [theme, systemTheme]);
   const ariaLabel = useMemo(
     () => isDutch ? 'Switch to English' : 'Wissel naar Nederlands',
     [isDutch]
@@ -61,7 +64,8 @@ export default function LanguageSwitcher(): React.JSX.Element | null {
       data-umami-event-language={isDutch ? 'en' : 'nl'}
       onClick={handleLanguageChange}
       aria-label={ariaLabel}
-      className="fixed top-4 right-20 w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 font-bold text-lg tracking-wide transition-all duration-200 text-gray-800 dark:text-gray-200 font-[family-name:var(--font-geist-sans)] hover:bg-gray-300 dark:hover:bg-gray-700"
+      className="fixed top-4 right-20 w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 font-bold text-lg tracking-wide transition-all duration-200 font-[family-name:var(--font-geist-sans)] hover:bg-gray-200 dark:hover:bg-gray-700 shadow-md"
+      style={{ color: currentTheme === 'dark' ? '#111827' : '#374151' }}
       type="button"
     >
       <span className="sr-only">{ariaLabel}</span>

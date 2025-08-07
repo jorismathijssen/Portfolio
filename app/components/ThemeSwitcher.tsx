@@ -52,7 +52,7 @@ export default function ThemeSwitcher(): React.JSX.Element | null {
       data-umami-event="theme-switch"
       data-umami-event-theme={currentTheme === 'dark' ? 'light' : 'dark'}
       onClick={handleThemeToggle}
-      className="fixed top-4 right-4 w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 hover:bg-gray-300 dark:hover:bg-gray-700 hover:scale-105"
+      className="fixed top-4 right-4 w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200 hover:bg-gray-200 dark:hover:bg-gray-700 hover:scale-105 shadow-md"
       aria-label={ariaLabel}
       type="button"
     >
@@ -63,7 +63,8 @@ export default function ThemeSwitcher(): React.JSX.Element | null {
           fill="none" 
           viewBox="0 0 24 24" 
           stroke="currentColor" 
-          className="w-6 h-6 text-gray-800 dark:text-gray-200 transition-transform duration-200" 
+          className="w-6 h-6 transition-transform duration-200" 
+          style={{ color: isDarkMode ? '#111827' : '#374151' }}
           aria-hidden="true"
         >
           <path 
@@ -79,7 +80,8 @@ export default function ThemeSwitcher(): React.JSX.Element | null {
           fill="none" 
           viewBox="0 0 24 24" 
           stroke="currentColor" 
-          className="w-6 h-6 text-gray-800 dark:text-gray-200 transition-transform duration-200" 
+          className="w-6 h-6 transition-transform duration-200" 
+          style={{ color: isDarkMode ? '#111827' : '#374151' }}
           aria-hidden="true"
         >
           <path 
