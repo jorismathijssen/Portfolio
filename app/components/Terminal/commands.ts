@@ -457,8 +457,12 @@ export const CommandUtils = {
     const normalizedCommand = command.toLowerCase().trim();
     
     if (CommandUtils.isValidCommand(normalizedCommand)) {
-      // Track terminal command usage
-      trackTerminalCommand(normalizedCommand);
+      // Get command metadata for category tracking
+      const commandKey = normalizedCommand as TerminalCommand;
+      const metadata = COMMAND_METADATA[commandKey];
+      
+      // Track terminal command usage with category
+      trackTerminalCommand(normalizedCommand, metadata?.category);
       return COMMANDS[normalizedCommand];
     }
     

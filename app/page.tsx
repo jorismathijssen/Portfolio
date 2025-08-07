@@ -17,6 +17,7 @@ import { useTranslation, Trans } from "react-i18next";
 import { clsx } from 'clsx';
 import Terminal from "./components/Terminal";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { TRACKING_CONFIGS } from './lib/tracking-utils';
 
 /**
  * Social media link configuration
@@ -152,6 +153,7 @@ export default function Home({ className }: HomePageProps = {}): React.JSX.Eleme
         target="_blank"
         rel="noopener noreferrer"
         aria-label={link.ariaLabel}
+        {...TRACKING_CONFIGS.social(link.name.toLowerCase(), 'header')}
         className={clsx(
           'social-link',
           'text-2xl text-gray-600 dark:text-gray-400',

@@ -1,12 +1,15 @@
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
-import type { Project, BaseComponentProps } from '../types';
-import { trackProjectClick } from '../lib/analytics';
+import type { Project } from '../types';
+import { trackProjectInteraction } from '../lib/analytics';
+import { TRACKING_CONFIGS } from '@/app/lib/tracking-utils';
 
-interface ProjectCardProps extends Project, BaseComponentProps {
+export interface ProjectCardProps extends Project {
   onClick?: (project: Project) => void;
   elevated?: boolean;
   size?: 'sm' | 'md' | 'lg';
+  className?: string;
+  'data-testid'?: string;
 }
 
 /**
@@ -57,8 +60,8 @@ export default function ProjectCard({
     if (!onClick) return undefined;
     
     return () => {
-      // Track project click
-      trackProjectClick(title);
+      // Track project interaction with improved categorization
+      trackProjectInteraction('view', title, 'card');
       
       onClick({
         id,
@@ -115,9 +118,7 @@ export default function ProjectCard({
           href={link} 
           target="_blank" 
           rel="noopener noreferrer" 
-          data-umami-event="project-click"
-          data-umami-event-project={title}
-          data-umami-event-source="card-link"
+          {...TRACKING_CONFIGS.project('click', title, 'card')}
           className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors duration-150 font-medium"
           aria-label={linkAriaLabel}
         >

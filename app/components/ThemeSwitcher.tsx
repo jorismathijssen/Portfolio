@@ -21,8 +21,8 @@ export default function ThemeSwitcher(): React.JSX.Element | null {
     const currentTheme = (theme === 'system' ? systemTheme : theme) as ThemeOption;
     const newTheme: ThemeOption = currentTheme === 'dark' ? 'light' : 'dark';
     
-    // Track theme switch event with clean naming
-    trackThemeSwitch(newTheme);
+    // Track theme switch event with improved categorization
+    trackThemeSwitch(newTheme, 'button');
     
     setTheme(newTheme);
   }, [theme, systemTheme, setTheme]);

@@ -32,14 +32,8 @@ export default function UmamiAnalytics() {
 
   const handleScriptLoad = () => {
     // Verify Umami loaded correctly
-    if (typeof window !== 'undefined' && window.umami?.track) {
-      // Send a simple pageview - let Umami handle the default properties
-      // Only add minimal environment context as event data
-      window.umami.track('pageview', {
-        environment: window.umamiEnv || 'production'
-      });
-
-      // Development feedback
+    if (typeof window !== 'undefined' && window.umami) {
+      // Development feedback - don't track unnecessary pageview events
       if (window.umamiEnv === 'development') {
         console.log('🚀 Umami Analytics v2.x initialized');
         console.log('📊 Environment:', window.umamiEnv);
