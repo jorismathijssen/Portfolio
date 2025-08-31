@@ -1,14 +1,23 @@
 import { NextResponse } from 'next/server';
 
+interface HealthCheckResponse {
+  status: 'healthy' | 'unhealthy';
+  timestamp: string;
+  uptime?: number;
+  environment?: string;
+  version?: string;
+  error?: string;
+}
+
 export async function GET() {
   try {
     // Basic health check - can be extended with database checks, etc.
-    const healthCheck = {
+    const healthCheck: HealthCheckResponse = {
       status: 'healthy',
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
       environment: process.env.NODE_ENV,
-      version: process.env.npm_package_version || '0.1.0',
+      version: process.env.npm_package_version || '2.0.0',
     };
 
     return NextResponse.json(healthCheck, { 
@@ -20,7 +29,7 @@ export async function GET() {
       }
     });
   } catch (error) {
-    const errorResponse = {
+    const errorResponse: HealthCheckResponse = {
       status: 'unhealthy',
       timestamp: new Date().toISOString(),
       error: error instanceof Error ? error.message : 'Unknown error',

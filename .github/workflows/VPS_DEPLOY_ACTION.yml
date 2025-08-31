@@ -64,6 +64,14 @@ jobs:
             mkdir current
             tar -xzf portfolio-${{ github.run_number }}.tar.gz -C current
 
+            # Verify bundle integrity on VPS side
+            echo "🔍 Verifying deployment bundle integrity on VPS"
+            if ! sha256sum -c "portfolio-${{ github.run_number }}.tar.gz.sha256"; then
+              echo "❌ Bundle integrity verification failed"
+              exit 1
+            fi
+            echo "✅ Bundle integrity verified"
+
             # Update symlink
             rm -rf ~/Portfolio
             ln -sfn ~/deploy/current ~/Portfolio
@@ -83,6 +91,7 @@ jobs:
 
             # Cleanup
             docker image prune -f
-            find ~/deploy -name "portfolio-*.tar.gz" -type f | head -n -3 | xargs rm -f
+            find ~/deploy -name "portfolio-*.tar.gz" -type f | head -n -3 | xargs -r rm -f
+            find ~/deploy -name "portfolio-*.tar.gz.sha256" -type f | head -n -3 | xargs -r rm -f
 
             echo "✅ Deployment complete!"
