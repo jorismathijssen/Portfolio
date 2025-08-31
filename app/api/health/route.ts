@@ -11,7 +11,14 @@ export async function GET() {
       version: process.env.npm_package_version || '0.1.0',
     };
 
-    return NextResponse.json(healthCheck, { status: 200 });
+    return NextResponse.json(healthCheck, { 
+      status: 200,
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
   } catch (error) {
     const errorResponse = {
       status: 'unhealthy',
@@ -19,6 +26,13 @@ export async function GET() {
       error: error instanceof Error ? error.message : 'Unknown error',
     };
 
-    return NextResponse.json(errorResponse, { status: 500 });
+    return NextResponse.json(errorResponse, { 
+      status: 500,
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
   }
 }
