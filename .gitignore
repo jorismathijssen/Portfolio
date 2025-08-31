@@ -27,8 +27,9 @@ Thumbs.db
 *.seed
 *.pid.lock
 
-# VSCode
+# IDE
 .vscode/
+.claude/
 
 # Misc
 coverage/
