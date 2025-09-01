@@ -28,7 +28,7 @@ This is a personal portfolio website for Joris Mathijssen, a C# Software Develop
 - **Framework**: Next.js 15 with App Router
 - **Language**: TypeScript with strict mode
 - **Styling**: Tailwind CSS with dark mode support
-- **Internationalization**: i18next with Dutch (nl) as fallback
+- **Internationalization**: i18next with Dutch (nl) as default, English (en) as fallback
 - **Animations**: Framer Motion
 - **State**: React context for themes and i18n
 - **Deployment**: Standalone output configured for containerization
@@ -66,7 +66,8 @@ This is a personal portfolio website for Joris Mathijssen, a C# Software Develop
 - Mobile-first responsive design
 
 ### Internationalization
-- Dutch as primary language (fallback: 'nl')
+- Dutch as primary/default language (main language: 'nl')
+- English as fallback language (fallback: 'en')
 - Translation keys organized in JSON files
 - Browser language detection enabled
 - React Suspense disabled for SSR compatibility

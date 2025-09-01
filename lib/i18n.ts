@@ -148,7 +148,7 @@ const PROD_CONFIG = {
  */
 const BASE_CONFIG = {
   lng: DEFAULT_LANGUAGE,
-  fallbackLng: DEFAULT_LANGUAGE,
+  fallbackLng: 'en', // English as fallback language
   supportedLngs: SUPPORTED_LANGUAGES,
   nonExplicitSupportedLngs: true,
   
@@ -238,7 +238,7 @@ async function initializeI18n(): Promise<typeof i18n> {
       .use(initReactI18next)
       .init({
         lng: DEFAULT_LANGUAGE,
-        fallbackLng: DEFAULT_LANGUAGE,
+        fallbackLng: 'en', // English as fallback language
         resources: STATIC_RESOURCES,
         interpolation: { escapeValue: false },
         react: { useSuspense: false },

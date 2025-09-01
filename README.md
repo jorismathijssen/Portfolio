@@ -10,7 +10,7 @@ Visit the live portfolio at: [https://jorismathijssen.nl](https://jorismathijsse
 
 ## Overview
 
-This portfolio represents a comprehensive showcase for Joris Mathijssen, a Senior .NET Developer at 9292. The application demonstrates modern web development practices, accessibility standards, and interactive user experiences while maintaining professional presentation standards.
+This portfolio represents a comprehensive showcase for Joris Mathijssen, a C# Software Developer at 9292. The application demonstrates modern web development practices with a unique terminal-themed interface, internationalization support, and interactive user experiences while maintaining professional presentation standards.
 
 ## Key Features
 
@@ -44,13 +44,11 @@ This portfolio represents a comprehensive showcase for Joris Mathijssen, a Senio
 
 ## Technical Architecture
 
-## Technical Architecture
-
 ### Core Framework
 - **Next.js 15** - React framework with App Router architecture for server-side rendering and static generation
 - **React 19** - Latest React version with concurrent features and improved performance
-- **TypeScript** - Complete type safety across the entire application codebase
-- **Tailwind CSS** - Utility-first CSS framework for consistent, responsive styling
+- **TypeScript 5** - Complete type safety across the entire application codebase with strict mode
+- **Tailwind CSS 4** - Utility-first CSS framework for consistent, responsive styling
 
 ### Animation & Interaction
 - **Framer Motion 12** - Advanced animation library for smooth transitions and interactive elements
@@ -60,10 +58,13 @@ This portfolio represents a comprehensive showcase for Joris Mathijssen, a Senio
 ### Internationalization Framework
 - **i18next** - Comprehensive internationalization framework with namespace support
 - **react-i18next** - React bindings with hooks and components for seamless integration
-- **Browser Language Detection** - Automatic locale detection with fallback mechanisms
+- **i18next-browser-languagedetector** - Automatic browser language detection
+- **i18next-http-backend** - Dynamic translation loading
 
 ### Development Tooling
+- **TypeScript** - Full type safety with strict mode enabled
 - **ESLint** - Code quality enforcement with Next.js configuration
+- **Jest** - Testing framework with coverage reporting
 - **Husky** - Git hooks for pre-commit code quality checks
 - **lint-staged** - Staged file linting for optimized CI/CD performance
 - **Bundle Analyzer** - Webpack bundle analysis for performance optimization
@@ -108,9 +109,12 @@ This portfolio represents a comprehensive showcase for Joris Mathijssen, a Senio
 |---------|-------------|
 | `npm run dev` | Start development server with hot reload |
 | `npm run build` | Create production build |
-| `npm run start` | Start production server |
+| `npm run start` | Start production server from standalone build |
 | `npm run lint` | Run ESLint code quality checks |
 | `npm run analyze` | Generate bundle size analysis |
+| `npm test` | Run Jest test suite |
+| `npm run test:watch` | Run tests in watch mode |
+| `npm run test:coverage` | Generate test coverage report |
 | `npm run build:prod` | Build with standalone output for Docker |
 | `npm run start:prod` | Start standalone production server |
 ## Docker Deployment
@@ -192,8 +196,8 @@ The portfolio features a fully functional terminal interface with the following 
 ## Internationalization System
 
 ### Supported Languages
-- **Dutch (nl)** - Primary language for local market
-- **English (en)** - International audience support
+- **Dutch (nl)** - Primary/default language
+- **English (en)** - Fallback language for international audience
 
 ### Translation Management
 ```
@@ -210,6 +214,7 @@ public/locales/
 - **Namespace Support** - Organized translations by feature/component
 - **Dynamic Loading** - Translations loaded on demand for performance
 - **Fallback System** - English fallback for missing translations
+- **SSR Compatibility** - React Suspense disabled for server-side rendering
 
 ### Adding New Languages
 1. Create new locale directory in `public/locales/`
