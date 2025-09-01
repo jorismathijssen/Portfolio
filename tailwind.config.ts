@@ -213,6 +213,7 @@ const config: Config = {
     
     extend: {
       colors: {
+        // Custom brand colors
         ...colors,
         
         // CSS variables for theming
@@ -247,13 +248,21 @@ const config: Config = {
         },
       },
       
-      // Typography
-      ...typography,
+      // Typography - only extend with custom sizes
+      fontSize: {
+        // Custom sizes from typography object (7xl, 8xl, 9xl)
+        '7xl': ['4.5rem', { lineHeight: '1' }] as [string, { lineHeight: string }],
+        '8xl': ['6rem', { lineHeight: '1' }] as [string, { lineHeight: string }],
+        '9xl': ['8rem', { lineHeight: '1' }] as [string, { lineHeight: string }],
+      },
+      fontFamily: {
+        ...typography.fontFamily,
+      },
       
       // Animations
       ...animations,
       
-      // Spacing scale
+      // Extended spacing scale (only custom values)
       spacing: {
         '18': '4.5rem',
         '88': '22rem',
