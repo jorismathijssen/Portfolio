@@ -66,7 +66,7 @@ export default function LanguageSwitcher(): React.JSX.Element | null {
       data-umami-event-trigger-methode="switcher"
       onClick={handleLanguageChange}
       aria-label={ariaLabel}
-      className="fixed top-4 right-20 w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 font-bold text-lg tracking-wide transition-all duration-200 font-[family-name:var(--font-geist-sans)] hover:bg-gray-200 dark:hover:bg-gray-700 shadow-md"
+      className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 font-bold text-lg tracking-wide transition-all duration-200 font-[family-name:var(--font-geist-sans)] hover:bg-gray-200 dark:hover:bg-gray-700 shadow-md"
       style={{ color: currentTheme === 'dark' ? '#111827' : '#374151' }}
       type="button"
     >

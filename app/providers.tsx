@@ -13,7 +13,6 @@
 
 import React, { Suspense, type ErrorInfo } from 'react';
 import { clsx } from 'clsx';
-import ThemeSwitcher from './components/ThemeSwitcher';
 import ErrorBoundary from './components/ErrorBoundary';
 
 /**
@@ -79,9 +78,6 @@ function ProviderContent({
 }): React.JSX.Element {
   return (
     <>
-      {/* Theme Management */}
-      {config.enableTheme && <ThemeSwitcher />}
-      
       {/* Analytics Integration */}
       {config.enableAnalytics && (
         <div 
