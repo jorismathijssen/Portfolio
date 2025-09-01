@@ -108,6 +108,7 @@ const nextConfig = {
   output: 'standalone',
   distDir: '.next',
   generateEtags: true,
+  outputFileTracingRoot: process.cwd(),
   
   // Performance optimizations
   compress: true,
