@@ -60,6 +60,8 @@ const SECURITY_HEADERS = [
       'magnetometer=()',
       'gyroscope=()',
       'accelerometer=()',
+      'browsing-topics=()',
+      'interest-cohort=()',
     ].join(', '),
   },
   {
@@ -277,6 +279,43 @@ const nextConfig = {
       ],
     });
 
+    // Analytics proxy CORS headers
+    headers.push({
+      source: '/script.js',
+      headers: [
+        {
+          key: 'Access-Control-Allow-Origin',
+          value: 'https://jorismathijssen.nl',
+        },
+        {
+          key: 'Access-Control-Allow-Methods',
+          value: 'GET, POST, OPTIONS',
+        },
+        {
+          key: 'Access-Control-Allow-Headers',
+          value: 'Content-Type, Authorization',
+        },
+      ],
+    });
+
+    headers.push({
+      source: '/api/(send|stats)/:path*',
+      headers: [
+        {
+          key: 'Access-Control-Allow-Origin',
+          value: 'https://jorismathijssen.nl',
+        },
+        {
+          key: 'Access-Control-Allow-Methods',
+          value: 'GET, POST, OPTIONS',
+        },
+        {
+          key: 'Access-Control-Allow-Headers',
+          value: 'Content-Type, Authorization',
+        },
+      ],
+    });
+
     return headers;
   },
 
@@ -301,9 +340,18 @@ const nextConfig = {
   async rewrites() {
     return [
       // Umami Analytics - Ad blocker bypass rewrites
-      // Proxy the main tracker script
+      // Proxy the main tracker script (primary)
+      {
+        source: '/script.js',
+        destination: 'https://analytics.jorismathijssen.nl/script.js',
+      },
+      // Proxy alternative script names (ad blocker bypass)
       {
         source: '/stats.js',
+        destination: 'https://analytics.jorismathijssen.nl/script.js',
+      },
+      {
+        source: '/t.js',
         destination: 'https://analytics.jorismathijssen.nl/script.js',
       },
       // Proxy the stats collection endpoint
@@ -311,10 +359,10 @@ const nextConfig = {
         source: '/api/stats/:path*',
         destination: 'https://analytics.jorismathijssen.nl/api/:path*',
       },
-      // Alternative tracker script name (common bypass technique)
+      // Proxy send endpoint (used by Umami)
       {
-        source: '/t.js',
-        destination: 'https://analytics.jorismathijssen.nl/script.js',
+        source: '/api/send',
+        destination: 'https://analytics.jorismathijssen.nl/api/send',
       },
       
       // API rewrites
