@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import { fontFamily } from "tailwindcss/defaultTheme";
+import defaultTheme from "tailwindcss/defaultTheme";
 import plugin from "tailwindcss/plugin";
 
 const colors = {
@@ -76,9 +76,9 @@ const colors = {
 
 const typography = {
   fontFamily: {
-    sans: ['var(--font-geist-sans)', ...fontFamily.sans] as string[],
-    mono: ['var(--font-geist-mono)', ...fontFamily.mono] as string[],
-    heading: ['var(--font-geist-sans)', ...fontFamily.sans] as string[],
+    sans: ['var(--font-geist-sans)', ...defaultTheme.fontFamily.sans] as string[],
+    mono: ['var(--font-geist-mono)', ...defaultTheme.fontFamily.mono] as string[],
+    heading: ['var(--font-geist-sans)', ...defaultTheme.fontFamily.sans] as string[],
   },
   
   fontSize: {
@@ -397,10 +397,6 @@ const config: Config = {
   
   future: {
     hoverOnlyWhenSupported: true,
-  },
-  
-  experimental: {
-    optimizeUniversalDefaults: true,
   },
 };
 
