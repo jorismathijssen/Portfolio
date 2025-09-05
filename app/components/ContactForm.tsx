@@ -153,7 +153,7 @@ export default function ContactForm({
       'bg-white dark:bg-gray-800',
       'text-gray-900 dark:text-gray-100',
       'placeholder-gray-500 dark:placeholder-gray-400',
-      'focus:outline-none focus:ring-2 focus:ring-offset-2',
+      'focus:outline-hidden focus:ring-2 focus:ring-offset-2',
       'disabled:opacity-50 disabled:cursor-not-allowed',
       {
         // Default state
@@ -197,7 +197,7 @@ export default function ContactForm({
   const submitButtonClasses = clsx(
     'contact-form__submit',
     'w-full py-2 px-4 rounded-md font-medium transition-all duration-200',
-    'focus:outline-none focus:ring-2 focus:ring-offset-2',
+    'focus:outline-hidden focus:ring-2 focus:ring-offset-2',
     'disabled:opacity-50 disabled:cursor-not-allowed',
     {
       'bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500': 

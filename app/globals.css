@@ -1,1490 +1,585 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@custom-variant dark (&:is([data-theme="dark"] *));
+
+@theme {
+  /* Color System */
+  --color-brand-50: #f0f9ff;
+  --color-brand-100: #e0f2fe;
+  --color-brand-200: #bae6fd;
+  --color-brand-300: #7dd3fc;
+  --color-brand-400: #38bdf8;
+  --color-brand-500: #0ea5e9;
+  --color-brand-600: #0284c7;
+  --color-brand-700: #0369a1;
+  --color-brand-800: #075985;
+  --color-brand-900: #0c4a6e;
+  --color-brand-950: #082f49;
+
+  --color-success-50: #f0fdf4;
+  --color-success-100: #dcfce7;
+  --color-success-200: #bbf7d0;
+  --color-success-300: #86efac;
+  --color-success-400: #4ade80;
+  --color-success-500: #22c55e;
+  --color-success-600: #16a34a;
+  --color-success-700: #15803d;
+  --color-success-800: #166534;
+  --color-success-900: #14532d;
+  --color-success-950: #052e16;
+
+  --color-warning-50: #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-200: #fde68a;
+  --color-warning-300: #fcd34d;
+  --color-warning-400: #fbbf24;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+  --color-warning-700: #b45309;
+  --color-warning-800: #92400e;
+  --color-warning-900: #78350f;
+  --color-warning-950: #451a03;
+
+  --color-error-50: #fef2f2;
+  --color-error-100: #fee2e2;
+  --color-error-200: #fecaca;
+  --color-error-300: #fca5a5;
+  --color-error-400: #f87171;
+  --color-error-500: #ef4444;
+  --color-error-600: #dc2626;
+  --color-error-700: #b91c1c;
+  --color-error-800: #991b1b;
+  --color-error-900: #7f1d1d;
+  --color-error-950: #450a0a;
+
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-300: #d4d4d4;
+  --color-neutral-400: #a3a3a3;
+  --color-neutral-500: #737373;
+  --color-neutral-600: #525252;
+  --color-neutral-700: #404040;
+  --color-neutral-800: #262626;
+  --color-neutral-900: #171717;
+  --color-neutral-950: #0a0a0a;
+
+  /* Typography System */
+  --font-sans: 'var(--font-geist-sans)', ui-sans-serif, system-ui, sans-serif;
+  --font-mono:
+    'var(--font-geist-mono)', ui-monospace, 'SF Mono', 'Consolas', monospace;
+  --font-heading:
+    'var(--font-geist-sans)', ui-sans-serif, system-ui, sans-serif;
+
+  /* Responsive Breakpoints */
+  --breakpoint-xs: 475px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  --breakpoint-3xl: 1920px;
+
+  /* Animation System */
+  --animate-terminal-cursor: terminal-cursor 1s infinite;
+  --animate-terminal-typing: terminal-typing 2s ease-in-out;
+  --animate-matrix-rain: matrix-rain 2s linear infinite;
+  --animate-fade-in: fade-in 0.5s ease-out;
+  --animate-slide-up: slide-up 0.6s ease-out;
+  --animate-slide-down: slide-down 0.6s ease-out;
+  --animate-scale-in: scale-in 0.4s ease-out;
+  --animate-shake: shake 0.5s ease-in-out;
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-bounce-gentle: bounce-gentle 2s infinite;
+  --animate-spinner: spinner 1s linear infinite;
+  --animate-skeleton: skeleton 1.5s ease-in-out infinite alternate;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+  --animate-float: float 3s ease-in-out infinite;
+
+  /* Spacing Extensions */
+  --spacing-18: 4.5rem;
+  --spacing-88: 22rem;
+  --spacing-128: 32rem;
+  --spacing-144: 36rem;
+
+  /* Box Shadow Extensions */
+  --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
+  --shadow-glow-strong: 0 0 40px rgba(59, 130, 246, 0.5);
+  --shadow-terminal:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-card:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-card-hover:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+  /* Z-Index Scale */
+  --z-60: 60;
+  --z-70: 70;
+  --z-80: 80;
+  --z-90: 90;
+  --z-100: 100;
+
+  /* Grid Template Columns */
+  --cols-16: repeat(16, minmax(0, 1fr));
+  --cols-auto-fit: repeat(auto-fit, minmax(250px, 1fr));
+  --cols-auto-fill: repeat(auto-fill, minmax(200px, 1fr));
+
+  /* Aspect Ratios */
+  --aspect-4-3: 4 / 3;
+  --aspect-3-2: 3 / 2;
+  --aspect-2-3: 2 / 3;
+  --aspect-9-16: 9 / 16;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
 @layer base {
-  :root {
-    /* Base colors */
-    --background: 0 0% 100%;
-    --foreground: 0 0% 9%;
-    
-    /* Brand colors */
-    --primary: 210 98% 51%;
-    --primary-hover: 210 98% 41%;
-    --primary-foreground: 0 0% 100%;
-    
-    /* Secondary colors */
-    --secondary: 210 40% 96%;
-    --secondary-hover: 210 40% 86%;
-    --secondary-foreground: 0 0% 9%;
-    
-    /* Accent colors */
-    --accent: 142 71% 45%;
-    --accent-hover: 142 71% 35%;
-    --accent-foreground: 0 0% 100%;
-    
-    /* Neutral colors */
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
-    
-    /* Border and input colors */
-    --border: 214 32% 91%;
-    --border-hover: 214 32% 81%;
-    --input: 214 32% 91%;
-    --input-border: 214 32% 71%;
-    
-    /* Focus and interaction colors */
-    --ring: 210 98% 51%;
-    --ring-offset: 0 0% 100%;
-    
-    /* Status colors */
-    --success: 142 71% 45%;
-    --warning: 38 92% 50%;
-    --error: 0 84% 60%;
-    --info: 210 98% 51%;
-    
-    /* Terminal colors */
-    --terminal-bg: 0 0% 7%;
-    --terminal-fg: 120 100% 55%;
-    --terminal-border: 120 100% 55% / 0.2;
-    --terminal-header: 0 0% 13%;
-    --terminal-input: 0 0% 13%;
-    --terminal-prompt: 120 100% 75%;
-    --terminal-output: 120 60% 70%;             /* Slightly muted output text */
-    
-    /* 
-     * Typography System
-     * Font stacks optimized for performance and readability
-     * Size scale based on modular scale with 1.25 ratio
-     */
-    --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-    --font-mono: ui-monospace, 'SF Mono', 'Fira Code', 'JetBrains Mono', Consolas, monospace;
-    --font-serif: ui-serif, Georgia, 'Times New Roman', serif;
-    
-    /* Font size scale - Modular scale with 1.25 ratio */
-    --font-size-xs: 0.75rem;                   /* 12px */
-    --font-size-sm: 0.875rem;                  /* 14px */
-    --font-size-base: 1rem;                    /* 16px - Base font size */
-    --font-size-lg: 1.125rem;                  /* 18px */
-    --font-size-xl: 1.25rem;                   /* 20px */
-    --font-size-2xl: 1.5rem;                   /* 24px */
-    --font-size-3xl: 1.875rem;                 /* 30px */
-    --font-size-4xl: 2.25rem;                  /* 36px */
-    --font-size-5xl: 3rem;                     /* 48px */
-    --font-size-6xl: 3.75rem;                  /* 60px */
-    
-    /* Line height scale - Optimized for readability */
-    --line-height-none: 1;
-    --line-height-tight: 1.25;
-    --line-height-snug: 1.375;
-    --line-height-normal: 1.5;
-    --line-height-relaxed: 1.625;
-    --line-height-loose: 2;
-    
-    /* Letter spacing scale */
-    --letter-spacing-tighter: -0.05em;
-    --letter-spacing-tight: -0.025em;
-    --letter-spacing-normal: 0em;
-    --letter-spacing-wide: 0.025em;
-    --letter-spacing-wider: 0.05em;
-    --letter-spacing-widest: 0.1em;
-    
-    /* Spacing system - 4px base unit */
-    --space-px: 1px;
-    --space-0: 0;
-    --space-0-5: 0.125rem;
-    --space-1: 0.25rem;
-    --space-1-5: 0.375rem;
-    --space-2: 0.5rem;
-    --space-2-5: 0.625rem;
-    --space-3: 0.75rem;
-    --space-3-5: 0.875rem;
-    --space-4: 1rem;
-    --space-5: 1.25rem;
-    --space-6: 1.5rem;
-    --space-7: 1.75rem;
-    --space-8: 2rem;
-    --space-9: 2.25rem;
-    --space-10: 2.5rem;
-    --space-11: 2.75rem;
-    --space-12: 3rem;
-    --space-14: 3.5rem;
-    --space-16: 4rem;
-    --space-20: 5rem;
-    --space-24: 6rem;
-    --space-28: 7rem;
-    --space-32: 8rem;
-    
-    /* Border radius system */
-    --radius-none: 0;
-    --radius-sm: 0.125rem;
-    --radius: 0.25rem;
-    --radius-md: 0.375rem;
-    --radius-lg: 0.5rem;
-    --radius-xl: 0.75rem;
-    --radius-2xl: 1rem;
-    --radius-3xl: 1.5rem;
-    --radius-full: 9999px;
-    
-    /* Shadow system */
-    --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-    --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
-    --shadow-none: 0 0 #0000;
-    
-    /* Z-index scale */
-    --z-auto: auto;
-    --z-0: 0;
-    --z-10: 10;
-    --z-20: 20;
-    --z-30: 30;
-    --z-40: 40;
-    --z-50: 50;
-    --z-dropdown: 1000;
-    --z-sticky: 1010;
-    --z-fixed: 1020;
-    --z-modal-backdrop: 1030;
-    --z-modal: 1040;
-    --z-popover: 1050;
-    --z-tooltip: 1060;
-    --z-toast: 1070;
-    
-    /* Animation timing */
-    --duration-75: 75ms;
-    --duration-100: 100ms;
-    --duration-150: 150ms;
-    --duration-200: 200ms;
-    --duration-300: 300ms;
-    --duration-500: 500ms;
-    --duration-700: 700ms;
-    --duration-1000: 1000ms;
-    
-    /* Easing functions */
-    --ease-linear: linear;
-    --ease-in: cubic-bezier(0.4, 0, 1, 1);
-    --ease-out: cubic-bezier(0, 0, 0.2, 1);
-    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-    --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  }
-
-  /* Dark mode theme */
-  .dark {
-    --background: 0 0% 4%;
-    --foreground: 210 40% 98%;
-    --primary: 210 98% 61%;
-    --primary-hover: 210 98% 71%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 217 33% 17%;
-    --secondary-hover: 217 33% 27%;
-    --secondary-foreground: 210 40% 98%;
-    --accent: 142 71% 55%;
-    --accent-hover: 142 71% 65%;
-    --accent-foreground: 0 0% 9%;
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
-    --border: 217 33% 17%;
-    --border-hover: 217 33% 27%;
-    --input: 217 33% 17%;
-    --input-border: 217 33% 27%;
-    --ring: 210 98% 61%;
-    --ring-offset: 0 0% 4%;
-    --success: 142 71% 55%;
-    --warning: 38 92% 60%;
-    --error: 0 84% 70%;
-    --info: 210 98% 61%;
-    --terminal-bg: 0 0% 7%;
-    --terminal-fg: 120 100% 55%;
-    --terminal-border: 120 100% 55% / 0.2;
-    --terminal-header: 0 0% 13%;
-    --terminal-input: 0 0% 13%;
-    --terminal-prompt: 120 100% 75%;
-    --terminal-output: 120 60% 70%;
-    
-    /* Ensure all text elements use proper dark mode colors */
-    color-scheme: dark;
-  }
-
-  /* Enhanced dark mode text enforcement - only for main content */
-  .dark body {
-    color: hsl(var(--foreground)) !important;
-  }
-
-  .dark h1, 
-  .dark h2, 
-  .dark h3, 
-  .dark h4, 
-  .dark h5, 
-  .dark h6 {
-    color: hsl(var(--foreground)) !important;
-  }
-
-  .dark p {
-    color: hsl(var(--foreground)) !important;
-  }
-
-  .dark div {
-    color: inherit;
-  }
-
-  /* Fix specific content areas that need proper dark mode colors */
-  .dark .about__intro,
-  .dark .about__experience,
-  .dark .about__certification {
-    color: hsl(var(--foreground)) !important;
-  }
-
-  /* Fix skills list specifically */
-  .dark .skills-list {
-    color: hsl(215 20% 85%) !important;
-  }
-
-  /* Base element styles */
-  html {
-    font-family: var(--font-sans);
-    font-size: var(--font-size-base);
-    line-height: var(--line-height-normal);
-    color-scheme: light dark;
-    -webkit-text-size-adjust: 100%;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-    scroll-behavior: smooth;
-  }
-
-  /* Respect user motion preferences */
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-    
-    *,
-    ::before,
-    ::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
-
-  body {
-    color: hsl(var(--foreground));
-    background: hsl(var(--background));
-    font-family: var(--font-sans);
-    font-size: var(--font-size-base);
-    line-height: var(--line-height-relaxed);
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  /* Typography */
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
-    line-height: var(--line-height-tight);
-    letter-spacing: var(--letter-spacing-tight);
-    margin-top: 0;
-    margin-bottom: var(--space-4);
-    color: hsl(var(--foreground));
-    text-wrap: balance;
-  }
-
-  h1 { 
-    font-size: var(--font-size-4xl); 
-    margin-bottom: var(--space-6);
-    font-weight: 700;
-  }
-  
-  h2 { 
-    font-size: var(--font-size-3xl); 
-    margin-bottom: var(--space-5);
-  }
-  
-  h3 { 
-    font-size: var(--font-size-2xl); 
-    margin-bottom: var(--space-4);
-  }
-  
-  h4 { 
-    font-size: var(--font-size-xl); 
-    margin-bottom: var(--space-3);
-  }
-  
-  h5 { 
-    font-size: var(--font-size-lg); 
-    margin-bottom: var(--space-3);
-  }
-  
-  h6 { 
-    font-size: var(--font-size-base); 
-    margin-bottom: var(--space-2);
-    font-weight: 500;
-  }
-
-  /* 
-   * Paragraph and Text Elements
-   * Optimized for readability and proper spacing
-   */
-  p {
-    margin-top: 0;
-    margin-bottom: var(--space-4);
-    line-height: var(--line-height-relaxed);
-    
-    /* Improve text readability */
-    text-wrap: pretty;
-  }
-
-  /* Text emphasis elements */
-  strong, b {
-    font-weight: 600;
-  }
-
-  em, i {
-    font-style: italic;
-  }
-
-  small {
-    font-size: var(--font-size-sm);
-    color: hsl(var(--muted-foreground));
-  }
-
-  /* 
-   * Link Styling
-   * Accessible link design with proper focus states
-   * Consistent with brand colors and interaction patterns
-   */
-  a {
-    color: hsl(var(--primary));
-    text-decoration: none;
-    font-weight: 500;
-    transition: color var(--duration-150) var(--ease-out);
-    
-    /* Ensure links are always accessible */
-    outline-offset: 2px;
-  }
-
-  a:hover {
-    color: hsl(var(--primary-hover));
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 4px;
-  }
-
-  a:focus-visible {
-    outline: 2px solid hsl(var(--ring));
-    outline-offset: 2px;
-    border-radius: var(--radius-sm);
-    text-decoration: none;
-  }
-
-  /* External link indicator */
-  a[href^="http"]:not([href*="localhost"]):not([href*="127.0.0.1"])::after {
-    content: " ↗";
-    font-size: var(--font-size-sm);
-    color: hsl(var(--muted-foreground));
-  }
-
-  /* 
-   * Image and Media Elements
-   * Performance-optimized and responsive by default
-   */
-  img, svg, video, canvas, audio, iframe, embed, object {
-    display: block;
-    max-width: 100%;
-    height: auto;
-  }
-
-  img {
-    /* Improve image rendering quality */
-    image-rendering: crisp-edges;
-    image-rendering: -webkit-optimize-contrast;
-  }
-
-  /* 
-   * List Elements
-   * Consistent spacing and indentation
-   */
-  ul, ol {
-    margin-top: 0;
-    margin-bottom: var(--space-4);
-    padding-left: var(--space-6);
-  }
-
-  li {
-    margin-bottom: var(--space-1);
-  }
-
-  /* Nested lists */
-  li > ul,
-  li > ol {
-    margin-top: var(--space-1);
-    margin-bottom: 0;
-  }
-
-  /* 
-   * Form Elements
-   * Consistent styling foundation for all form controls
-   * Inherits typography and maintains accessibility
-   */
-  input, textarea, select, button {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-    margin: 0;
-  }
-
-  /* Input and textarea base styles */
-  input, textarea, select {
-    background-color: hsl(var(--input));
-    border: 1px solid hsl(var(--input-border));
-    border-radius: var(--radius);
-    padding: var(--space-2) var(--space-3);
-    transition: border-color var(--duration-150) var(--ease-out);
-  }
-
-  input:focus,
-  textarea:focus,
-  select:focus {
-    outline: none;
-    border-color: hsl(var(--ring));
-    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
-  }
-
-  /* 
-   * Button Reset and Base Styles
-   * Clean foundation for custom button components
-   */
-  button {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
-    background: none;
-    padding: 0;
-    
-    /* Remove default button styling */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    
-    /* Ensure buttons are accessible */
-    outline-offset: 2px;
-  }
-
-  button:focus-visible {
-    outline: 2px solid hsl(var(--ring));
-    outline-offset: 2px;
-  }
-
-  button:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-
-  /* 
-   * Code and Preformatted Text
-   * Monospace typography for code display
-   */
-  code, kbd, samp, pre {
-    font-family: var(--font-mono);
-    font-size: 0.9em;
-  }
-
-  code {
-    background-color: hsl(var(--muted));
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-sm);
-    color: hsl(var(--foreground));
-  }
-
-  pre {
-    background-color: hsl(var(--muted));
-    padding: var(--space-4);
-    border-radius: var(--radius);
-    overflow-x: auto;
-    line-height: var(--line-height-relaxed);
-  }
-
-  pre code {
-    background: none;
-    padding: 0;
-    border-radius: 0;
-  }
-
-  /* 
-   * Table Elements
-   * Clean and accessible table styling
-   */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: var(--space-4);
-  }
-
-  th, td {
-    padding: var(--space-3);
-    text-align: left;
-    border-bottom: 1px solid hsl(var(--border));
-  }
-
-  th {
-    font-weight: 600;
-    background-color: hsl(var(--muted));
-  }
-
-  /* 
-   * Horizontal Rule
-   * Visual section divider
-   */
-  hr {
-    border: none;
-    height: 1px;
-    background-color: hsl(var(--border));
-    margin: var(--space-8) 0;
-  }
-
-  /* 
-   * Accessibility Improvements
-   * Enhanced support for assistive technologies
-   */
-  
-  /* Focus management */
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
-  /* Skip to content link */
-  .skip-to-content {
-    position: absolute;
-    top: -40px;
-    left: 6px;
-    background: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius);
-    text-decoration: none;
-    font-weight: 600;
-    z-index: var(--z-tooltip);
-    transition: top var(--duration-150) var(--ease-out);
-  }
-
-  .skip-to-content:focus {
-    top: 6px;
-  }
-
-  /* High contrast mode support */
-  @media (prefers-contrast: high) {
-    :root {
-      --border: 0 0% 0%;
-      --ring: 0 0% 0%;
-    }
-    
-    .dark {
-      --border: 0 0% 100%;
-      --ring: 0 0% 100%;
-    }
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
   }
 }
 
-/**
- * Component Layer - Reusable UI Component Styles
- */
-@layer components {
-  
-  /*
-   * ==========================================================================
-   * ACCESSIBILITY AND FOCUS MANAGEMENT
-   * ==========================================================================
-   */
-  
-  /* 
-   * Focus Ring System
-   * Consistent focus indicators across all interactive elements
-   * Provides clear visual feedback for keyboard navigation
-   */
-  .focus-ring {
-    outline: none;
-    box-shadow: 0 0 0 2px hsl(var(--ring)), 0 0 0 4px hsl(var(--ring) / 0.1);
-    transition: box-shadow var(--duration-150) var(--ease-out);
-  }
+/* Custom Utilities */
+@utility terminal-font {
+  font-family: var(--font-mono);
+  font-feature-settings:
+    'liga' 0,
+    'calt' 0;
+}
 
-  .focus-ring--inset {
-    box-shadow: inset 0 0 0 2px hsl(var(--ring)), inset 0 0 0 4px hsl(var(--ring) / 0.1);
-  }
+@utility text-shadow {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
 
-  /* Focus styles with reduced motion support */
-  @media (prefers-reduced-motion: reduce) {
-    .focus-ring {
-      transition: none;
-    }
-  }
+@utility text-shadow-lg {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-  /*
-   * ==========================================================================
-   * BUTTON COMPONENT SYSTEM
-   * ==========================================================================
-   */
-  
-  /* 
-   * Base Button Styles
-   * Foundation for all button variants with proper accessibility
-   */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-2) var(--space-4);
-    border: 1px solid transparent;
-    border-radius: var(--radius);
-    font-family: var(--font-sans);
-    font-size: var(--font-size-sm);
-    font-weight: 500;
-    line-height: var(--line-height-none);
-    white-space: nowrap;
-    cursor: pointer;
-    outline: none;
-    transition: all var(--duration-150) var(--ease-out);
-    
-    /* Prevent text selection */
-    user-select: none;
-    -webkit-user-select: none;
-    
-    /* Ensure proper touch targets on mobile */
-    min-height: 44px;
-    min-width: 44px;
-  }
+@utility glass {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
 
-  .btn:focus-visible {
-    box-shadow: 0 0 0 2px hsl(var(--ring)), 0 0 0 4px hsl(var(--ring) / 0.1);
-  }
+@utility glass-dark {
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-  .btn:disabled {
-    pointer-events: none;
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  /* Button size variants */
-  .btn--sm {
-    padding: var(--space-1-5) var(--space-3);
-    font-size: var(--font-size-xs);
-    min-height: 36px;
-  }
-
-  .btn--lg {
-    padding: var(--space-3) var(--space-6);
-    font-size: var(--font-size-base);
-    min-height: 52px;
-  }
-
-  .btn--xl {
-    padding: var(--space-4) var(--space-8);
-    font-size: var(--font-size-lg);
-    min-height: 60px;
-  }
-
-  /* 
-   * Button Variant Styles
-   * Different visual treatments for various use cases
-   */
-   
-  /* Primary button - Main call-to-action */
-  .btn--primary {
-    background-color: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
-    border-color: hsl(var(--primary));
-  }
-
-  .btn--primary:hover:not(:disabled) {
-    background-color: hsl(var(--primary-hover));
-    border-color: hsl(var(--primary-hover));
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-  }
-
-  .btn--primary:active:not(:disabled) {
-    transform: translateY(0);
-    box-shadow: var(--shadow-sm);
-  }
-
-  /* Secondary button - Supporting actions */
-  .btn--secondary {
-    background-color: hsl(var(--secondary));
-    color: hsl(var(--secondary-foreground));
-    border-color: hsl(var(--border));
-  }
-
-  .btn--secondary:hover:not(:disabled) {
-    background-color: hsl(var(--secondary-hover));
-    border-color: hsl(var(--border-hover));
-  }
-
-  /* Outline button - Subtle actions */
-  .btn--outline {
-    background-color: transparent;
-    color: hsl(var(--foreground));
-    border-color: hsl(var(--border));
-  }
-
-  .btn--outline:hover:not(:disabled) {
-    background-color: hsl(var(--muted));
-    border-color: hsl(var(--border-hover));
-  }
-
-  /* Ghost button - Minimal styling */
-  .btn--ghost {
-    background-color: transparent;
-    color: hsl(var(--foreground));
-    border-color: transparent;
-  }
-
-  .btn--ghost:hover:not(:disabled) {
-    background-color: hsl(var(--muted));
-  }
-
-  /* Destructive button - Warning actions */
-  .btn--destructive {
-    background-color: hsl(var(--error));
-    color: white;
-    border-color: hsl(var(--error));
-  }
-
-  .btn--destructive:hover:not(:disabled) {
-    background-color: hsl(var(--error) / 0.9);
-    border-color: hsl(var(--error) / 0.9);
-  }
-
-  /* Card component */
-  .card {
-    background-color: hsl(var(--background));
-    border: 1px solid hsl(var(--border));
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
-    overflow: hidden;
-    transition: box-shadow var(--duration-150) var(--ease-out);
-  }
-
-  .card:hover {
-    box-shadow: var(--shadow-md);
-  }
-
-  .card__header {
-    padding: var(--space-6);
-    border-bottom: 1px solid hsl(var(--border));
-    background-color: hsl(var(--muted) / 0.5);
-  }
-
-  .card__content {
-    padding: var(--space-6);
-  }
-
-  .card__footer {
-    padding: var(--space-6);
-    border-top: 1px solid hsl(var(--border));
-    background-color: hsl(var(--muted) / 0.5);
-  }
-
-  .card--elevated {
-    box-shadow: var(--shadow-lg);
-  }
-
-  .card--flat {
-    box-shadow: none;
-    border: 1px solid hsl(var(--border));
-  }
-
-  .card--interactive {
-    cursor: pointer;
-    transition: all var(--duration-150) var(--ease-out);
-  }
-
-  .card--interactive:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-xl);
-  }
-
-  .card--interactive:active {
-    transform: translateY(0);
-    box-shadow: var(--shadow-md);
-  }
-
-  /* Form inputs */
-  .input {
-    width: 100%;
-    padding: var(--space-2-5) var(--space-3);
-    background-color: hsl(var(--input));
-    border: 1px solid hsl(var(--input-border));
-    border-radius: var(--radius);
-    font-size: var(--font-size-sm);
-    transition: all var(--duration-150) var(--ease-out);
-    outline: none;
-  }
-
-  .input:focus {
-    border-color: hsl(var(--ring));
-    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
-  }
-
-  .input:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background-color: hsl(var(--muted));
-  }
-
-  .input::placeholder {
-    color: hsl(var(--muted-foreground));
-  }
-
-  .input--sm {
-    padding: var(--space-2) var(--space-2-5);
-    font-size: var(--font-size-xs);
-  }
-
-  .input--lg {
-    padding: var(--space-3) var(--space-4);
-    font-size: var(--font-size-base);
-  }
-
-  .form-field {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .form-field__label {
-    font-size: var(--font-size-sm);
-    font-weight: 500;
-    color: hsl(var(--foreground));
-  }
-
-  .form-field__description {
-    font-size: var(--font-size-xs);
-    color: hsl(var(--muted-foreground));
-  }
-
-  .form-field__error {
-    font-size: var(--font-size-xs);
-    color: hsl(var(--error));
-    font-weight: 500;
-  }
-
-  /* Terminal component */
-  .terminal--minimized {
-    position: fixed;
-    bottom: var(--space-4);
-    right: var(--space-4);
-    width: 56px;
-    height: 56px;
-    background-color: hsl(var(--terminal-header));
-    color: hsl(var(--terminal-fg));
-    border: 1px solid hsl(var(--terminal-border));
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-2xl);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all var(--duration-300) var(--ease-out);
-    z-index: var(--z-modal);
-    font-family: var(--font-mono);
-    font-size: var(--font-size-xl);
-    min-height: 44px;
-    min-width: 44px;
-  }
-
-  .terminal--minimized:hover {
-    transform: scale(1.05);
-    background-color: hsl(var(--terminal-header) / 0.9);
-    box-shadow: var(--shadow-xl);
-  }
-
-  .terminal--minimized:focus-visible {
-    outline: 2px solid hsl(var(--terminal-fg));
+/* Component Utilities */
+@utility btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: all 0.2s ease-in-out;
+  &:focus {
+    outline: 2px solid;
+    outline-color: rgb(59 130 246);
     outline-offset: 2px;
   }
+}
 
-  .terminal--expanded {
-    position: fixed;
-    bottom: var(--space-4);
-    right: var(--space-4);
-    width: 400px;
-    height: 300px;
-    max-width: calc(100vw - var(--space-8));
-    max-height: calc(100vh - var(--space-8));
-    background-color: hsl(var(--terminal-bg));
-    color: hsl(var(--terminal-fg));
-    border: 1px solid hsl(var(--terminal-border));
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-2xl);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transition: all var(--duration-300) var(--ease-out);
-    z-index: var(--z-modal);
-    font-family: var(--font-mono);
-    font-size: var(--font-size-sm);
-    
-    /* Improve text rendering for terminal */
-    text-rendering: optimizeLegibility;
-    font-variant-ligatures: none;
+@utility btn-primary {
+  background-color: rgb(37 99 235);
+  color: white;
+  &:hover {
+    background-color: rgb(29 78 216);
   }
-
-  /* Terminal header with controls */
-  .terminal__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--space-3);
-    background-color: hsl(var(--terminal-header));
-    border-bottom: 1px solid hsl(var(--terminal-border));
-    cursor: pointer;
-    transition: background-color var(--duration-150) var(--ease-out);
-    flex-shrink: 0;
-    min-height: 44px; /* Ensure adequate touch target */
-  }
-
-  .terminal__header:hover {
-    background-color: hsl(var(--terminal-header) / 0.9);
-  }
-
-  .terminal__title {
-    font-weight: 600;
-    font-size: var(--font-size-sm);
-    color: hsl(var(--terminal-fg));
-  }
-
-  .terminal__controls {
-    display: flex;
-    gap: var(--space-2);
-  }
-
-  .terminal__control-btn {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    transition: transform var(--duration-150) var(--ease-out);
-  }
-
-  .terminal__control-btn:hover {
-    transform: scale(1.1);
-  }
-
-  .terminal__control-btn--close {
-    background-color: #ff5f56;
-  }
-
-  .terminal__control-btn--minimize {
-    background-color: #ffbd2e;
-  }
-
-  .terminal__control-btn--maximize {
-    background-color: #27c93f;
-  }
-
-  /* Terminal body with scrollable content */
-  .terminal__body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: hsl(var(--terminal-bg));
-    min-height: 0;
-    overflow: hidden;
-  }
-
-  /* Terminal output area */
-  .terminal__output {
-    flex: 1;
-    padding: var(--space-3);
-    overflow-y: auto;
-    background-color: hsl(var(--terminal-bg));
-    min-height: 0;
-    font-size: var(--font-size-xs);
-    line-height: var(--line-height-relaxed);
-    
-    /* Custom scrollbar styling */
-    scrollbar-width: thin;
-    scrollbar-color: hsl(var(--terminal-border)) transparent;
-  }
-
-  .terminal__output::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .terminal__output::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .terminal__output::-webkit-scrollbar-thumb {
-    background: hsl(var(--terminal-border));
-    border-radius: 3px;
-  }
-
-  .terminal__output::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--terminal-fg) / 0.3);
-  }
-
-  /* Terminal input area */
-  .terminal__input-area {
-    border-top: 1px solid hsl(var(--terminal-border));
-    padding: var(--space-3);
-    background-color: hsl(var(--terminal-input));
-    flex-shrink: 0;
-  }
-
-  .terminal__input-wrapper {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-  }
-
-  .terminal__prompt {
-    color: hsl(var(--terminal-prompt));
-    font-weight: 600;
-    flex-shrink: 0;
-  }
-
-  .terminal__input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: hsl(var(--terminal-fg));
-    font-family: var(--font-mono);
-    font-size: var(--font-size-xs);
-    caret-color: hsl(var(--terminal-fg));
-  }
-
-  .terminal__input::placeholder {
-    color: hsl(var(--terminal-fg) / 0.5);
-  }
-
-  /* Terminal output line styling */
-  .terminal__line {
-    margin-bottom: var(--space-1);
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-
-  .terminal__line--command {
-    color: hsl(var(--terminal-prompt));
-    font-weight: 500;
-  }
-
-  .terminal__line--output {
-    color: hsl(var(--terminal-output));
-  }
-
-  .terminal__line--error {
-    color: hsl(var(--error));
-  }
-
-  .terminal__line--success {
-    color: hsl(var(--success));
-  }
-
-  /*
-   * ==========================================================================
-   * UTILITY COMPONENT CLASSES
-   * ==========================================================================
-   */
-  
-  /* 
-   * Scrollbar Utilities
-   * Consistent scrollbar styling across components
-   */
-  .scrollbar-thin {
-    scrollbar-width: thin;
-    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted-foreground) / 0.3);
-    border-radius: 3px;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--muted-foreground) / 0.5);
-  }
-
-  /* Hide scrollbar completely */
-  .scrollbar-none {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .scrollbar-none::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* 
-   * Loading and Animation Utilities
-   */
-  .loading-spinner {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 2px solid hsl(var(--muted-foreground) / 0.3);
-    border-radius: 50%;
-    border-top-color: hsl(var(--primary));
-    animation: spin 1s ease-in-out infinite;
-  }
-
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  /* Fade in animation */
-  .fade-in {
-    opacity: 0;
-    animation: fadeIn var(--duration-300) var(--ease-out) forwards;
-  }
-
-  @keyframes fadeIn {
-    to {
-      opacity: 1;
-    }
-  }
-
-  /* Slide up animation */
-  .slide-up {
-    transform: translateY(20px);
-    opacity: 0;
-    animation: slideUp var(--duration-300) var(--ease-out) forwards;
-  }
-
-  @keyframes slideUp {
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
-  /*
-   * ==========================================================================
-   * RESPONSIVE BREAKPOINT UTILITIES
-   * ==========================================================================
-   */
-  
-  /* Mobile optimizations */
-  @media (max-width: 640px) {
-    .terminal--expanded {
-      width: calc(100vw - var(--space-4));
-      height: calc(60vh);
-      bottom: var(--space-2);
-      right: var(--space-2);
-    }
-
-    .terminal--minimized {
-      bottom: var(--space-2);
-      right: var(--space-2);
-    }
-
-    .btn {
-      min-height: 48px; /* Larger touch targets on mobile */
-    }
-
-    .card__header,
-    .card__content,
-    .card__footer {
-      padding: var(--space-4);
-    }
-  }
-
-  /* Tablet optimizations */
-  @media (min-width: 641px) and (max-width: 1024px) {
-    .terminal--expanded {
-      width: 380px;
-      height: 280px;
-    }
-  }
-
-  /* Desktop optimizations */
-  @media (min-width: 1025px) {
-    .terminal--expanded {
-      width: 420px;
-      height: 320px;
-    }
+  &:active {
+    background-color: rgb(30 64 175);
   }
 }
 
-/**
- * Utility Layer - Single-purpose utility classes
- */
-@layer utilities {
+@utility btn-secondary {
+  background-color: rgb(229 231 235);
+  color: rgb(17 24 39);
+  &:hover {
+    background-color: rgb(209 213 219);
+  }
+  &:active {
+    background-color: rgb(156 163 175);
+  }
+}
+
+@utility card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+  &:hover {
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* Base styles and variables */
+:root {
+  /* Base colors */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 9%;
   
-  /*
-   * Text and Typography Utilities
-   */
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  .text-pretty {
-    text-wrap: pretty;
-  }
-
-  .text-nowrap {
-    white-space: nowrap;
-  }
-
-  .text-ellipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  /* Font weight utilities */
-  .font-light { font-weight: 300; }
-  .font-normal { font-weight: 400; }
-  .font-medium { font-weight: 500; }
-  .font-semibold { font-weight: 600; }
-  .font-bold { font-weight: 700; }
-
-  /* Text alignment utilities */
-  .text-left { text-align: left; }
-  .text-center { text-align: center; }
-  .text-right { text-align: right; }
-  .text-justify { text-align: justify; }
-
-  /*
-   * Layout and Positioning Utilities
-   */
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
-  .not-sr-only {
-    position: static;
-    width: auto;
-    height: auto;
-    padding: 0;
-    margin: 0;
-    overflow: visible;
-    clip: auto;
-    white-space: normal;
-  }
-
-  /*
-   * Animation and Transition Utilities
-   */
-  .animate-pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: .5;
-    }
-  }
-
-  .animate-bounce {
-    animation: bounce 1s infinite;
-  }
-
-  @keyframes bounce {
-    0%, 100% {
-      transform: translateY(-25%);
-      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-    }
-    50% {
-      transform: translateY(0);
-      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-    }
-  }
-
-  /*
-   * Focus and Accessibility Utilities
-   */
-  .focus-visible-only:focus:not(:focus-visible) {
-    outline: none;
-  }
-
-  .focus-visible-only:focus-visible {
-    outline: 2px solid hsl(var(--ring));
-    outline-offset: 2px;
-  }
-
-  /*
-   * Reduced Motion Support
-   */
-  @media (prefers-reduced-motion: reduce) {
-    .animate-pulse,
-    .animate-bounce {
-      animation: none;
-    }
-    
-    *,
-    ::before,
-    ::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
-  }
+  /* Brand colors */
+  --primary: 210 98% 51%;
+  --primary-hover: 210 98% 41%;
+  --primary-foreground: 0 0% 100%;
+  
+  /* Secondary colors */
+  --secondary: 210 40% 96%;
+  --secondary-hover: 210 40% 86%;
+  --secondary-foreground: 0 0% 9%;
+  
+  /* Accent colors */
+  --accent: 142 71% 45%;
+  --accent-hover: 142 71% 35%;
+  --accent-foreground: 0 0% 100%;
+  
+  /* Neutral colors */
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%;
+  
+  /* Border and input colors */
+  --border: 214 32% 91%;
+  --border-hover: 214 32% 81%;
+  --input: 214 32% 91%;
+  --input-border: 214 32% 71%;
+  
+  /* Focus and interaction colors */
+  --ring: 210 98% 51%;
+  --ring-offset: 0 0% 100%;
+  
+  /* Status colors */
+  --success: 142 71% 45%;
+  --warning: 38 92% 50%;
+  --error: 0 84% 60%;
+  --info: 210 98% 51%;
+  
+  /* Terminal colors */
+  --terminal-bg: 0 0% 7%;
+  --terminal-fg: 120 100% 55%;
+  --terminal-border: 120 100% 55% / 0.2;
+  --terminal-header: 0 0% 13%;
+  --terminal-input: 0 0% 13%;
+  --terminal-prompt: 120 100% 75%;
+  --terminal-output: 120 60% 70%;
+  
+  /* Border radius system */
+  --radius: 0.25rem;
+  
+  /* Font settings */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Fira Code', 'JetBrains Mono', Consolas, monospace;
 }
 
-/**
- * Special Effect Animations
- * Used by terminal commands for visual effects
- */
-
-/* Invert effect for terminal commands */
-body.invert {
-  filter: invert(1) hue-rotate(180deg);
-  transition: filter var(--duration-300) var(--ease-out);
+/* Dark mode theme */
+.dark {
+  --background: 0 0% 4%;
+  --foreground: 210 40% 98%;
+  --primary: 210 98% 61%;
+  --primary-hover: 210 98% 71%;
+  --primary-foreground: 0 0% 9%;
+  --secondary: 217 33% 17%;
+  --secondary-hover: 217 33% 27%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 142 71% 55%;
+  --accent-hover: 142 71% 65%;
+  --accent-foreground: 0 0% 9%;
+  --muted: 217 33% 17%;
+  --muted-foreground: 215 20% 65%;
+  --border: 217 33% 17%;
+  --border-hover: 217 33% 27%;
+  --input: 217 33% 17%;
+  --input-border: 217 33% 27%;
+  --ring: 210 98% 61%;
+  --ring-offset: 0 0% 4%;
+  --success: 142 71% 55%;
+  --warning: 38 92% 60%;
+  --error: 0 84% 70%;
+  --info: 210 98% 61%;
+  --terminal-bg: 0 0% 7%;
+  --terminal-fg: 120 100% 55%;
+  --terminal-border: 120 100% 55% / 0.2;
+  --terminal-header: 0 0% 13%;
+  --terminal-input: 0 0% 13%;
+  --terminal-prompt: 120 100% 75%;
+  --terminal-output: 120 60% 70%;
+  
+  color-scheme: dark;
 }
 
-/* Shake effect for terminal commands */
-body.shake {
-  animation: shake var(--duration-500) ease-in-out infinite;
+/* Base element styles */
+html {
+  font-family: var(--font-sans);
+  color-scheme: light dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  color: hsl(var(--foreground));
+  background: hsl(var(--background));
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.25;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: hsl(var(--foreground));
+}
+
+h1 { font-size: 2.25rem; margin-bottom: 1.5rem; font-weight: 700; }
+h2 { font-size: 1.875rem; margin-bottom: 1.25rem; }
+h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+h4 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+h5 { font-size: 1.125rem; margin-bottom: 0.75rem; }
+h6 { font-size: 1rem; margin-bottom: 0.5rem; font-weight: 500; }
+
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  line-height: 1.625;
+}
+
+/* Dark mode text enforcement */
+.dark body {
+  color: hsl(var(--foreground)) !important;
+}
+
+.dark h1, 
+.dark h2, 
+.dark h3, 
+.dark h4, 
+.dark h5, 
+.dark h6 {
+  color: hsl(var(--foreground)) !important;
+}
+
+.dark p {
+  color: hsl(var(--foreground)) !important;
+}
+
+/* Terminal specific styling */
+.terminal--minimized {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 56px;
+  height: 56px;
+  background-color: hsl(var(--terminal-header));
+  color: hsl(var(--terminal-fg));
+  border: 1px solid hsl(var(--terminal-border));
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  z-index: 1000;
+}
+
+.terminal--expanded {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 400px;
+  height: 300px;
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100vh - 2rem);
+  background-color: hsl(var(--terminal-bg));
+  color: hsl(var(--terminal-fg));
+  border: 1px solid hsl(var(--terminal-border));
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  z-index: 1000;
+}
+
+.terminal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background-color: hsl(var(--terminal-header));
+  border-bottom: 1px solid hsl(var(--terminal-border));
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.terminal__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: hsl(var(--terminal-bg));
+  min-height: 0;
+  overflow: hidden;
+}
+
+.terminal__output {
+  flex: 1;
+  padding: 0.75rem;
+  overflow-y: auto;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.terminal__input-area {
+  border-top: 1px solid hsl(var(--terminal-border));
+  padding: 0.75rem;
+  background-color: hsl(var(--terminal-input));
+  flex-shrink: 0;
+}
+
+.terminal__input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: hsl(var(--terminal-fg));
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+/* Keyframes for animations */
+@keyframes terminal-cursor {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes terminal-typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes matrix-rain {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slide-up {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slide-down {
+  0% { transform: translateY(-20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes scale-in {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 @keyframes shake {
-  0%, 100% { 
-    transform: translateX(0); 
-  }
-  10%, 30%, 50%, 70%, 90% { 
-    transform: translateX(-10px); 
-  }
-  20%, 40%, 60%, 80% { 
-    transform: translateX(10px); 
-  }
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+  20%, 40%, 60%, 80% { transform: translateX(2px); }
 }
 
-/* Rainbow background effect for terminal commands */
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes skeleton {
+  0% { opacity: 0.4; }
+  100% { opacity: 0.6; }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+  100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Special effects for terminal commands */
+body.invert {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+body.shake {
+  animation: shake 0.5s ease-in-out infinite;
+}
+
 body.rainbow {
   animation: rainbow-bg 2s linear infinite;
 }
 
 @keyframes rainbow-bg {
-  0% { background-color: #ff0000; } /* Red */
-  16.66% { background-color: #ff9900; } /* Orange */
-  33.33% { background-color: #ffff00; } /* Yellow */
-  50% { background-color: #00ff00; } /* Green */
-  66.66% { background-color: #0099ff; } /* Blue */
-  83.33% { background-color: #9900ff; } /* Indigo */
-  100% { background-color: #ff00ff; } /* Violet */
+  0% { background-color: #ff0000; }
+  16.66% { background-color: #ff9900; }
+  33.33% { background-color: #ffff00; }
+  50% { background-color: #00ff00; }
+  66.66% { background-color: #0099ff; }
+  83.33% { background-color: #9900ff; }
+  100% { background-color: #ff00ff; }
 }
 
-/* Ensure effects are disabled for users who prefer reduced motion */
+/* Responsive design */
+@media (max-width: 640px) {
+  .terminal--expanded {
+    width: calc(100vw - 1rem);
+    height: calc(60vh);
+    bottom: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .terminal--minimized {
+    bottom: 0.5rem;
+    right: 0.5rem;
+  }
+}
+
+/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
-  body.invert {
-    transition: none;
+  html {
+    scroll-behavior: auto;
   }
   
-  body.shake {
-    animation: none;
-    transform: none;
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
   
-  body.rainbow {
-    animation: none;
-    background-color: hsl(var(--background));
-  }
-}
-
-/**
- * Print Styles
- * Optimized for printing with proper color adjustments
- */
-@media print {
-  /* Remove unnecessary elements for print */
-  .terminal--minimized,
-  .terminal--expanded,
-  .btn,
-  nav,
-  .no-print {
-    display: none !important;
-  }
-
-  /* Optimize colors for print */
-  body {
-    background: white !important;
-    color: black !important;
-  }
-
-  /* Ensure proper page breaks */
-  h1, h2, h3, h4, h5, h6 {
-    page-break-after: avoid;
-  }
-
-  /* Optimize links for print */
-  a[href^="http"]:after {
-    content: " (" attr(href) ")";
-    font-size: var(--font-size-xs);
-    color: #666;
-  }
-}
-
-/**
- * High Contrast Mode Support
- * Enhanced accessibility for users with visual impairments
- */
-@media (prefers-contrast: high) {
-  :root {
-    --border: 0 0% 0%;
-    --ring: 0 0% 0%;
-    --muted-foreground: 0 0% 20%;
-  }
-  
-  .dark {
-    --border: 0 0% 100%;
-    --ring: 0 0% 100%;
-    --muted-foreground: 0 0% 80%;
-  }
-
-  /* Ensure sufficient contrast for interactive elements */
-  .btn {
-    border-width: 2px;
-  }
-
-  .card {
-    border-width: 2px;
-  }
-
-  .input {
-    border-width: 2px;
-  }
+  body.invert { transition: none; }
+  body.shake { animation: none; transform: none; }
+  body.rainbow { animation: none; background-color: hsl(var(--background)); }
 }
