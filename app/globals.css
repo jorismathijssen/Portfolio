@@ -426,6 +426,47 @@ p {
   border-bottom: 1px solid hsl(var(--terminal-border));
   cursor: pointer;
   flex-shrink: 0;
+  min-height: 44px;
+}
+
+.terminal__header:hover {
+  background-color: hsl(var(--terminal-header) / 0.9);
+}
+
+.terminal__title {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: hsl(var(--terminal-fg));
+}
+
+.terminal__controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.terminal__control-btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease-out;
+}
+
+.terminal__control-btn:hover {
+  transform: scale(1.1);
+}
+
+.terminal__control-btn--close {
+  background-color: #ff5f56;
+}
+
+.terminal__control-btn--minimize {
+  background-color: #ffbd2e;
+}
+
+.terminal__control-btn--maximize {
+  background-color: #27c93f;
 }
 
 .terminal__body {
