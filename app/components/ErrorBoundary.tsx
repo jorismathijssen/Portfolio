@@ -306,7 +306,7 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
         <div className={cardClasses}>
           {/* Error Header */}
           <div className="error-boundary__header flex items-center mb-4">
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <svg 
                 className={iconClasses}
                 fill="none" 
@@ -352,7 +352,7 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
                 <summary className="cursor-pointer text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
                   🔍 Error Details ({process.env.NODE_ENV})
                 </summary>
-                <div className="mt-2 p-3 bg-gray-100 dark:bg-gray-700 rounded text-xs font-mono overflow-auto max-h-40">
+                <div className="mt-2 p-3 bg-gray-100 dark:bg-gray-700 rounded-sm text-xs font-mono overflow-auto max-h-40">
                   <div className="text-red-600 dark:text-red-400 mb-2">
                     <strong>Error Type:</strong> {error.name}
                   </div>
@@ -390,7 +390,7 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
                   'error-boundary__retry-button',
                   'flex-1 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600',
                   'text-white font-medium py-2 px-4 rounded-md transition-colors duration-200',
-                  'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
+                  'focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
                   'dark:focus:ring-offset-gray-800',
                   'disabled:opacity-50 disabled:cursor-not-allowed'
                 )}
@@ -408,7 +408,7 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
                   'error-boundary__reload-button',
                   'flex-1 bg-gray-600 hover:bg-gray-700 dark:bg-gray-500 dark:hover:bg-gray-600',
                   'text-white font-medium py-2 px-4 rounded-md transition-colors duration-200',
-                  'focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2',
+                  'focus:outline-hidden focus:ring-2 focus:ring-gray-500 focus:ring-offset-2',
                   'dark:focus:ring-offset-gray-800',
                   'disabled:opacity-50 disabled:cursor-not-allowed'
                 )}

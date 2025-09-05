@@ -20,7 +20,7 @@ export type Size = 'sm' | 'md' | 'lg';
 /**
  * Button variants
  */
-export type ButtonVariant = 'primary' | 'secondary' | 'destructive' | 'ghost' | 'outline';
+export type ButtonVariant = 'primary' | 'secondary' | 'destructive' | 'ghost' | 'outline-solid';
 
 /**
  * API status codes enum

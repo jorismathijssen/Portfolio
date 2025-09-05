@@ -98,13 +98,13 @@ function LayoutErrorFallback({
           <summary className="cursor-pointer text-red-700 dark:text-red-300 font-medium">
             Error Details
           </summary>
-          <pre className="mt-2 text-xs text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/40 p-2 rounded overflow-auto">
+          <pre className="mt-2 text-xs text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/40 p-2 rounded-sm overflow-auto">
             {error.message}
           </pre>
         </details>
         <button
           onClick={resetErrorBoundary}
-          className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+          className="px-4 py-2 bg-red-600 text-white rounded-sm hover:bg-red-700 transition-colors focus:outline-hidden focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           type="button"
         >
           Try Again

@@ -71,7 +71,7 @@ export default function Toaster({
     'fixed bottom-6 right-24 z-50 bg-gray-900/90 text-green-400',
     'rounded-md border border-gray-700 shadow-lg p-2 pr-3',
     'flex items-center gap-2 cursor-pointer transition-all duration-200',
-    'hover:bg-gray-800/90 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400',
+    'hover:bg-gray-800/90 hover:scale-105 focus:outline-hidden focus:ring-2 focus:ring-green-400',
     'w-48 text-sm font-mono',
     className
   ), [className]);
