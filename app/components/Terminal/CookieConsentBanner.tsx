@@ -68,7 +68,7 @@ const CookieConsentBanner: React.FC<CookieConsentBannerProps> = ({
         <div className="flex gap-3">
           <button
             onClick={() => handleConsent('declined')}
-            className="px-4 py-2 text-sm border border-gray-600 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
+            className="px-4 py-2 text-sm border border-gray-600 rounded-md hover:bg-gray-700 focus:outline-hidden focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
             type="button"
           >
             Decline
@@ -76,7 +76,7 @@ const CookieConsentBanner: React.FC<CookieConsentBannerProps> = ({
           
           <button
             onClick={() => handleConsent('accepted')}
-            className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
+            className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
             type="button"
           >
             Accept

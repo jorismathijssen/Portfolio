@@ -159,7 +159,7 @@ export default function Home({ className }: HomePageProps = {}): React.JSX.Eleme
           'text-2xl text-gray-600 dark:text-gray-400',
           'hover:text-gray-800 dark:hover:text-gray-200',
           'transition-colors duration-200 ease-in-out',
-          'focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2',
+          'focus:outline-hidden focus:ring-2 focus:ring-blue-400 focus:ring-offset-2',
           'rounded-md p-1'
         )}
       >
@@ -195,7 +195,7 @@ export default function Home({ className }: HomePageProps = {}): React.JSX.Eleme
   const pageClasses = useMemo(() => clsx(
     'homepage',
     'min-h-screen p-8 pb-20 sm:p-20',
-    'font-[family-name:var(--font-geist-sans)]',
+    'font-(family-name:--font-geist-sans)',
     className
   ), [className]);
 
@@ -320,7 +320,7 @@ export default function Home({ className }: HomePageProps = {}): React.JSX.Eleme
                         'company-link',
                         'underline text-blue-700 hover:text-blue-900',
                         'dark:text-blue-400 dark:hover:text-blue-300',
-                        'focus:outline-none focus:ring-2 focus:ring-blue-400',
+                        'focus:outline-hidden focus:ring-2 focus:ring-blue-400',
                         'transition-colors duration-200'
                       )}
                     />
@@ -391,7 +391,7 @@ export default function Home({ className }: HomePageProps = {}): React.JSX.Eleme
                           'certification-link',
                           'underline text-blue-700 hover:text-blue-900',
                           'dark:text-blue-400 dark:hover:text-blue-300',
-                          'focus:outline-none focus:ring-2 focus:ring-blue-400',
+                          'focus:outline-hidden focus:ring-2 focus:ring-blue-400',
                           'transition-colors duration-200'
                         )}
                       />

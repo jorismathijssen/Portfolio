@@ -137,8 +137,8 @@ const Modal: React.FC<ModalProps> = ({
   // Generate backdrop classes
   const backdropClasses = clsx(
     'modal__backdrop',
-    'fixed inset-0 z-[var(--z-index)] flex justify-center items-center p-4',
-    'bg-black bg-opacity-50 backdrop-blur-sm',
+    'fixed inset-0 z-(--z-index) flex justify-center items-center p-4',
+    'bg-black bg-opacity-50 backdrop-blur-xs',
     'transition-opacity duration-200 ease-in-out'
   );
 
@@ -147,7 +147,7 @@ const Modal: React.FC<ModalProps> = ({
     'modal__container',
     'bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-h-[90vh] overflow-y-auto',
     'relative shadow-xl transform transition-all duration-200 scale-100',
-    'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50',
+    'focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50',
     MODAL_SIZES[size],
     className
   );
@@ -158,7 +158,7 @@ const Modal: React.FC<ModalProps> = ({
     'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
     'transition-colors duration-150 ease-in-out p-1 rounded-md',
     'hover:bg-gray-100 dark:hover:bg-gray-700',
-    'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
+    'focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
   );
 
   return (

@@ -76,7 +76,7 @@ t("terminal.commands.help") // ✅ Type-checked via i18n setup
 const buttonClasses = clsx(
   'bg-primary text-primary-foreground', // Design tokens
   'hover:bg-primary/90 transition-colors', // Interaction states
-  'focus:ring-2 focus:ring-ring focus:outline-none', // Accessibility
+  'focus:ring-2 focus:ring-ring focus:outline-hidden', // Accessibility
   className
 );
 
