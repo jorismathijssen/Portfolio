@@ -119,7 +119,7 @@ export default function ProjectCard({
           target="_blank" 
           rel="noopener noreferrer" 
           {...TRACKING_CONFIGS.project('click', title, 'card')}
-          className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors duration-150 font-medium"
+          className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors duration-150 font-medium"
           aria-label={linkAriaLabel}
         >
           View Project
