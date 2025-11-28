@@ -106,6 +106,7 @@ const PERFORMANCE_HEADERS = [
 const nextConfig = {
   // Build and output configuration
   output: 'standalone',
+  outputFileTracingRoot: process.env.NODE_ENV === 'production' ? undefined : process.cwd(),
   distDir: '.next',
   generateEtags: true,
   
