@@ -1,53 +1,10 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# Node.js
-node_modules/
-.npm/
-
-# Build output
-.next/
-out/
-dist/
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
 # OS
 .DS_Store
 Thumbs.db
 
-# Env files
-.env
-.env.*
+# IDE
+.vscode/
+.idea/
 
 # Docker
 *.pid
-*.seed
-*.pid.lock
-
-# IDE
-.vscode/
-.claude/
-
-# Misc
-coverage/
-*.tgz
-
-# Ignore local SSL, Nginx, and Docker volumes
-certs/
-vhost.d/
-html/
-
-# Husky
-.husky/_/
-
-# Optional: ignore test output
-*.test-results.json
-
-# Optional: ignore next telemetry
-.next/telemetry
-
-# Ignore bundle analyzer output
-.analyze/
