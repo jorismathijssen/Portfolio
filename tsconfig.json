@@ -62,15 +62,7 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@/components/*": ["./app/components/*"],
-      "@/lib/*": ["./lib/*"],
-      "@/app/*": ["./app/*"],
-      "@/hooks/*": ["./app/hooks/*"],
-      "@/types/*": ["./app/types/*"],
-      "@/utils/*": ["./app/lib/*"],
-      "@/constants/*": ["./app/constants/*"],
-      "@/public/*": ["./public/*"]
+      "@/*": ["./src/*"]
     },
 
     "plugins": [

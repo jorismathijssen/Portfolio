@@ -2,7 +2,7 @@
  * Timeline data for professional experience
  */
 
-import type { EnhancedTimelineItem } from '@/app/types';
+import type { EnhancedTimelineItem } from '@/types';
 
 export const TIMELINE_DATA: EnhancedTimelineItem[] = [
   {

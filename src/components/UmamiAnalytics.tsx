@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Script from 'next/script';
-import { UMAMI_WEBSITE_ID, UMAMI_SRC, UMAMI_FALLBACK_SRC } from '../lib/analytics';
+import { UMAMI_WEBSITE_ID, UMAMI_SRC, UMAMI_FALLBACK_SRC } from '@/lib/analytics';
 
 /**
  * Umami Analytics component with ad blocker bypass and fallback handling

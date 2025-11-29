@@ -1,7 +1,7 @@
 'use client';
 
 import { useReportWebVitals } from 'next/web-vitals';
-import { trackWebVital } from '../lib/analytics';
+import { trackWebVital } from '@/lib/analytics';
 
 /**
  * Web Vitals tracking component for Core Web Vitals metrics

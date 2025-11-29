@@ -13,8 +13,8 @@
 
 import React, { Suspense, type ErrorInfo } from 'react';
 import { clsx } from 'clsx';
-import ThemeSwitcher from './components/ThemeSwitcher';
-import ErrorBoundary from './components/ErrorBoundary';
+import ThemeSwitcher from '@/components/ThemeSwitcher';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 /**
  * Provider configuration interface

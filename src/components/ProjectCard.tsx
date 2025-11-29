@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
-import type { Project } from '../types';
-import { trackProjectInteraction } from '../lib/analytics';
-import { TRACKING_CONFIGS } from '@/app/lib/tracking-utils';
+import type { Project } from '@/types';
+import { trackProjectInteraction } from '@/lib/analytics';
+import { TRACKING_CONFIGS } from '@/lib/tracking-utils';
 
 export interface ProjectCardProps extends Project {
   onClick?: (project: Project) => void;

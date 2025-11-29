@@ -1,7 +1,7 @@
 'use client';
 
 import Script from 'next/script';
-import { UMAMI_WEBSITE_ID, UMAMI_SRC } from '../lib/analytics';
+import { UMAMI_WEBSITE_ID, UMAMI_SRC } from '@/lib/analytics';
 
 /**
  * Umami Analytics component with optimized loading

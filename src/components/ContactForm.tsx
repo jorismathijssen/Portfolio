@@ -4,8 +4,8 @@ import React, { useState, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { clsx } from 'clsx';
-import { FormSchemas, type ContactForm } from '@/app/lib/validations';
-import { trackContactForm } from '@/app/lib/analytics';
+import { FormSchemas, type ContactForm } from '@/lib/validations';
+import { trackContactForm } from '@/lib/analytics';
 
 interface ContactFormProps {
   className?: string;

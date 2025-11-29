@@ -6,8 +6,8 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { z } from 'zod';
 
-import nlTranslation from '../public/locales/nl/translation.json';
-import enTranslation from '../public/locales/en/translation.json';
+import nlTranslation from '../../public/locales/nl/translation.json';
+import enTranslation from '../../public/locales/en/translation.json';
 
 export const SUPPORTED_LANGUAGES = ['en', 'nl'] as const;
 export type SupportedLanguage = typeof SUPPORTED_LANGUAGES[number];

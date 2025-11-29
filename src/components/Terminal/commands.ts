@@ -3,9 +3,9 @@
  */
 
 import { z } from 'zod';
-import { PORTFOLIO_INFO } from '@/app/data/portfolio';
-import { TERMINAL_RESPONSES } from '@/app/data/terminal-content';
-import { trackTerminalCommand } from '@/app/lib/analytics';
+import { PORTFOLIO_INFO } from '@/data/portfolio';
+import { TERMINAL_RESPONSES } from '@/data/terminal-content';
+import { trackTerminalCommand } from '@/lib/analytics';
 
 /**
  * Available terminal commands

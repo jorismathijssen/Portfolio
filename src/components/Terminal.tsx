@@ -2,12 +2,12 @@
 
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import clsx from 'clsx';
-import { useDarkMode } from '../hooks/useDarkMode';
-import { useTerminalEffects } from '../hooks/useTerminalEffects';
-import type { TerminalEffect } from '../hooks/useTerminalEffects';
-import { useAutoScroll } from '../hooks/useAutoScroll';
-import { DEFAULTS, Z_INDEX, STORAGE_KEYS } from '../constants';
-import type { BaseComponentProps, AccessibleProps } from '../types';
+import { useDarkMode } from '@/hooks/useDarkMode';
+import { useTerminalEffects } from '@/hooks/useTerminalEffects';
+import type { TerminalEffect } from '@/hooks/useTerminalEffects';
+import { useAutoScroll } from '@/hooks/useAutoScroll';
+import { DEFAULTS, Z_INDEX, STORAGE_KEYS } from '@/constants';
+import type { BaseComponentProps, AccessibleProps } from '@/types';
 import { COMMANDS, TerminalCommand } from './Terminal/commands';
 import Toaster from './Terminal/Toaster';
 

@@ -2,7 +2,7 @@
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { clsx } from 'clsx';
-import { ERROR_MESSAGES } from '../constants';
+import { ERROR_MESSAGES } from '@/constants';
 
 interface ErrorBoundaryState {
   hasError: boolean;

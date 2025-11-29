@@ -150,7 +150,7 @@ const nextConfig = {
   eslint: {
     // Linting is handled by CI/CD
     ignoreDuringBuilds: false,
-    dirs: ['app', 'lib', 'components'],
+    dirs: ['src'],
   },
 
   // Experimental features for performance

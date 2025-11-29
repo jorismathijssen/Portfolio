@@ -20,7 +20,7 @@
  */
 
 import { useCallback, useEffect, useRef } from 'react';
-import { startMatrix, startConfetti } from '../components/Terminal/effects';
+import { startMatrix, startConfetti } from '@/components/Terminal/effects';
 
 /**
  * Theme setter function type

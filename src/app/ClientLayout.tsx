@@ -6,11 +6,12 @@ import { ThemeProvider } from 'next-themes';
 import { ErrorBoundary } from 'react-error-boundary';
 import { z } from 'zod';
 
-import i18n from '../lib/i18n';
-import ThemeSwitcher from './components/ThemeSwitcher';
-import LanguageSwitcher from './components/LanguageSwitcher';
+import i18n from '@/lib/i18n';
+import ThemeSwitcher from '@/components/ThemeSwitcher';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
+
 import { Providers } from './providers';
-import CustomErrorBoundary from './components/ErrorBoundary';
+import CustomErrorBoundary from '@/components/ErrorBoundary';
 
 /**
  * Props for the ClientLayout component

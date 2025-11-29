@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTheme } from 'next-themes';
-import { trackThemeSwitch } from '../lib/analytics';
+import { trackThemeSwitch } from '@/lib/analytics';
 
 type ThemeOption = 'light' | 'dark' | 'system';
 

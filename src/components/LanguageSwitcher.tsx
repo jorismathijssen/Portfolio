@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'next-themes';
-import { trackLanguageSwitch } from '../lib/analytics';
+import { trackLanguageSwitch } from '@/lib/analytics';
 
 /**
  * Language option type
