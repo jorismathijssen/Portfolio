@@ -1,114 +1,42 @@
-version: '3.8'
-
 services:
   portfolio:
-    build: .
-    image: portfolio:${GITHUB_RUN_NUMBER:-latest}
-    container_name: portfolio
-    restart: unless-stopped
-    expose:
-      - "3000"
-    environment:
-      - VIRTUAL_HOST=jorismathijssen.nl,84.235.172.81
-      - LETSENCRYPT_HOST=jorismathijssen.nl
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - NEXT_PUBLIC_UMAMI_WEBSITE_ID=${NEXT_PUBLIC_UMAMI_WEBSITE_ID}
-      - NEXT_PUBLIC_UMAMI_SRC=${NEXT_PUBLIC_UMAMI_SRC}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:80"  # Maps Host 3000 -> Container 80 (So NPM keeps working)
     networks:
-      - web
+      - default
 
   umami:
-    image: docker.umami.is/umami-software/umami:postgresql-latest
-    container_name: umami
-    restart: unless-stopped
-    expose:
-      - "3000"
+    image: ghcr.io/umami-software/umami:postgresql-latest
+    restart: always
+    ports:
+      - "3001:3000"
     environment:
-      - DATABASE_URL=postgresql://postgres:${UMAMI_DB_PASSWORD}@umami-db:5432/umami
+      - DATABASE_URL=postgresql://umami:umami_pass@umami-db:5432/umami
       - DATABASE_TYPE=postgresql
-      - APP_SECRET=${UMAMI_APP_SECRET}
-      - VIRTUAL_HOST=analytics.jorismathijssen.nl
-      - LETSENCRYPT_HOST=analytics.jorismathijssen.nl
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - CLIENT_IP_HEADER=x-forwarded-for
-    labels:
-      - "nginx.proxy.custom=add_header 'Access-Control-Allow-Origin' 'https://jorismathijssen.nl' always;"
-      - "nginx.proxy.custom2=add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;"
-      - "nginx.proxy.custom3=add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization' always;"
+      - APP_SECRET=\${UMAMI_APP_SECRET}
     depends_on:
-      umami-db:
-        condition: service_healthy
+      - umami-db
     networks:
-      - web
-      - umami
+      - default
 
   umami-db:
     image: postgres:15-alpine
-    container_name: umami-db
-    restart: unless-stopped
+    restart: always
     environment:
       - POSTGRES_DB=umami
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=${UMAMI_DB_PASSWORD}
+      - POSTGRES_USER=umami
+      - POSTGRES_PASSWORD=umami_pass
     volumes:
       - umami_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d umami"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
     networks:
-      - umami
-
-  nginx-proxy:
-    image: nginxproxy/nginx-proxy:latest
-    container_name: nginx-proxy
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - nginx_certs:/etc/nginx/certs
-      - nginx_vhost:/etc/nginx/vhost.d
-      - nginx_html:/usr/share/nginx/html
-    networks:
-      - web
-
-  letsencrypt:
-    image: nginxproxy/acme-companion:latest
-    container_name: letsencrypt
-    restart: unless-stopped
-    environment:
-      - NGINX_PROXY_CONTAINER=nginx-proxy
-      - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
-      - ACME_CA_URI=${ACME_CA_URI:-https://acme-v02.api.letsencrypt.org/directory}
-      - DEBUG=${LETSENCRYPT_DEBUG:-false}
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - nginx_certs:/etc/nginx/certs
-      - nginx_vhost:/etc/nginx/vhost.d
-      - nginx_html:/usr/share/nginx/html
-      - acme_data:/etc/acme.sh
-    depends_on:
-      - nginx-proxy
-    networks:
-      - web
+      - default
 
 volumes:
-  nginx_certs:
-    driver: local
-  nginx_vhost:
-    driver: local
-  nginx_html:
-    driver: local
-  acme_data:
-    driver: local
   umami_data:
-    driver: local
 
 networks:
-  web:
-    driver: bridge
-  umami:
-    driver: bridge
+  default:
