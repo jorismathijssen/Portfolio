@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/jorismathijssen/Portfolio/compare/v1.0.0...v1.1.0) (2025-11-30)
+
+
+### Features
+
+* **ui:** add footer with copyright ([a613d41](https://github.com/jorismathijssen/Portfolio/commit/a613d41eb6e5d3772d718d5fe3f98aee6fa8b3d6))
+
 ## 1.0.0 (2025-11-30)
 
 
