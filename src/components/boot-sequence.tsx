@@ -1,31 +1,34 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 export function BootSequence({ onComplete }: { onComplete: () => void }) {
   const [lines, setLines] = useState<string[]>([])
   
   const sequence = [
-    "> initializing system...",
-    "> loading modules: .NET 8, Distributed Systems, API Design...",
-    "> verifying integrity...",
-    "> status: ONLINE",
-    "> welcome, user."
+    { text: "> initializing kernel...", delay: 200 },
+    { text: "> loading modules: .NET 8, Distributed Systems...", delay: 600 },
+    { text: "> optimizing request flows...", delay: 400 },
+    { text: "> establishing secure connection...", delay: 500 },
+    { text: "> mounting volumes: /brain/architecture...", delay: 400 },
+    { text: "> status: ONLINE", delay: 800 },
+    { text: "> welcome, user.", delay: 1000 }
   ]
 
   useEffect(() => {
-    let delay = 0
-    sequence.forEach((line, index) => {
-      delay += 800 // ms per line
+    let totalDelay = 0
+    sequence.forEach((item, index) => {
+      totalDelay += item.delay
       setTimeout(() => {
-        setLines(prev => [...prev, line])
+        setLines(prev => [...prev, item.text])
         if (index === sequence.length - 1) {
-          setTimeout(onComplete, 1000)
+          setTimeout(onComplete, 1200)
         }
-      }, delay)
+      }, totalDelay)
     })
-  }, [])
+  }, [onComplete]) // sequence is constant, so okay to omit or move inside
+
 
   return (
     <motion.div 
@@ -40,6 +43,7 @@ export function BootSequence({ onComplete }: { onComplete: () => void }) {
             key={i}
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
+            className="text-sm md:text-base"
           >
             {line}
           </motion.div>
@@ -47,7 +51,7 @@ export function BootSequence({ onComplete }: { onComplete: () => void }) {
         <motion.div 
           animate={{ opacity: [0, 1, 0] }}
           transition={{ repeat: Infinity, duration: 0.8 }}
-          className="w-3 h-5 bg-green-500 inline-block ml-1"
+          className="w-2 h-4 md:w-3 md:h-5 bg-green-500 inline-block ml-1 align-middle"
         />
       </div>
     </motion.div>

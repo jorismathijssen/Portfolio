@@ -5,6 +5,9 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { ThemeProvider } from '@/components/theme-provider';
+import { CommandPalette } from '@/components/command-palette';
+import { ViewModeProvider } from '@/context/view-mode-context';
+import { CommandPaletteProvider } from '@/context/command-palette-context';
 import "../globals.css";
 
 const geistSans = Geist({
@@ -32,7 +35,7 @@ export default async function LocaleLayout({
   const { locale } = await params;
 
   // Ensure that the incoming `locale` is valid
-  if (!routing.locales.includes(locale as any)) {
+  if (!routing.locales.includes(locale as "en" | "nl")) {
     notFound();
   }
  
@@ -51,7 +54,12 @@ export default async function LocaleLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <ViewModeProvider>
+              <CommandPaletteProvider>
+                {children}
+                <CommandPalette />
+              </CommandPaletteProvider>
+            </ViewModeProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>

@@ -3,13 +3,12 @@
 import { useState } from 'react'
 import { BootSequence } from './boot-sequence'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ViewModeProvider } from '@/context/view-mode-context'
 
 export function LandingWrapper({ children }: { children: React.ReactNode }) {
   const [booted, setBooted] = useState(false)
 
   return (
-    <ViewModeProvider>
+    <>
       <AnimatePresence>
         {!booted && <BootSequence onComplete={() => setBooted(true)} />}
       </AnimatePresence>
@@ -21,6 +20,6 @@ export function LandingWrapper({ children }: { children: React.ReactNode }) {
       >
         {children}
       </motion.div>
-    </ViewModeProvider>
+    </>
   )
 }
