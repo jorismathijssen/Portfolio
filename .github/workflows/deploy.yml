@@ -17,6 +17,9 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd ~/portfolio
+            if [ ! -d "portfolio" ]; then
+              git clone https://github.com/jorismathijssen/Portfolio.git portfolio
+            fi
+            cd portfolio
             git pull origin main
             docker compose up -d --build --remove-orphans
