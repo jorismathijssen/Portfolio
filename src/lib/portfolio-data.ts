@@ -1,4 +1,5 @@
 import { PortfolioData } from "@/types/portfolio";
+import { siteConfig } from "@/config/site";
 
 export function getPortfolioData(t: (key: string) => string): PortfolioData {
   return {
@@ -13,13 +14,13 @@ export function getPortfolioData(t: (key: string) => string): PortfolioData {
       },
     },
     data: {
-      name: t("HomePage.title"),
-      role: t("HomePage.role"),
-      company: "9292",
+      name: siteConfig.name,
+      role: siteConfig.role,
+      company: siteConfig.company,
       about: {
         title: t("About.title"),
-        summary: t("About.description"),
-        details: t("About.description2"),
+        summary: siteConfig.bio.short,
+        details: siteConfig.bio.long,
         hobbies: {
           title: t("About.hobbies_title"),
           items: [
@@ -61,9 +62,9 @@ export function getPortfolioData(t: (key: string) => string): PortfolioData {
         ],
       },
       contact: {
-        email: "me@jorismathijssen.nl",
-        github: "https://github.com/jorismathijssen",
-        linkedin: "https://linkedin.com/in/jorismathijssen",
+        email: siteConfig.email,
+        github: siteConfig.socials.github,
+        linkedin: siteConfig.socials.linkedin,
       },
     },
   };
