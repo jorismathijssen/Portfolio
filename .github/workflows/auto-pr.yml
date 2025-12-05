@@ -1,9 +1,10 @@
-name: Auto PR from Develop to Main
+name: Auto PR to Main
 
 on:
   push:
     branches:
       - develop
+      - dev
 
 jobs:
   create-pr:
@@ -19,4 +20,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr create --base main --head develop --title "Merge develop to main" --body "Automated PR to merge changes from develop to main." || echo "PR already exists"
+          gh pr create --base main --head "${{ github.ref_name }}" --title "Merge ${{ github.ref_name }} to main" --body "Automated PR to merge changes from ${{ github.ref_name }} to main." || echo "PR already exists"
