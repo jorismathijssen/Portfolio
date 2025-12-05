@@ -30,7 +30,7 @@ describe('BootSequence', () => {
     // Fast-forward time to cover all delays
     // Total delay is roughly 200+600+400+500+400+800+1000+1200 = ~5100ms
     act(() => {
-      jest.advanceTimersByTime(6000)
+      jest.advanceTimersByTime(7000)
     })
 
     expect(onComplete).toHaveBeenCalled()

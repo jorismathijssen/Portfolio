@@ -1,21 +1,23 @@
+
 "use client"
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
+const sequence = [
+  { text: "> initializing kernel...", delay: 200 },
+  { text: "> loading modules: .NET 8, Distributed Systems, Azure...", delay: 600 },
+  { text: "> verifying integrity...", delay: 400 },
+  { text: "> mounting volumes...", delay: 500 },
+  { text: "> establishing secure connection...", delay: 400 },
+  { text: "> loading user profile: Joris Mathijssen...", delay: 800 },
+  { text: "> access granted.", delay: 1000 },
+  { text: "> starting shell...", delay: 1200 },
+]
+
 export function BootSequence({ onComplete }: { onComplete: () => void }) {
   const [lines, setLines] = useState<string[]>([])
   
-  const sequence = [
-    { text: "> initializing kernel...", delay: 200 },
-    { text: "> loading modules: .NET 8, Distributed Systems...", delay: 600 },
-    { text: "> optimizing request flows...", delay: 400 },
-    { text: "> establishing secure connection...", delay: 500 },
-    { text: "> mounting volumes: /brain/architecture...", delay: 400 },
-    { text: "> status: ONLINE", delay: 800 },
-    { text: "> welcome, user.", delay: 1000 }
-  ]
-
   useEffect(() => {
     let totalDelay = 0
     sequence.forEach((item, index) => {

@@ -55,7 +55,7 @@ export function getPortfolioData(t: (key: string) => string): PortfolioData {
         ]
       },
       contact: {
-        email: "joris@example.com", // Placeholder, maybe user wants to update this later
+        email: "me@jorismathijssen.nl",
         github: "https://github.com/jorismathijssen",
         linkedin: "https://linkedin.com/in/jorismathijssen"
       }
