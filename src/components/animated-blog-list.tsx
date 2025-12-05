@@ -15,7 +15,10 @@ export function AnimatedBlogList({ posts }: { posts: Post[] }) {
           transition={{ delay: i * 0.1, duration: 0.5 }}
           className="border-border border-b pb-8 last:border-0"
         >
-          <Link href={`/blog/${post.slug}`} className="group block">
+          <Link
+            href={`/blog/${encodeURIComponent(post.slug)}`}
+            className="group block"
+          >
             <h2 className="group-hover:text-primary mb-2 text-2xl font-semibold transition-colors">
               {post.meta.title}
             </h2>
