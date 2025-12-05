@@ -1,65 +1,57 @@
-# Setting up SSH Deployment Keys
+# Deployment Setup
 
-To allow GitHub Actions to deploy to your server automatically, you need to set up a dedicated SSH key pair.
+## Option 1: Vercel (Recommended)
 
-## 1. Generate a new SSH Key Pair
+The easiest way to deploy this Next.js application is to use the [Vercel Platform](https://vercel.com/new).
 
-Run this command in your local terminal (not on the server):
+1.  Push your code to a Git repository (GitHub, GitLab, BitBucket).
+2.  Import the project into Vercel.
+3.  Vercel will automatically detect Next.js and configure the build settings.
+4.  Click **Deploy**.
+
+## Option 2: Docker (Self-Hosted)
+
+This project includes a production-ready `Dockerfile` optimized for Next.js standalone output.
+
+### Prerequisites
+
+- Docker installed on your server.
+- Git.
+
+### Steps
+
+1.  **Clone the repository**:
+
+    ```bash
+    git clone https://github.com/jorismathijssen/portfolio.git
+    cd portfolio
+    ```
+
+2.  **Build and Run with Docker Compose**:
+
+    ```bash
+    docker-compose up -d --build
+    ```
+
+    The application will be available at `http://localhost:3000`.
+
+### Manual Docker Build
+
+If you prefer not to use Compose:
 
 ```bash
-# Generate a new ed25519 key pair with no passphrase
-ssh-keygen -t ed25519 -C "github-actions-deploy" -f ./deploy_key -N ""
+# Build the image
+docker build -t portfolio-app .
+
+# Run the container
+docker run -p 3000:3000 portfolio-app
 ```
 
-This will create two files in your current directory:
-- `deploy_key` (Private Key)
-- `deploy_key.pub` (Public Key)
+## Environment Variables
 
-## 2. Add Public Key to Server
-
-You need to add the contents of the **Public Key** (`deploy_key.pub`) to the `authorized_keys` file on your server.
-
-**Option A: Automatic (if you have ssh access configured)**
-```bash
-ssh-copy-id -i deploy_key.pub root@185.163.119.159
-```
-
-**Option B: Manual**
-1. Copy the content of `deploy_key.pub`:
-   ```bash
-   cat deploy_key.pub
-   ```
-2. SSH into your server:
-   ```bash
-   ssh root@185.163.119.159
-   ```
-3. Add the key:
-   ```bash
-   mkdir -p ~/.ssh
-   echo "PASTE_PUBLIC_KEY_CONTENT_HERE" >> ~/.ssh/authorized_keys
-   chmod 700 ~/.ssh
-   chmod 600 ~/.ssh/authorized_keys
-   ```
-
-## 3. Add Private Key to GitHub
-
-1. Copy the content of the **Private Key** (`deploy_key`):
-   ```bash
-   cat deploy_key
-   ```
-   *(Copy the entire block from `-----BEGIN OPENSSH PRIVATE KEY-----` to `-----END OPENSSH PRIVATE KEY-----`)*
-
-2. Go to your GitHub Repository.
-3. Navigate to **Settings** > **Secrets and variables** > **Actions**.
-4. Click **New repository secret**.
-5. Name: `SSH_PRIVATE_KEY`
-6. Value: Paste the private key content.
-7. Click **Add secret**.
-
-## 4. Cleanup
-
-Once done, delete the keys from your local machine for security:
+Create a `.env.local` file for local development or configure environment variables in your deployment platform.
 
 ```bash
-rm deploy_key deploy_key.pub
+# Example
+NEXT_PUBLIC_API_URL=https://api.example.com
 ```
