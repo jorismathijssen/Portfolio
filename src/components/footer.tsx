@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import { NewsletterForm } from "./newsletter-form";
-import { Github, Linkedin, Twitter } from "lucide-react";
+import { Github, Linkedin } from "lucide-react";
+import { siteConfig } from "@/config/site";
 
 export function Footer() {
   const t = useTranslations("Footer");
@@ -21,7 +22,7 @@ export function Footer() {
             <h3 className="text-lg font-semibold">{t("social_title")}</h3>
             <div className="flex gap-4 md:justify-end">
               <a
-                href="https://github.com/joris"
+                href={siteConfig.socials.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-background border-border hover:border-primary/50 hover:text-primary rounded-full border p-2 transition-colors"
@@ -30,7 +31,7 @@ export function Footer() {
                 <Github className="h-5 w-5" />
               </a>
               <a
-                href="https://linkedin.com/in/joris"
+                href={siteConfig.socials.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-background border-border hover:border-primary/50 hover:text-primary rounded-full border p-2 transition-colors"
@@ -38,18 +39,9 @@ export function Footer() {
               >
                 <Linkedin className="h-5 w-5" />
               </a>
-              <a
-                href="https://twitter.com/joris"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-background border-border hover:border-primary/50 hover:text-primary rounded-full border p-2 transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
             </div>
             <p className="text-muted-foreground text-sm">
-              © {new Date().getFullYear()} Joris Mathijssen. {t("rights")}
+              © {new Date().getFullYear()} {siteConfig.name}. {t("rights")}
             </p>
           </div>
         </div>

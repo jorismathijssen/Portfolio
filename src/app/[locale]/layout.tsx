@@ -10,6 +10,7 @@ import { Footer } from "@/components/footer";
 import { Analytics } from "@/components/analytics";
 import { ViewModeProvider } from "@/context/view-mode-context";
 import { CommandPaletteProvider } from "@/context/command-palette-context";
+import { siteConfig } from "@/config/site";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -23,8 +24,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Joris Mathijssen - Portfolio",
-  description: "Senior Software Engineer & Team Lead",
+  title: `${siteConfig.name} - Portfolio`,
+  description: siteConfig.role,
 };
 
 export default async function LocaleLayout({

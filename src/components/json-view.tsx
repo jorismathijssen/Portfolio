@@ -30,7 +30,7 @@ export function JsonView({ data }: { data: PortfolioData }) {
               <div className="h-3 w-3 rounded-full bg-[#27c93f]" />
             </div>
             <span className="ml-4 font-mono text-xs text-gray-400">
-              GET /api/joris/portfolio
+              GET /api/portfolio
             </span>
           </div>
           <div className="flex items-center gap-4">
