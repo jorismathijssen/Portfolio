@@ -25,8 +25,16 @@ jobs:
           echo "### Changelog" >> pr_body.txt
           git log origin/main..HEAD --pretty=format:"- %s (%h)" --no-merges >> pr_body.txt
 
-      - name: Create Pull Request
+      - name: Create or Update Pull Request
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr create --base main --head "${{ github.ref_name }}" --title "Merge ${{ github.ref_name }} to main" --body-file pr_body.txt || echo "PR already exists"
+          PR_EXISTS=$(gh pr list --base main --head "${{ github.ref_name }}" --json number --jq '.[0].number')
+          
+          if [ -n "$PR_EXISTS" ]; then
+            echo "Updating existing PR #$PR_EXISTS"
+            gh pr edit "$PR_EXISTS" --body-file pr_body.txt
+          else
+            echo "Creating new PR"
+            gh pr create --base main --head "${{ github.ref_name }}" --title "Merge ${{ github.ref_name }} to main" --body-file pr_body.txt
+          fi
