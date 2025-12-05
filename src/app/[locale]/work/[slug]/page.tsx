@@ -4,6 +4,7 @@ import { serialize } from "next-mdx-remote/serialize";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 export async function generateStaticParams() {
   const projects = getProjectSlugs();
