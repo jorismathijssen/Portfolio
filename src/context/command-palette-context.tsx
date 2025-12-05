@@ -1,43 +1,51 @@
-"use client"
+"use client";
 
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 interface CommandPaletteContextType {
-  isOpen: boolean
-  setIsOpen: (open: boolean) => void
-  toggle: () => void
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+  toggle: () => void;
 }
 
-const CommandPaletteContext = createContext<CommandPaletteContextType | undefined>(undefined)
+const CommandPaletteContext = createContext<
+  CommandPaletteContextType | undefined
+>(undefined);
 
-export function CommandPaletteProvider({ children }: { children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false)
+export function CommandPaletteProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
 
-  const toggle = () => setIsOpen(prev => !prev)
+  const toggle = () => setIsOpen((prev) => !prev);
 
   // Keyboard shortcut listener
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setIsOpen((open) => !open)
+        e.preventDefault();
+        setIsOpen((open) => !open);
       }
-    }
-    document.addEventListener("keydown", down)
-    return () => document.removeEventListener("keydown", down)
-  }, [])
+    };
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []);
 
   return (
     <CommandPaletteContext.Provider value={{ isOpen, setIsOpen, toggle }}>
       {children}
     </CommandPaletteContext.Provider>
-  )
+  );
 }
 
 export function useCommandPalette() {
-  const context = useContext(CommandPaletteContext)
+  const context = useContext(CommandPaletteContext);
   if (context === undefined) {
-    throw new Error('useCommandPalette must be used within a CommandPaletteProvider')
+    throw new Error(
+      "useCommandPalette must be used within a CommandPaletteProvider"
+    );
   }
-  return context
+  return context;
 }

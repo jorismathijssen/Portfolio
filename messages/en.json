@@ -30,6 +30,25 @@
   "Work": {
     "title": "My Work",
     "role_9292": "Senior Software Engineer & Team Lead at 9292",
-    "desc_9292": "Specialising in modern .NET 8 backend architecture, secure API design and high-performance distributed systems."
+    "desc_9292": "Specialising in modern .NET 8 backend architecture, secure API design and high-performance distributed systems.",
+    "back": "Back to Work",
+    "visit_site": "Visit Website"
+  },
+  "Blog": {
+    "title": "Blog",
+    "back": "Back to Blog"
+  },
+  "Newsletter": {
+    "placeholder": "Enter your email",
+    "email_label": "Email address",
+    "submit_label": "Subscribe",
+    "success_message": "Thanks for subscribing!",
+    "error_message": "Something went wrong. Please try again."
+  },
+  "Footer": {
+    "newsletter_title": "Stay Updated",
+    "newsletter_desc": "Get the latest articles and insights delivered straight to your inbox.",
+    "social_title": "Connect",
+    "rights": "All rights reserved."
   }
 }

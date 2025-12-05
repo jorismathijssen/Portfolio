@@ -1,82 +1,103 @@
-"use client"
+"use client";
 
-import { useTranslations } from 'next-intl'
-import { motion } from 'framer-motion'
-import { Cpu, Code2, Network, BookOpen, Gamepad2 } from 'lucide-react'
+import { useTranslations } from "next-intl";
+import { motion } from "framer-motion";
+import { Cpu, Code2, Network, BookOpen, Gamepad2 } from "lucide-react";
 
 export function About() {
-  const t = useTranslations('About')
+  const t = useTranslations("About");
 
   const hobbies = [
-    { icon: Network, label: t('hobbies.0') },
-    { icon: Gamepad2, label: t('hobbies.1') },
-    { icon: Code2, label: t('hobbies.2') },
-    { icon: BookOpen, label: t('hobbies.3') },
-    { icon: Cpu, label: t('hobbies.4') },
-  ]
+    { icon: Network, label: t("hobbies.0") },
+    { icon: Gamepad2, label: t("hobbies.1") },
+    { icon: Code2, label: t("hobbies.2") },
+    { icon: BookOpen, label: t("hobbies.3") },
+    { icon: Cpu, label: t("hobbies.4") },
+  ];
 
   const strengths = [
-    t('strengths.0'),
-    t('strengths.1'),
-    t('strengths.2'),
-    t('strengths.3'),
-    t('strengths.4'),
-  ]
+    t("strengths.0"),
+    t("strengths.1"),
+    t("strengths.2"),
+    t("strengths.3"),
+    t("strengths.4"),
+  ];
 
   return (
-    <section id="about" className="py-24 px-4 relative">
-      <div className="container max-w-5xl mx-auto">
-        <motion.div 
+    <section id="about" className="px-4 py-24">
+      <div className="container mx-auto max-w-4xl space-y-16">
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="grid md:grid-cols-2 gap-12 items-start"
+          transition={{ duration: 0.5 }}
+          className="space-y-6"
         >
-          <div className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">{t('title')}</h2>
-            <div className="prose dark:prose-invert text-muted-foreground">
-              <p className="text-lg leading-relaxed">{t('description')}</p>
-              <p className="leading-relaxed">{t('description2')}</p>
-            </div>
-            
-            <div className="pt-8">
-              <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <Cpu className="w-5 h-5 text-primary" />
-                {t('strengths_title')}
-              </h3>
-              <ul className="grid gap-3">
-                {strengths.map((strength, i) => (
-                  <li key={i} className="flex items-start gap-2 text-muted-foreground">
-                    <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                    {strength}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="bg-muted/30 rounded-3xl p-8 border border-border/50">
-            <h3 className="text-xl font-semibold mb-6">{t('hobbies_title')}</h3>
-            <div className="grid gap-4">
-              {hobbies.map((hobby, i) => (
-                <motion.div 
-                  key={i}
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-background border border-border/50 hover:border-primary/50 transition-colors"
-                >
-                  <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                    <hobby.icon className="w-5 h-5" />
-                  </div>
-                  <span className="font-medium">{hobby.label}</span>
-                </motion.div>
-              ))}
-            </div>
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+            {t("title")}
+          </h2>
+          <div className="prose prose-zinc dark:prose-invert max-w-none">
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              {t("description")}
+            </p>
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              {t("description2")}
+            </p>
           </div>
         </motion.div>
+
+        <div className="grid gap-12 md:grid-cols-2">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="space-y-6"
+          >
+            <h3 className="text-xl font-semibold">{t("strengths_title")}</h3>
+            <ul className="space-y-3">
+              {strengths.map((strength, i) => (
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 * i }}
+                  className="text-muted-foreground flex items-start gap-3"
+                >
+                  <span className="bg-primary mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" />
+                  {strength}
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="space-y-6"
+          >
+            <h3 className="text-xl font-semibold">{t("hobbies_title")}</h3>
+            <div className="flex flex-wrap gap-2">
+              {hobbies.map((hobby, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.05 * i }}
+                  className="bg-muted text-muted-foreground flex items-center gap-2 rounded-full px-3 py-1 text-sm"
+                >
+                  <hobby.icon className="h-4 w-4" />
+                  {hobby.label}
+                </motion.span>
+              ))}
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
-  )
+  );
 }

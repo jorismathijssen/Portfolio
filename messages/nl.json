@@ -30,6 +30,25 @@
   "Work": {
     "title": "Mijn Werk",
     "role_9292": "Senior Software Engineer & Team Lead bij 9292",
-    "desc_9292": "Gespecialiseerd in moderne .NET 8 backend architectuur, veilig API design en high-performance gedistribueerde systemen."
+    "desc_9292": "Gespecialiseerd in moderne .NET 8 backend architectuur, veilig API design en high-performance gedistribueerde systemen.",
+    "back": "Terug naar Werk",
+    "visit_site": "Bezoek Website"
+  },
+  "Blog": {
+    "title": "Blog",
+    "back": "Terug naar Blog"
+  },
+  "Newsletter": {
+    "placeholder": "Vul je e-mailadres in",
+    "email_label": "E-mailadres",
+    "submit_label": "Inschrijven",
+    "success_message": "Bedankt voor je inschrijving!",
+    "error_message": "Er ging iets mis. Probeer het opnieuw."
+  },
+  "Footer": {
+    "newsletter_title": "Blijf op de hoogte",
+    "newsletter_desc": "Ontvang de laatste artikelen en inzichten direct in je inbox.",
+    "social_title": "Connect",
+    "rights": "Alle rechten voorbehouden."
   }
 }

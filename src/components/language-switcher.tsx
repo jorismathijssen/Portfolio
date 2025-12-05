@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useLocale } from 'next-intl';
-import { usePathname, useRouter } from '@/i18n/routing';
-import { ChangeEvent, useTransition } from 'react';
+import { useLocale } from "next-intl";
+import { usePathname, useRouter } from "@/i18n/routing";
+import { ChangeEvent, useTransition } from "react";
 
 export function LanguageSwitcher() {
   const locale = useLocale();
@@ -20,15 +20,16 @@ export function LanguageSwitcher() {
   return (
     <div className="relative">
       <select
-        defaultValue={locale}
+        value={locale}
         onChange={onSelectChange}
         disabled={isPending}
-        className="appearance-none bg-transparent py-1 pl-2 pr-6 text-sm font-medium focus:outline-none cursor-pointer"
+        aria-label="Select language"
+        className="cursor-pointer appearance-none bg-transparent py-1 pr-6 pl-2 text-sm font-medium focus:outline-none"
       >
         <option value="en">EN</option>
         <option value="nl">NL</option>
       </select>
-      <span className="absolute right-1 top-1/2 -translate-y-1/2 text-xs pointer-events-none">
+      <span className="pointer-events-none absolute top-1/2 right-1 -translate-y-1/2 text-xs">
         ▼
       </span>
     </div>
