@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { siteConfig } from "@/config/site";
 
 const sequence = [
   { text: "> initializing kernel...", delay: 200 },
@@ -12,7 +13,7 @@ const sequence = [
   { text: "> verifying integrity...", delay: 400 },
   { text: "> mounting volumes...", delay: 500 },
   { text: "> establishing secure connection...", delay: 400 },
-  { text: "> loading user profile: Joris Mathijssen...", delay: 800 },
+  { text: `> loading user profile: ${siteConfig.name}...`, delay: 800 },
   { text: "> access granted.", delay: 1000 },
   { text: "> starting shell...", delay: 1200 },
 ];

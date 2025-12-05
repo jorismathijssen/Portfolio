@@ -1,6 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { ArrowRight, Download } from "lucide-react";
+import { siteConfig } from "@/config/site";
 import { motion } from "framer-motion";
 
 export function Hero() {
@@ -55,7 +57,7 @@ export function Hero() {
               {t("work")}
             </a>
             <a
-              href="mailto:contact@joris.com"
+              href={`mailto:${siteConfig.email}`}
               className="border-border hover:bg-muted rounded-full border px-6 py-3 transition-colors"
             >
               {t("contact")}
