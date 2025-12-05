@@ -1,47 +1,52 @@
-# Contributing Guide
+# Contributing to Portfolio
 
-This project follows a strict **Conventional Commits** workflow to automate versioning and changelog generation.
+Thank you for your interest in contributing!
 
-## Commit Message Format
+## Getting Started
 
-All commit messages must follow this format:
+1.  **Clone the repository**:
 
-```
-type(scope): subject
-```
+    ```bash
+    git clone https://github.com/jorismathijssen/portfolio.git
+    cd portfolio
+    ```
 
-### Types
+2.  **Install dependencies**:
 
-- **feat**: A new feature
-- **fix**: A bug fix
-- **docs**: Documentation only changes
-- **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
-- **refactor**: A code change that neither fixes a bug nor adds a feature
-- **perf**: A code change that improves performance
-- **test**: Adding missing tests or correcting existing tests
-- **chore**: Changes to the build process or auxiliary tools and libraries such as documentation generation
+    ```bash
+    npm install --legacy-peer-deps
+    ```
 
-### Examples
+    > Note: `--legacy-peer-deps` is required due to a peer dependency conflict between `eslint-plugin-tailwindcss` and `tailwindcss` v4.
 
-- `feat(ui): add new button component`
-- `fix(api): handle timeout error`
-- `chore: update dependencies`
+3.  **Run the development server**:
+    ```bash
+    npm run dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-## Release Process
+## Testing
 
-To create a new release (version bump + changelog update), run:
+We use **Jest** for unit tests and **Playwright** for E2E tests.
 
-```bash
-npm run release
-```
+- Run unit tests: `npm test`
+- Run E2E tests: `npx playwright test`
 
-This will:
-1. Bump the version in `package.json`
-2. Update `CHANGELOG.md`
-3. Commit the changes
-4. Create a git tag
+## Code Quality
 
-For specific release types:
-- `npm run release:minor` (1.0.0 -> 1.1.0)
-- `npm run release:patch` (1.0.0 -> 1.0.1)
-- `npm run release:major` (1.0.0 -> 2.0.0)
+- **Linting**: Run `npm run lint` to check for style issues.
+- **Pre-commit Hooks**: Husky is configured to run tests and linting automatically before you commit.
+- **CI Pipeline**: A GitHub Actions workflow runs on every push to `main` and `develop`. It checks:
+  - Linting (`npm run lint`)
+  - Type safety (`npx tsc --noEmit`)
+  - Unit tests (`npm run test`)
+  - Build verification (`npm run build`)
+  - E2E tests (`npx playwright test`)
+
+## Project Structure
+
+- `src/app`: Next.js App Router pages.
+- `src/components`: Reusable UI components.
+- `src/lib`: Utility functions and data.
+- `src/i18n`: Internationalization configuration.
+- `messages`: Translation files (en.json, nl.json).

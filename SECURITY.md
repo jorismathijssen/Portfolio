@@ -4,13 +4,9 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| Latest  | :white_check_mark: |
+| 1.x.x   | :white_check_mark: |
+| < 1.0   | :x:                |
 
 ## Reporting a Vulnerability
 
-Please report security issues via GitHub Issues or private message.
-
-## Security Scope
-
-- **Nginx Configuration**: Ensure the Nginx server is securely configured.
-- **Docker Container**: Ensure the base image is up to date.
+Please report any security vulnerabilities to [me@jorismathijssen.nl](mailto:me@jorismathijssen.nl). We will address the issue as soon as possible.

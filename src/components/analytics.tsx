@@ -1,0 +1,14 @@
+"use client";
+
+import Script from "next/script";
+
+export function Analytics() {
+  const websiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
+  const scriptUrl =
+    process.env.NEXT_PUBLIC_UMAMI_URL ||
+    "https://analytics.joris.com/script.js";
+
+  if (!websiteId) return null;
+
+  return <Script async defer data-website-id={websiteId} src={scriptUrl} />;
+}

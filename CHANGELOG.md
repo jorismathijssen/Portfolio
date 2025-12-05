@@ -1,18 +1,45 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+## [Unreleased]
 
-## [1.1.0](https://github.com/jorismathijssen/Portfolio/compare/v1.0.0...v1.1.0) (2025-11-30)
+### [1.0.0] - 2025-12-05
 
+### Added
+- **Blog Section**: Full MDX-based blog with internationalization support.
+- **Project Case Studies**: Detailed project pages with dynamic routing.
+- **Interactive Elements**: Framer Motion animations for Hero, About, and Work sections.
+- **Newsletter**: Subscription form with API route and footer integration.
+- **Analytics**: Self-hosted Umami analytics via Docker.
+- **CMS**: Directus Headless CMS integration via Docker.
+- **Testing**: Comprehensive unit tests (Jest) and E2E tests (Playwright).
+- **Documentation**: Updated README with self-hosting instructions.
 
-### Features
+### Changed
+- Refactored project structure for better scalability.
+- Improved accessibility across the entire site.
+- Optimized performance with server components and static generation.
 
-* **ui:** add footer with copyright ([a613d41](https://github.com/jorismathijssen/Portfolio/commit/a613d41eb6e5d3772d718d5fe3f98aee6fa8b3d6))
+## [0.1.0] - 2025-11-28
 
-## 1.0.0 (2025-11-30)
+### Added
 
+- **Command Palette**: `Cmd+K` support with visible search button.
+- **API View**: Toggleable JSON view of the portfolio data.
+- **Testing**: Jest (Unit) and Playwright (E2E) setup.
+- **CI/CD**: Husky pre-commit hooks.
+- **Docker**: Multi-stage `Dockerfile` for standalone output.
+- **Best Practices**:
+  - Added GitHub Actions CI workflow.
+  - Configured Prettier with Tailwind CSS sorting.
+  - Improved ESLint configuration.
+  - Updated Playwright configuration for easier testing.
 
-### Features
+### Changed
 
-* Initialize Next.js App Router structure and remove Jest testing setup. ([e269c3e](https://github.com/jorismathijssen/Portfolio/commit/e269c3ed0635296ccab7ed7c121027cf375ef370))
-* Initialize Next.js app structure with a basic homepage and constants, while removing Jest testing setup. ([c29a1d5](https://github.com/jorismathijssen/Portfolio/commit/c29a1d573eabc2f75050af76aa492cbe346bfecb))
+- **Architecture**: Rebuilt with Next.js 15 (App Router), TypeScript, and Tailwind CSS.
+- **Design**: "Backend-inspired" aesthetic with terminal boot sequence.
+- **Docs**: Updated deployment and contribution guides.
+
+### Removed
+
+- Legacy static site files.

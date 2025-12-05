@@ -1,73 +1,41 @@
-# Professional Git Workflow Guide
+# Git Workflow
 
-This project uses a standardized git workflow to ensure code quality, consistent commit history, and automated releases.
+## Branching Strategy
 
-## 1. The Setup
+- **main**: Production-ready code. Deployed automatically to production.
+- **dev**: Integration branch. All features are merged here first.
+- **feat/name**: Feature branches. Created from `dev`.
+- **fix/name**: Bug fix branches. Created from `dev` (or `main` for hotfixes).
 
-We use the following tools to enforce best practices:
+## Commit Convention
 
-*   **Husky**: Manages Git hooks (runs scripts before you commit).
-*   **Commitlint**: Checks if your commit messages follow the standard format.
-*   **Standard Version**: Automates versioning and changelog generation.
+We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification.
 
-## 2. How to Commit
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation only changes
+- `style`: Changes that do not affect the meaning of the code (white-space, formatting, etc)
+- `refactor`: A code change that neither fixes a bug nor adds a feature
+- `perf`: A code change that improves performance
+- `test`: Adding missing tests or correcting existing tests
+- `chore`: Changes to the build process or auxiliary tools and libraries such as documentation generation
 
-You **must** follow the [Conventional Commits](https://www.conventionalcommits.org/) specification. If you don't, the commit will be rejected.
+## Automated Checks (Husky)
 
-**Format:**
-```
-type(scope): subject
-```
+We use **Husky** to enforce quality standards before every commit.
 
-**Common Types:**
-*   `feat`: A new feature
-*   `fix`: A bug fix
-*   `docs`: Documentation changes
-*   `style`: Formatting, missing semi-colons, etc.
-*   `refactor`: Code change that neither fixes a bug nor adds a feature
-*   `chore`: Maintainance tasks, dependency updates, etc.
+### Pre-commit Hook
 
-**Examples:**
-```bash
-git commit -m "feat: add dark mode toggle"
-git commit -m "fix(nav): resolve mobile menu crash"
-git commit -m "chore: update gitignore"
-```
+When you run `git commit`, the following checks run automatically:
 
-## 3. How to Release & Generate Changelog
+1.  **Linting**: `eslint --fix` runs on all staged files. If it can fix the error, it will stage the change. If not, the commit fails.
+2.  **Tests**: `npm test` runs to ensure no regressions.
 
-We use `standard-version` to handle releases. **Do not manually edit `package.json` version or `CHANGELOG.md`.**
+**If any check fails, the commit is blocked.** Fix the errors and try again.
 
-To create a new release:
+## Pull Requests
 
-```bash
-npm run release
-```
-
-**What this does:**
-1.  Bumps the version in `package.json` (based on your commit history).
-2.  Updates `CHANGELOG.md` with all new features and fixes.
-3.  Commits these changes.
-4.  Creates a git tag (e.g., `v1.1.0`).
-
-**Specific Release Types:**
-If you want to force a specific version bump:
-*   `npm run release:patch` (1.0.0 -> 1.0.1)
-*   `npm run release:minor` (1.0.0 -> 1.1.0)
-*   `npm run release:major` (1.0.0 -> 2.0.0)
-
-## 4. How to Push
-
-After you commit or release, push your changes to the server.
-
-**Normal Push:**
-```bash
-git push
-```
-
-**Pushing a Release (Important):**
-When you run a release, it creates a tag. You must push the tags for them to appear on GitHub.
-
-```bash
-git push --follow-tags
-```
+1.  Create a PR from your feature branch to `dev`.
+2.  Ensure all CI checks pass.
+3.  Request a review.
+4.  Squash and merge.
