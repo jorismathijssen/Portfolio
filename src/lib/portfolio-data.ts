@@ -19,8 +19,8 @@ export function getPortfolioData(t: (key: string) => string): PortfolioData {
       company: siteConfig.company,
       about: {
         title: t("About.title"),
-        summary: siteConfig.bio.short,
-        details: siteConfig.bio.long,
+        summary: t("About.description"),
+        details: t("About.description2"),
         hobbies: {
           title: t("About.hobbies_title"),
           items: [

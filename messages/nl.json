@@ -8,8 +8,8 @@
   },
   "About": {
     "title": "Wie ben ik",
-    "description": "Ik ben Joris Mathijssen, Senior Software Engineer en Team Lead bij 9292. Ik ben gespecialiseerd in moderne .NET 8 backend architectuur, veilig API design en high-performance gedistribueerde systemen die grootschalige reisinformatiediensten aandrijven. Met meer dan tien jaar ervaring combineer ik architecturaal overzicht met hands-on engineering, altijd gericht op duidelijkheid, onderhoudbaarheid en voorspelbaar productiegedrag.",
-    "description2": "Bij 9292 werk ik over backend, web en mobiele teams heen om engineering standaarden te stroomlijnen en ons platform richting .NET 10 te gidsen. Ik werk samen met externe partners om prestatieafwijkingen te analyseren, kritieke request flows te optimaliseren en diagnostiek en monitoring te versterken.",
+    "description": "Ervaren Senior C# Developer met meer dan 8 jaar expertise in API-ontwikkeling, DevOps, en het leveren van oplossingen die miljoenen gebruikers bedienen. Momenteel werk ik bij 9292, waar ik leiding geef aan en bijdraag aan projecten met grote impact.",
+    "description2": "Mijn unieke vaardigheden verbinden backend- en frontend-teams, wat zorgt voor naadloze communicatie en gebruikersgerichte oplossingen. Ik blink uit in het oplossen van diepgewortelde IT-problemen, het analyseren van complexe bugs, en het bieden van creatieve oplossingen. Met een sterke basis in Azure, geautomatiseerde pipelines, en microservices streef ik naar het leveren van efficiënte, schaalbare en innovatieve systemen.",
     "hobbies_title": "Hobby's & Interesses",
     "hobbies": [
       "Systeem tinkering en automatisering",
